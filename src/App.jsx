@@ -3,6 +3,10 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 import Login from "./pages/Login/Login";
+import Clientes from "./pages/Clientes/Clientes";
+import CategoriasCliente from "./pages/CategoriasCliente/CategoriasCliente";
+import "./styles/forms.css";
+
 
 function App() {
   return (
@@ -19,7 +23,15 @@ function App() {
             }
           >
             <Route path="/" element={<div>Dashboard (placeholder)</div>} />
-            {/* Aca vamos a ir agregando las rutas de cada modulo a medida que se implementen */}
+            <Route path="/clientes" element={<Clientes />} />
+            <Route
+              path="/categorias-clientes"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <CategoriasCliente />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </AuthProvider>

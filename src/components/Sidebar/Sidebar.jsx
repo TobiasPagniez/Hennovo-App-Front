@@ -5,6 +5,7 @@ import "./Sidebar.css";
 const modulos = [
   { path: "/", label: "Dashboard", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/clientes", label: "Clientes", roles: ["ADMIN", "EMPLEADO"] },
+  { path: "/categorias-clientes", label: "Categorías de cliente", roles: ["ADMIN"] },
   { path: "/productos", label: "Productos", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/precios", label: "Precios", roles: ["ADMIN"] },
   { path: "/pedidos", label: "Pedidos", roles: ["ADMIN", "EMPLEADO"] },
@@ -17,7 +18,6 @@ const modulos = [
   { path: "/perdidas", label: "Pérdidas", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/control-horario", label: "Control horario", roles: ["ADMIN", "EMPLEADO"] },
 ];
-
 export default function Sidebar() {
   const { usuario } = useAuth();
 
