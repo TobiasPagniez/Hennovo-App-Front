@@ -6,8 +6,9 @@ import Login from "./pages/Login/Login";
 import Clientes from "./pages/Clientes/Clientes";
 import CategoriasCliente from "./pages/CategoriasCliente/CategoriasCliente";
 import "./styles/forms.css";
+import Productos from "./pages/Productos/Productos";
 
-
+//sadasd
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/productos" element={<Productos />} />
           </Route>
         </Routes>
       </AuthProvider>
