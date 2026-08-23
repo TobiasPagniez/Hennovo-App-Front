@@ -32,3 +32,14 @@
 .productos-error {
   color: #b23b3b;
 }
+
+.productos-toggle-inactivos {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.fila-inactiva {
+  opacity: 0.55;
+}

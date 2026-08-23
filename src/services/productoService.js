@@ -4,6 +4,10 @@ export function obtenerProductosActivos() {
   return api.get("/api/productos").then((res) => res.data);
 }
 
+export function obtenerProductosTodos() {
+  return api.get("/api/productos/todos").then((res) => res.data);
+}
+
 export function obtenerProductoPorId(id) {
   return api.get(`/api/productos/${id}`).then((res) => res.data);
 }
@@ -18,4 +22,8 @@ export function modificarProducto(id, data) {
 
 export function desactivarProducto(id) {
   return api.patch(`/api/productos/${id}/desactivar`);
+}
+
+export function reactivarProducto(id) {
+  return api.patch(`/api/productos/${id}/reactivar`).then((res) => res.data);
 }

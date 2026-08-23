@@ -36,12 +36,9 @@ export default function ProductoFormModal({ producto, onClose, onSaved }) {
       }
       onSaved();
     } catch (err) {
-      // El backend, para este módulo, no siempre distingue el motivo
-      // exacto del error (ver nota en la implementación). Mostramos
-      // el detalle si está disponible, o un mensaje genérico razonable.
       setErrorApi(
         err.response?.data?.detail ||
-          "No se pudo guardar el producto. Puede que ya exista uno con esa misma combinación de tipo, tamaño y presentación."
+          "Ocurrió un error al guardar el producto.",
       );
     }
   }
