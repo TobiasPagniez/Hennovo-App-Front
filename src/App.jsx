@@ -7,6 +7,9 @@ import Clientes from "./pages/Clientes/Clientes";
 import CategoriasCliente from "./pages/CategoriasCliente/CategoriasCliente";
 import "./styles/forms.css";
 import Productos from "./pages/Productos/Productos";
+import Precios from "./pages/Precios/Precios";
+import NuevaListaPrecio from "./pages/Precios/NuevaListaPrecio";
+import ListaPrecioDetalle from "./pages/Precios/ListaPrecioDetalle";
 
 //sadasd
 function App() {
@@ -34,6 +37,31 @@ function App() {
               }
             />
             <Route path="/productos" element={<Productos />} />
+
+            <Route
+              path="/precios"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <Precios />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/precios/nueva"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <NuevaListaPrecio />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/precios/:id"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <ListaPrecioDetalle />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </AuthProvider>

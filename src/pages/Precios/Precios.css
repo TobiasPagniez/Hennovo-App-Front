@@ -1,0 +1,38 @@
+.precios-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.precios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.precios-tabla,
+.precios-grilla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.precios-tabla th,
+.precios-tabla td,
+.precios-grilla th,
+.precios-grilla td {
+  padding: 0.6rem;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.precios-vigente h2,
+.precios-historial h2 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.precios-error {
+  color: #b23b3b;
+}
