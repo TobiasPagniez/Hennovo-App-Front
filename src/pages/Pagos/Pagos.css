@@ -1,0 +1,82 @@
+.pagos-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.pagos-selector {
+  max-width: 400px;
+}
+
+.pagos-info {
+  color: #777;
+}
+
+.pagos-error {
+  color: #b23b3b;
+}
+
+.pagos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagos-resumen {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pagos-resumen-item {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 150px;
+  font-size: 0.85rem;
+}
+
+.pagos-resumen-item strong {
+  font-size: 1.1rem;
+}
+
+.saldo-deuda strong {
+  color: #b23b3b;
+}
+
+.saldo-favor strong {
+  color: #1e6b2e;
+}
+
+.pagos-page h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  color: #3d5c48;
+}
+
+.pagos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.pagos-tabla th,
+.pagos-tabla td {
+  padding: 0.55rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.87rem;
+}
+
+.importe-negativo {
+  color: #b23b3b;
+}
+
+.badge-parcial {
+  background-color: #fdf1cf;
+  color: #8a6d1f;
+}

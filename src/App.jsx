@@ -16,6 +16,7 @@ import PedidosHabituales from "./pages/PedidosHabituales/PedidosHabituales";
 import Rutas from "./pages/Rutas/Rutas";
 import RutaForm from "./pages/Rutas/RutaForm";
 import RutaDetalle from "./pages/Rutas/RutaDetalle";
+import Pagos from "./pages/Pagos/Pagos";
 
 //sadasd
 function App() {
@@ -90,6 +91,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/pagos" element={<Pagos />} />
           </Route>
         </Routes>
       </AuthProvider>

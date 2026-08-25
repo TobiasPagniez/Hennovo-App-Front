@@ -8,6 +8,7 @@ import { obtenerCategorias } from "../../services/categoriaClienteService";
 import Modal from "../../components/Modal/Modal";
 import ClienteFormModal from "./ClienteFormModal";
 import "./Clientes.css";
+import { Link } from "react-router-dom";
 
 export default function Clientes() {
   const [clientes, setClientes] = useState([]);
@@ -67,7 +68,7 @@ export default function Clientes() {
 
   async function handleDesactivar(cliente) {
     const confirmar = window.confirm(
-      `¿Seguro que querés desactivar a "${cliente.nombre}"?`
+      `¿Seguro que querés desactivar a "${cliente.nombre}"?`,
     );
     if (!confirmar) return;
 
@@ -178,6 +179,9 @@ export default function Clientes() {
                   </span>
                 </td>
                 <td className="clientes-acciones">
+                  <Link to={`/pagos?clienteId=${cliente.id}`}>
+                    Cuenta corriente
+                  </Link>
                   <button onClick={() => abrirEdicion(cliente)}>Editar</button>
                   {cliente.activo && (
                     <button onClick={() => handleDesactivar(cliente)}>
