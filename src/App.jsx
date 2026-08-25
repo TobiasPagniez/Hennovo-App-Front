@@ -13,6 +13,9 @@ import ListaPrecioDetalle from "./pages/Precios/ListaPrecioDetalle";
 import Pedidos from "./pages/Pedidos/Pedidos";
 import PedidoForm from "./pages/Pedidos/PedidoForm";
 import PedidosHabituales from "./pages/PedidosHabituales/PedidosHabituales";
+import Rutas from "./pages/Rutas/Rutas";
+import RutaForm from "./pages/Rutas/RutaForm";
+import RutaDetalle from "./pages/Rutas/RutaDetalle";
 
 //sadasd
 function App() {
@@ -69,6 +72,24 @@ function App() {
             <Route path="/pedidos/nuevo" element={<PedidoForm />} />
             <Route path="/pedidos/:id/editar" element={<PedidoForm />} />
             <Route path="/pedidos-habituales" element={<PedidosHabituales />} />
+            <Route path="/rutas" element={<Rutas />} />
+            <Route path="/rutas/:id" element={<RutaDetalle />} />
+            <Route
+              path="/rutas/nueva"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <RutaForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rutas/:id/editar"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <RutaForm />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </AuthProvider>

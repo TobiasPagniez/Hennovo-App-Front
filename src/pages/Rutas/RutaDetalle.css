@@ -1,0 +1,48 @@
+.ruta-detalle-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ruta-detalle-aviso {
+  background-color: #fdf1e0;
+  color: #8a5a1f;
+  padding: 0.6rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.ruta-detalle-observaciones {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.ruta-detalle-columnas {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.ruta-detalle-columnas h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ruta-detalle-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.ruta-detalle-tabla th,
+.ruta-detalle-tabla td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.ruta-detalle-acciones {
+  display: flex;
+  gap: 0.4rem;
+}
