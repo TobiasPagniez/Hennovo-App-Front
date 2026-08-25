@@ -10,6 +10,8 @@ import Productos from "./pages/Productos/Productos";
 import Precios from "./pages/Precios/Precios";
 import NuevaListaPrecio from "./pages/Precios/NuevaListaPrecio";
 import ListaPrecioDetalle from "./pages/Precios/ListaPrecioDetalle";
+import Pedidos from "./pages/Pedidos/Pedidos";
+import PedidoForm from "./pages/Pedidos/PedidoForm";
 
 //sadasd
 function App() {
@@ -62,6 +64,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/pedidos" element={<Pedidos />} />
+            <Route path="/pedidos/nuevo" element={<PedidoForm />} />
+            <Route path="/pedidos/:id/editar" element={<PedidoForm />} />
           </Route>
         </Routes>
       </AuthProvider>

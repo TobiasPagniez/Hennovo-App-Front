@@ -1,0 +1,52 @@
+.cliente-autocomplete {
+  position: relative;
+}
+
+.cliente-autocomplete input {
+  width: 100%;
+  padding: 0.45rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.cliente-autocomplete-lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 20;
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.cliente-autocomplete-lista li {
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cliente-autocomplete-lista li:hover {
+  background-color: #f0f4f1;
+}
+
+.cliente-autocomplete-detalle {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.cliente-autocomplete-info {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+  color: #888;
+  cursor: default;
+}
