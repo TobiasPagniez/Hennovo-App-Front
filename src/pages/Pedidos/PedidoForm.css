@@ -32,3 +32,9 @@
   color: #888;
   white-space: nowrap;
 }
+.pedido-link-habituales {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #3d5c48;
+}

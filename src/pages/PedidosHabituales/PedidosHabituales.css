@@ -1,0 +1,43 @@
+.habituales-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.habituales-selector {
+  max-width: 400px;
+}
+
+.habituales-info {
+  color: #777;
+}
+
+.habituales-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.habituales-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.habituales-tabla th,
+.habituales-tabla td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.habituales-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.habituales-error {
+  color: #b23b3b;
+}

@@ -87,7 +87,7 @@ export default function PedidoForm() {
             productoId: String(d.productoId),
             cantidad: d.cantidad,
             unidad: d.unidad,
-          }))
+          })),
         );
       } catch {
         setError("No se pudo cargar el pedido.");
@@ -118,7 +118,7 @@ export default function PedidoForm() {
   function topeDe(productoId) {
     if (!productoId) return null;
     const habitual = habituales.find(
-      (h) => String(h.idProducto) === String(productoId)
+      (h) => String(h.idProducto) === String(productoId),
     );
     return habitual ? habitual.cantidad : null;
   }
@@ -151,7 +151,7 @@ export default function PedidoForm() {
       navigate("/pedidos");
     } catch (err) {
       setErrorApi(
-        err.response?.data?.detail || "Ocurrió un error al guardar el pedido."
+        err.response?.data?.detail || "Ocurrió un error al guardar el pedido.",
       );
     }
   }
@@ -187,7 +187,15 @@ export default function PedidoForm() {
           clienteSeleccionado={clienteSeleccionado}
           onSeleccionar={setClienteSeleccionado}
         />
-
+        {clienteSeleccionado && (
+          <Link
+            to={`/pedidos-habituales?clienteId=${clienteSeleccionado.id}`}
+            target="_blank"
+            className="pedido-link-habituales"
+          >
+            Ver/gestionar productos habituales de este cliente
+          </Link>
+        )}
         <label>Fecha</label>
         <input
           type="date"
