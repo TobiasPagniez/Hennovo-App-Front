@@ -18,7 +18,12 @@ function hoyISO() {
   return new Date().toISOString().split("T")[0];
 }
 
-export default function PedidoForm() {
+export default function PedidoForm({
+  clienteInicial,
+  fechaInicial,
+  modoEmbebido = false,
+  onSaved,
+} = {}) {
   const { id } = useParams();
   const esEdicion = !!id;
   const navigate = useNavigate();
@@ -28,7 +33,9 @@ export default function PedidoForm() {
   const [error, setError] = useState(null);
   const [errorApi, setErrorApi] = useState(null);
 
-  const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState(
+    clienteInicial ?? null
+  );
   const [habituales, setHabituales] = useState([]);
   const [pedidoOriginal, setPedidoOriginal] = useState(null);
 
@@ -40,8 +47,9 @@ export default function PedidoForm() {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      fecha: hoyISO(),
+      fecha: fechaInicial ?? hoyISO(),
       observaciones: "",
+      banco: "",
       detalles: [{ productoId: "", cantidad: 1, unidad: "" }],
     },
   });
@@ -81,6 +89,7 @@ export default function PedidoForm() {
 
         setValue("fecha", pedido.fecha);
         setValue("observaciones", pedido.observaciones ?? "");
+        setValue("banco", pedido.banco ?? "");
         setValue(
           "detalles",
           pedido.detalles.map((d) => ({
@@ -135,6 +144,7 @@ export default function PedidoForm() {
       clienteId: clienteSeleccionado.id,
       fecha: data.fecha,
       observaciones: data.observaciones,
+      banco: data.banco || null,
       detalles: data.detalles.map((d) => ({
         productoId: Number(d.productoId),
         cantidad: Number(d.cantidad),
@@ -148,7 +158,11 @@ export default function PedidoForm() {
       } else {
         await crearPedido(payload);
       }
-      navigate("/pedidos");
+      if (modoEmbebido && onSaved) {
+        onSaved();
+      } else {
+        navigate("/pedidos");
+      }
     } catch (err) {
       setErrorApi(
         err.response?.data?.detail || "Ocurrió un error al guardar el pedido.",
@@ -176,9 +190,11 @@ export default function PedidoForm() {
     <div className="pedido-form-page">
       <div className="pedidos-header">
         <h1>{esEdicion ? "Editar pedido" : "Nuevo pedido"}</h1>
-        <Link to="/pedidos">
-          <button type="button">Volver</button>
-        </Link>
+        {!modoEmbebido && (
+          <Link to="/pedidos">
+            <button type="button">Volver</button>
+          </Link>
+        )}
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -207,6 +223,12 @@ export default function PedidoForm() {
 
         <label>Observaciones</label>
         <textarea rows={3} {...register("observaciones")} />
+
+        <label>Banco / Medio de cobro</label>
+        <input
+          placeholder="Ej: Efectivo, Transferencia, Galicia..."
+          {...register("banco")}
+        />
 
         <h3 className="pedido-detalles-titulo">Detalle del pedido</h3>
 

@@ -1,0 +1,136 @@
+.planilla-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.planilla-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.planilla-selector-semana {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.planilla-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.planilla-tab {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid #e0a15f;
+  background-color: #fff;
+  color: #b06a1f;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.planilla-tab.activo {
+  background-color: #e08e3e;
+  color: #fff;
+  border-color: #e08e3e;
+  font-weight: 600;
+}
+
+.planilla-titulo-seccion {
+  font-size: 1.1rem;
+  color: #b06a1f;
+  font-weight: 700;
+}
+
+.planilla-error {
+  color: #b23b3b;
+}
+
+.planilla-tabla-wrapper {
+  overflow-x: auto;
+  background-color: #fff;
+  border-radius: 6px;
+}
+
+.planilla-tabla {
+  border-collapse: collapse;
+  min-width: 100%;
+  white-space: nowrap;
+}
+
+.planilla-tabla th,
+.planilla-tabla td {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+.planilla-tabla td:first-child,
+.planilla-tabla th:first-child {
+  text-align: left;
+}
+
+.col-tope {
+  background-color: #fdf6dc;
+}
+
+.col-banco {
+  background-color: #e3edf5;
+}
+
+.col-saldo {
+  background-color: #fbe4e6;
+}
+
+.col-total {
+  background-color: #e1f2e4;
+}
+
+.col-t1 {
+  background-color: #d9f0dd;
+}
+
+.col-t2 {
+  background-color: #dbe9f7;
+}
+
+.col-t3 {
+  background-color: #fbe6d3;
+}
+
+.celda-check input {
+  width: auto;
+  cursor: pointer;
+}
+
+.celda-cantidad {
+  font-weight: 600;
+}
+
+.fila-sin-pedido {
+  opacity: 0.6;
+}
+
+.link-boton {
+  background: none;
+  border: none;
+  color: #3d5c48;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.82rem;
+}
+
+.planilla-topes-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
