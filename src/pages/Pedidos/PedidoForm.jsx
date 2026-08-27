@@ -21,6 +21,7 @@ function hoyISO() {
 export default function PedidoForm({
   clienteInicial,
   fechaInicial,
+  usuarioIdInicial,
   modoEmbebido = false,
   onSaved,
 } = {}) {
@@ -145,6 +146,7 @@ export default function PedidoForm({
       fecha: data.fecha,
       observaciones: data.observaciones,
       banco: data.banco || null,
+      usuarioId: usuarioIdInicial ?? undefined,
       detalles: data.detalles.map((d) => ({
         productoId: Number(d.productoId),
         cantidad: Number(d.cantidad),

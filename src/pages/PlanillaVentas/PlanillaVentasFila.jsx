@@ -2,15 +2,42 @@ import { formatMoney } from "../../utils/formatMoney";
 
 export default function PlanillaVentasFila({
   cliente,
+  puedeEditar,
+  esPrimero,
+  esUltimo,
   onTogglePagado,
   onCargarPedido,
   onVerTopes,
+  onMoverArriba,
+  onMoverAbajo,
 }) {
   const tienePedido = !!cliente.pedidoId;
   const cant = cliente.cantidades;
 
   return (
     <tr className={!tienePedido ? "fila-sin-pedido" : ""}>
+      <td className="celda-orden">
+        {puedeEditar && (
+          <div className="orden-botones">
+            <button
+              type="button"
+              disabled={esPrimero}
+              onClick={() => onMoverArriba(cliente)}
+              title="Subir"
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              disabled={esUltimo}
+              onClick={() => onMoverAbajo(cliente)}
+              title="Bajar"
+            >
+              ↓
+            </button>
+          </div>
+        )}
+      </td>
       <td>{cliente.clienteNombre}</td>
       <td className="celda-check">
         {tienePedido ? (

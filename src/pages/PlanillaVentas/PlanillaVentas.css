@@ -134,3 +134,35 @@
   flex-direction: column;
   gap: 0.4rem;
 }
+
+.planilla-controles {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.planilla-selector-empleado,
+.planilla-selector-semana {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.planilla-selector-empleado select {
+  width: auto;
+}
+
+.celda-orden {
+  white-space: nowrap;
+}
+
+.orden-botones {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.orden-botones button {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+}
