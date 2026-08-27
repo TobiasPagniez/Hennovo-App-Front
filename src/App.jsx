@@ -18,6 +18,7 @@ import RutaForm from "./pages/Rutas/RutaForm";
 import RutaDetalle from "./pages/Rutas/RutaDetalle";
 import Pagos from "./pages/Pagos/Pagos";
 import PlanillaVentas from "./pages/PlanillaVentas/PlanillaVentas";
+import Usuarios from "./pages/Usuarios/Usuarios";
 
 //sadasd
 function App() {
@@ -36,6 +37,14 @@ function App() {
           >
             <Route path="/" element={<div>Dashboard (placeholder)</div>} />
             <Route path="/clientes" element={<Clientes />} />
+            <Route
+              path="/usuarios"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <Usuarios />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/categorias-clientes"
               element={
