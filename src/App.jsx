@@ -19,6 +19,7 @@ import RutaDetalle from "./pages/Rutas/RutaDetalle";
 import Pagos from "./pages/Pagos/Pagos";
 import PlanillaVentas from "./pages/PlanillaVentas/PlanillaVentas";
 import Usuarios from "./pages/Usuarios/Usuarios";
+import Vehiculos from "./pages/Vehiculos/Vehiculos";
 
 //sadasd
 function App() {
@@ -103,6 +104,7 @@ function App() {
             />
             <Route path="/pagos" element={<Pagos />} />
             <Route path="/planilla-ventas" element={<PlanillaVentas />} />
+            <Route path="/vehiculos" element={<Vehiculos />} />
           </Route>
         </Routes>
       </AuthProvider>
