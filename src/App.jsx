@@ -20,6 +20,9 @@ import Pagos from "./pages/Pagos/Pagos";
 import PlanillaVentas from "./pages/PlanillaVentas/PlanillaVentas";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import Vehiculos from "./pages/Vehiculos/Vehiculos";
+import Remitos from "./pages/Remitos/Remitos";
+import RemitoNuevo from "./pages/Remitos/RemitoNuevo";
+import RemitoDetalle from "./pages/Remitos/RemitoDetalle";
 
 //sadasd
 function App() {
@@ -105,6 +108,9 @@ function App() {
             <Route path="/pagos" element={<Pagos />} />
             <Route path="/planilla-ventas" element={<PlanillaVentas />} />
             <Route path="/vehiculos" element={<Vehiculos />} />
+            <Route path="/remitos" element={<Remitos />} />
+            <Route path="/remitos/nuevo" element={<RemitoNuevo />} />
+            <Route path="/remitos/:id" element={<RemitoDetalle />} />
           </Route>
         </Routes>
       </AuthProvider>
