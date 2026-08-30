@@ -9,6 +9,8 @@ const modulos = [
   { path: "/productos", label: "Productos", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/precios", label: "Precios", roles: ["ADMIN"] },
   { path: "/pedidos", label: "Pedidos", roles: ["ADMIN", "EMPLEADO"] },
+  { path: "/pedidos-habituales", label: "Pedidos habituales", roles: ["ADMIN", "EMPLEADO"] },  
+  { path: "/planilla-ventas", label: "Planilla de ventas", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/rutas", label: "Rutas", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/pagos", label: "Pagos", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/vehiculos", label: "Vehículos", roles: ["ADMIN", "EMPLEADO"] },
@@ -17,6 +19,7 @@ const modulos = [
   { path: "/gastos", label: "Gastos", roles: ["ADMIN"] },
   { path: "/perdidas", label: "Pérdidas", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/control-horario", label: "Control horario", roles: ["ADMIN", "EMPLEADO"] },
+  { path: "/cheques", label: "Cheques", roles: ["ADMIN"] },  
 ];
 export default function Sidebar() {
   const { usuario } = useAuth();

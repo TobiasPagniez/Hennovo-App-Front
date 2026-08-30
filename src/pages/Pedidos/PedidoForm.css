@@ -1,0 +1,40 @@
+.pedido-form-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pedido-detalles-titulo {
+  margin-top: 1.2rem;
+  color: #3d5c48;
+}
+
+.pedido-detalles-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.pedido-detalles-tabla th,
+.pedido-detalles-tabla td {
+  padding: 0.4rem;
+  border: 1px solid #e0e0e0;
+  font-size: 0.85rem;
+}
+
+.pedido-detalles-tabla select,
+.pedido-detalles-tabla input {
+  width: 100%;
+  padding: 0.35rem;
+}
+
+.pedido-tope-celda {
+  color: #888;
+  white-space: nowrap;
+}
+.pedido-link-habituales {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #3d5c48;
+}

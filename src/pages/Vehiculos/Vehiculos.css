@@ -1,0 +1,124 @@
+.vehiculos-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vehiculos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vehiculos-toggles {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.vehiculos-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.vehiculos-referencias {
+  display: flex;
+  gap: 1.2rem;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.referencia-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.referencia-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.referencia-color.vencido {
+  background-color: #e6a3a8;
+}
+
+.referencia-color.proximo {
+  background-color: #f5cf8a;
+}
+
+.vehiculos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.vehiculos-tabla th,
+.vehiculos-tabla td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.83rem;
+  white-space: nowrap;
+}
+
+.fila-inactiva {
+  opacity: 0.55;
+}
+
+.texto-vencido {
+  color: #a3242b;
+  font-weight: 700;
+  background-color: #fbe4e6;
+}
+
+.texto-proximo {
+  color: #8a5a1f;
+  font-weight: 600;
+  background-color: #fdf1cf;
+}
+
+.vehiculos-acciones {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.vehiculos-error {
+  color: #b23b3b;
+}
+
+.vehiculo-form-subtitulo {
+  margin-top: 1.2rem;
+  color: #3d5c48;
+  font-size: 0.95rem;
+}
+
+.vehiculo-form-ayuda {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0.2rem 0 0.6rem;
+}
+
+.vehiculos-historial-titulo {
+  margin-top: 1.2rem;
+  color: #3d5c48;
+}
+
+.vehiculos-historial-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.vehiculos-historial-tabla th,
+.vehiculos-historial-tabla td {
+  padding: 0.4rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.85rem;
+  text-align: left;
+}

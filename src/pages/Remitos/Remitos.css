@@ -1,0 +1,114 @@
+.remitos-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.remitos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remitos-header-acciones {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.remitos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.remitos-tabla th,
+.remitos-tabla td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.remitos-acciones {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.remitos-error {
+  color: #b23b3b;
+}
+
+.remito-detalle-info {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.remito-total-label {
+  text-align: right;
+  font-weight: 700;
+}
+
+.remito-total-valor {
+  font-weight: 700;
+}
+
+.remito-filtro-fecha {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.remito-filtro-fecha input {
+  width: auto;
+}
+
+.remito-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.remito-form-cliente {
+  font-size: 0.95rem;
+}
+
+.remito-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+}
+
+.remito-checkbox-label input {
+  width: auto;
+}
+
+.remito-detalles-titulo {
+  margin-top: 1rem;
+  color: #3d5c48;
+}
+
+.remito-detalles-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.remito-detalles-tabla th,
+.remito-detalles-tabla td {
+  padding: 0.4rem;
+  border: 1px solid #e0e0e0;
+  font-size: 0.85rem;
+}
+
+.remito-detalles-tabla select,
+.remito-detalles-tabla input {
+  width: 100%;
+  padding: 0.35rem;
+}
