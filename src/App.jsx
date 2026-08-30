@@ -23,6 +23,7 @@ import Vehiculos from "./pages/Vehiculos/Vehiculos";
 import Remitos from "./pages/Remitos/Remitos";
 import RemitoNuevo from "./pages/Remitos/RemitoNuevo";
 import RemitoDetalle from "./pages/Remitos/RemitoDetalle";
+import Cheques from "./pages/Cheques/Cheques";
 
 //sadasd
 function App() {
@@ -111,6 +112,15 @@ function App() {
             <Route path="/remitos" element={<Remitos />} />
             <Route path="/remitos/nuevo" element={<RemitoNuevo />} />
             <Route path="/remitos/:id" element={<RemitoDetalle />} />
+            <Route
+              path="/cheques"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <Cheques />
+                </ProtectedRoute>
+              }
+            />
+     {/* ----------------------------------------------------------------------------------- */}
           </Route>
         </Routes>
       </AuthProvider>

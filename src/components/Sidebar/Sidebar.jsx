@@ -19,6 +19,7 @@ const modulos = [
   { path: "/gastos", label: "Gastos", roles: ["ADMIN"] },
   { path: "/perdidas", label: "Pérdidas", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/control-horario", label: "Control horario", roles: ["ADMIN", "EMPLEADO"] },
+  { path: "/cheques", label: "Cheques", roles: ["ADMIN"] },  
 ];
 export default function Sidebar() {
   const { usuario } = useAuth();

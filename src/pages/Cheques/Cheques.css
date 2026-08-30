@@ -1,0 +1,81 @@
+.cheques-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cheques-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cheques-filtros {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background-color: #fff;
+  padding: 0.8rem;
+  border-radius: 6px;
+}
+
+.cheques-filtros label {
+  display: block;
+  font-size: 0.78rem;
+  margin-bottom: 0.2rem;
+}
+
+.cheques-filtros input,
+.cheques-filtros select {
+  padding: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.cheques-toggle-inactivos {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.cheques-tabla-wrapper {
+  overflow-x: auto;
+}
+
+.cheques-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  white-space: nowrap;
+}
+
+.cheques-tabla th,
+.cheques-tabla td {
+  padding: 0.55rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.cheques-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cheques-error {
+  color: #b23b3b;
+}
+
+.cheque-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: normal;
+  margin-top: 0.6rem;
+}
+
+.cheque-checkbox-label input {
+  width: auto;
+}
