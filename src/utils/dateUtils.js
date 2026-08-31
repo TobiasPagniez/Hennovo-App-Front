@@ -36,3 +36,9 @@ export function fechasDeLaSemana(fechaISO) {
 export function hoyISO() {
   return toISO(new Date());
 }
+
+export function restarMeses(fechaISO, meses) {
+  const fecha = new Date(fechaISO + "T00:00:00");
+  fecha.setMonth(fecha.getMonth() - meses);
+  return fecha.toISOString().split("T")[0];
+}

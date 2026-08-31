@@ -24,6 +24,8 @@ import Remitos from "./pages/Remitos/Remitos";
 import RemitoNuevo from "./pages/Remitos/RemitoNuevo";
 import RemitoDetalle from "./pages/Remitos/RemitoDetalle";
 import Cheques from "./pages/Cheques/Cheques";
+import Gastos from "./pages/Gastos/Gastos";
+import Perdidas from "./pages/Perdidas/Perdidas";
 
 //sadasd
 function App() {
@@ -120,7 +122,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
-     {/* ----------------------------------------------------------------------------------- */}
+            <Route path="/gastos" element={<Gastos />} />
+            <Route path="/perdidas" element={<Perdidas />} />
+        {/* ----------------------------------------------------------------------------------- */}
           </Route>
         </Routes>
       </AuthProvider>

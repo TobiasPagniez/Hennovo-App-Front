@@ -1,0 +1,107 @@
+.gastos-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gastos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modulo-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.modulo-tabs button {
+  padding: 0.4rem 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.modulo-tabs button.activo {
+  background-color: #3d5c48;
+  color: #fff;
+  border-color: #3d5c48;
+}
+
+.gastos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.gastos-tabla th,
+.gastos-tabla td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.gastos-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.gastos-error {
+  color: #b23b3b;
+}
+
+/* Estilos compartidos de reportes (también usados por Pérdidas) */
+.reportes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.reportes-filtro-fechas {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.reportes-filtro-fechas label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+}
+
+.reportes-filtro-fechas input {
+  width: auto;
+}
+
+.reportes-error {
+  color: #b23b3b;
+}
+
+.reportes-resumen {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-width: 220px;
+}
+
+.reportes-resumen strong {
+  font-size: 1.3rem;
+  color: #3d5c48;
+}
+
+.reportes-grafico {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.reportes-grafico h3 {
+  font-size: 0.95rem;
+  color: #3d5c48;
+  margin-bottom: 0.5rem;
+}
