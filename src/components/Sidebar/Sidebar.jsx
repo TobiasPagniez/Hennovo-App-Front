@@ -14,6 +14,7 @@ const modulos = [
   { path: "/rutas", label: "Rutas", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/pagos", label: "Pagos", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/vehiculos", label: "Vehículos", roles: ["ADMIN", "EMPLEADO"] },
+  { path: "/croquis", label: "Croquis de carga", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/remitos", label: "Remitos", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/gastos", label: "Gastos", roles: ["ADMIN", "EMPLEADO"] },
   { path: "/usuarios", label: "Usuarios", roles: ["ADMIN"] },
