@@ -1,14 +1,24 @@
 import api from "./api";
 
-export function obtenerPlantillasPorVehiculo(vehiculoId) {
+export function obtenerPlantillasPorVehiculo(vehiculoId, fecha) {
   return api
-    .get(`/api/vehiculos/${vehiculoId}/plantillas`)
+    .get(`/api/vehiculos/${vehiculoId}/plantillas`, { params: { fecha } })
     .then((res) => res.data);
 }
 
 export function configurarCroquis(vehiculoId, data) {
   return api
     .put(`/api/vehiculos/${vehiculoId}/plantillas/configurar`, data)
+    .then((res) => res.data);
+}
+
+export function copiarDiaCroquis(vehiculoId, data) {
+  return api.post(`/api/vehiculos/${vehiculoId}/plantillas/copiar`, data);
+}
+
+export function obtenerFechasConContenido(vehiculoId) {
+  return api
+    .get(`/api/vehiculos/${vehiculoId}/plantillas/fechas-con-contenido`)
     .then((res) => res.data);
 }
 

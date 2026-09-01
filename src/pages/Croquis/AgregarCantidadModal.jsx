@@ -6,6 +6,7 @@ import { nombreProducto } from "../../utils/productoNombre";
 export default function AgregarCantidadModal({
   celdaId,
   producto,
+  fecha,
   onClose,
   onSaved,
 }) {
@@ -23,6 +24,7 @@ export default function AgregarCantidadModal({
     setErrorApi(null);
     try {
       await agregarDetalleCelda(celdaId, {
+        fecha,
         productoId: producto.id,
         cantidad: Number(data.cantidad),
       });

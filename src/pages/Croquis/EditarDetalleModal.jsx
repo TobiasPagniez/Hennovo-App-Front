@@ -6,7 +6,13 @@ import {
 } from "../../services/plantillaCargaService";
 import { nombreProducto } from "../../utils/productoNombre";
 
-export default function EditarDetalleModal({ detalle, producto, onClose, onSaved }) {
+export default function EditarDetalleModal({
+  detalle,
+  producto,
+  onClose,
+  onSaved,
+  onIniciarMover,
+}) {
   const [errorApi, setErrorApi] = useState(null);
 
   const {
@@ -64,12 +70,19 @@ export default function EditarDetalleModal({ detalle, producto, onClose, onSaved
 
       {errorApi && <p className="form-error-api">{errorApi}</p>}
 
-      <div className="form-actions">
+      <div className="form-actions form-actions-3">
         <button type="button" onClick={handleEliminar} disabled={isSubmitting}>
-          Quitar de la celda
+          Quitar
+        </button>
+        <button
+          type="button"
+          onClick={() => onIniciarMover(detalle)}
+          disabled={isSubmitting}
+        >
+          Mover a otra celda
         </button>
         <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Guardando..." : "Guardar cantidad"}
+          {isSubmitting ? "Guardando..." : "Guardar"}
         </button>
       </div>
     </form>

@@ -1,29 +1,26 @@
 import { nombreProducto } from "../../utils/productoNombre";
 
-export default function ProductoPaleta({ productos }) {
-  function handleDragStart(e, producto) {
-    e.dataTransfer.setData(
-      "application/json",
-      JSON.stringify({ tipo: "producto", productoId: producto.id })
-    );
-  }
-
+export default function ProductoPaleta({ productos, productoSeleccionado, onSeleccionar }) {
   return (
     <div className="croquis-paleta">
       <h3>Productos</h3>
       <p className="croquis-paleta-ayuda">
-        Arrastrá un producto hacia una celda del croquis.
+        Tocá un producto y después tocá la celda donde va.
       </p>
       <div className="croquis-paleta-lista">
         {productos.map((p) => (
-          <div
+          <button
             key={p.id}
-            className="croquis-paleta-item"
-            draggable
-            onDragStart={(e) => handleDragStart(e, p)}
+            type="button"
+            className={`croquis-paleta-item ${
+              productoSeleccionado?.id === p.id ? "seleccionado" : ""
+            }`}
+            onClick={() =>
+              onSeleccionar(productoSeleccionado?.id === p.id ? null : p)
+            }
           >
             {nombreProducto(p)}
-          </div>
+          </button>
         ))}
       </div>
     </div>
