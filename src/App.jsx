@@ -27,6 +27,7 @@ import Cheques from "./pages/Cheques/Cheques";
 import Gastos from "./pages/Gastos/Gastos";
 import Perdidas from "./pages/Perdidas/Perdidas";
 import Croquis from "./pages/Croquis/Croquis";
+import ControlHorario from "./pages/ControlHorario/ControlHorario";
 
 //sadasd
 function App() {
@@ -126,6 +127,7 @@ function App() {
             <Route path="/gastos" element={<Gastos />} />
             <Route path="/perdidas" element={<Perdidas />} />
             <Route path="/croquis" element={<Croquis />} />
+            <Route path="/control-horario" element={<ControlHorario />} />
         {/* ----------------------------------------------------------------------------------- */}
           </Route>
         </Routes>

@@ -1,0 +1,66 @@
+.ch-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ch-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.ch-tabla th,
+.ch-tabla td {
+  padding: 0.55rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.87rem;
+}
+
+.ch-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ch-error {
+  color: #b23b3b;
+}
+
+.ch-reportes-modo {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ch-reportes-modo button {
+  padding: 0.4rem 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.ch-reportes-modo button.activo {
+  background-color: #3d5c48;
+  color: #fff;
+  border-color: #3d5c48;
+}
+
+.ch-reportes-detalle {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.ch-reportes-detalle h3 {
+  font-size: 0.95rem;
+  color: #3d5c48;
+  margin-bottom: 0.5rem;
+}
