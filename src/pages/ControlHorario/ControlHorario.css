@@ -64,3 +64,14 @@
   color: #3d5c48;
   margin-bottom: 0.5rem;
 }
+
+.ch-reportes-filtros {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.ch-reportes-filtros select {
+  width: auto;
+}
