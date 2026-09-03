@@ -3,6 +3,7 @@ import {
   obtenerClientes,
   buscarClientesPorNombre,
   desactivarCliente,
+  reactivarCliente,
 } from "../../services/clienteService";
 import { obtenerCategorias } from "../../services/categoriaClienteService";
 import Modal from "../../components/Modal/Modal";
@@ -77,6 +78,15 @@ export default function Clientes() {
       cargarClientes();
     } catch {
       alert("No se pudo desactivar el cliente.");
+    }
+  }
+
+  async function handleReactivar(cliente) {
+    try {
+      await reactivarCliente(cliente.id);
+      cargarClientes();
+    } catch {
+      alert("No se pudo reactivar el cliente.");
     }
   }
 
@@ -183,9 +193,13 @@ export default function Clientes() {
                     Cuenta corriente
                   </Link>
                   <button onClick={() => abrirEdicion(cliente)}>Editar</button>
-                  {cliente.activo && (
+                  {cliente.activo ? (
                     <button onClick={() => handleDesactivar(cliente)}>
                       Desactivar
+                    </button>
+                  ) : (
+                    <button onClick={() => handleReactivar(cliente)}>
+                      Reactivar
                     </button>
                   )}
                 </td>

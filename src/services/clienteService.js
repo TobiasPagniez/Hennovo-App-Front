@@ -25,3 +25,7 @@ export function modificarCliente(id, data) {
 export function desactivarCliente(id) {
   return api.patch(`/api/clientes/${id}/desactivar`);
 }
+
+export function reactivarCliente(id) {
+  return api.patch(`/api/clientes/${id}/reactivar`).then((res) => res.data);
+}
