@@ -209,6 +209,7 @@ export default function PedidoForm({
           <Link
             to={`/pedidos-habituales?clienteId=${clienteSeleccionado.id}`}
             target="_blank"
+            rel="noopener noreferrer"
             className="pedido-link-habituales"
           >
             Ver/gestionar productos habituales de este cliente
