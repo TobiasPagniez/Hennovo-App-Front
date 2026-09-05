@@ -1,0 +1,83 @@
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.dashboard-error {
+  color: #b23b3b;
+}
+
+.dashboard-seccion-titulo {
+  font-size: 1rem;
+  color: #3d5c48;
+  margin-bottom: 0.6rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.dashboard-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  border-left: 4px solid #3d5c48;
+}
+
+.dashboard-card-alerta {
+  border-left-color: #e08e3e;
+}
+
+.dashboard-card-titulo {
+  font-size: 0.82rem;
+  color: #777;
+}
+
+.dashboard-card-valor {
+  font-size: 1.8rem;
+  color: #2c3a30;
+}
+
+.dashboard-card-cargando {
+  font-size: 1.4rem;
+  color: #ccc;
+}
+
+.dashboard-card-subtitulo {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.dashboard-card-link {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #3d5c48;
+  font-weight: 600;
+}
+
+.dashboard-accesos {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-acceso {
+  background-color: #fff;
+  border: 1px solid #cddccf;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: #3d5c48;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.dashboard-acceso:hover {
+  background-color: #f0f4f1;
+}

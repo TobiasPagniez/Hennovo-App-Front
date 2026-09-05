@@ -42,3 +42,14 @@ export function restarMeses(fechaISO, meses) {
   fecha.setMonth(fecha.getMonth() - meses);
   return fecha.toISOString().split("T")[0];
 }
+
+export function inicioDeMes(fechaISO) {
+  return fechaISO.slice(0, 7) + "-01";
+}
+
+export function sumarDias(fechaISO, dias) {
+  const fecha = new Date(fechaISO + "T00:00:00");
+  fecha.setDate(fecha.getDate() + dias);
+  return fecha.toISOString().split("T")[0];
+}
+
