@@ -45,6 +45,8 @@ import PlanillaVentas from "./pages/PlanillaVentas/PlanillaVentas";
 
 import Croquis from "./pages/Croquis/Croquis";
 
+import Perfil from "./pages/Perfil/Perfil";
+
 function App() {
   return (
     <BrowserRouter>
@@ -157,6 +159,8 @@ function App() {
             <Route path="/planilla-ventas" element={<PlanillaVentas />} />
 
             <Route path="/croquis" element={<Croquis />} />
+
+            <Route path="/perfil" element={<Perfil />} />
           </Route>
         </Routes>
       </AuthProvider>

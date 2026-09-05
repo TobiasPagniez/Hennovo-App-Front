@@ -19,3 +19,6 @@ export function modificarUsuario(id, data) {
 export function desactivarUsuario(id) {
   return api.patch(`/api/users/${id}/deactivate`);
 }
+export function cambiarPassword(data) {
+  return api.patch("/api/users/me/password", data);
+}
