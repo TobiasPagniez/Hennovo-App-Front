@@ -1,0 +1,34 @@
+.perfil-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 420px;
+}
+
+.perfil-datos {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.perfil-form {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1.2rem;
+}
+
+.perfil-form h2 {
+  font-size: 1rem;
+  color: #3d5c48;
+  margin-bottom: 0.6rem;
+}
+
+.perfil-exito {
+  color: #1e6b2e;
+  font-size: 0.85rem;
+  margin-top: 0.6rem;
+}

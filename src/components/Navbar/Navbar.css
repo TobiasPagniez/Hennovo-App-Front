@@ -33,3 +33,12 @@
 .navbar-logout:hover {
   background-color: #922f2f;
 }
+.navbar-nombre-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar-nombre-link:hover {
+  text-decoration: underline;
+}
