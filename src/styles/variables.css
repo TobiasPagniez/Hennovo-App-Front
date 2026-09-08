@@ -1,0 +1,29 @@
+:root {
+  /* Colores base */
+  --color-bg: #f5f5f7;
+  --color-card-bg: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-input: #e0e0e0;
+  --color-text: #333333;
+  --color-text-muted: #6b7280;
+
+  /* Color de marca */
+  --color-primary: #f39c12;
+  --color-primary-hover: #d9840a;
+  --color-primary-contrast: #ffffff;
+
+  /* Estados */
+  --color-error: #c0392b;
+  --color-error-bg: #fdf0ee;
+
+  /* Radios */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Sombra */
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  /* Tipografía */
+  --font-family: "Inter", "Segoe UI", Roboto, system-ui, sans-serif;
+}
