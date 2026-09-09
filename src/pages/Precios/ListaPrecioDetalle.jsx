@@ -15,29 +15,24 @@ export default function ListaPrecioDetalle() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function cargar() {
-      setCargando(true);
-      setError(null);
-      try {
-        const [listaData, productosData, categoriasData] = await Promise.all([
-          obtenerListaPrecioPorId(id),
-          obtenerProductosTodos(),
-          obtenerCategorias(),
-        ]);
+    setCargando(true);
+    setError(null);
+    Promise.all([
+      obtenerListaPrecioPorId(id),
+      obtenerProductosTodos(),
+      obtenerCategorias(),
+    ])
+      .then(([listaData, productosData, categoriasData]) => {
         setLista(listaData);
         setProductos(productosData);
         setCategorias(categoriasData);
-      } catch {
-        setError("No se pudo cargar la lista de precios.");
-      } finally {
-        setCargando(false);
-      }
-    }
-    cargar();
+      })
+      .catch(() => setError("No se pudo cargar la lista de precios."))
+      .finally(() => setCargando(false));
   }, [id]);
 
-  if (cargando) return <p>Cargando...</p>;
-  if (error) return <p className="precios-error">{error}</p>;
+  if (cargando) return <p className="estado-cargando">Cargando...</p>;
+  if (error) return <p className="estado-error">{error}</p>;
   if (!lista) return null;
 
   function precioDe(productoId, categoriaId) {
@@ -49,36 +44,45 @@ export default function ListaPrecioDetalle() {
 
   return (
     <div className="precios-page">
-      <div className="precios-header">
-        <h1>
-          Lista de precios — desde {lista.fechaDesde}
-          {lista.fechaHasta ? ` hasta ${lista.fechaHasta}` : " (vigente)"}
-        </h1>
+      <div className="page-header">
+        <h1>Lista de precios</h1>
         <Link to="/precios">
           <button type="button">Volver</button>
         </Link>
       </div>
 
-      <table className="precios-grilla">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            {categorias.map((cat) => (
-              <th key={cat.id}>{cat.nombre}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {productos.map((producto) => (
-            <tr key={producto.id}>
-              <td>{nombreProducto(producto)}</td>
+      <div className="precios-detalle-info">
+        <span>
+          <strong>Desde:</strong> {lista.fechaDesde}
+        </span>
+        <span>
+          <strong>Hasta:</strong>{" "}
+          {lista.fechaHasta ? lista.fechaHasta : "Vigente"}
+        </span>
+      </div>
+
+      <div className="precios-grilla-wrapper">
+        <table className="precios-grilla">
+          <thead>
+            <tr>
+              <th>Producto</th>
               {categorias.map((cat) => (
-                <td key={cat.id}>{precioDe(producto.id, cat.id)}</td>
+                <th key={cat.id}>{cat.nombre}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {productos.map((producto) => (
+              <tr key={producto.id}>
+                <td>{nombreProducto(producto)}</td>
+                {categorias.map((cat) => (
+                  <td key={cat.id}>{precioDe(producto.id, cat.id)}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

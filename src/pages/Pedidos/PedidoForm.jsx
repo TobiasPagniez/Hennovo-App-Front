@@ -172,13 +172,13 @@ export default function PedidoForm({
     }
   }
 
-  if (cargando) return <p>Cargando...</p>;
-  if (error) return <p className="form-error-api">{error}</p>;
+  if (cargando) return <p className="estado-cargando">Cargando...</p>;
+  if (error) return <p className="estado-error">{error}</p>;
 
   if (esEdicion && pedidoOriginal?.entregado) {
     return (
       <div className="pedido-form-page">
-        <p className="form-error-api">
+        <p className="estado-error">
           Este pedido ya fue entregado y no puede modificarse.
         </p>
         <Link to="/pedidos">
@@ -190,14 +190,14 @@ export default function PedidoForm({
 
   return (
     <div className="pedido-form-page">
-      <div className="pedidos-header">
-        <h1>{esEdicion ? "Editar pedido" : "Nuevo pedido"}</h1>
-        {!modoEmbebido && (
+      {!modoEmbebido && (
+        <div className="page-header">
+          <h1>{esEdicion ? "Editar pedido" : "Nuevo pedido"}</h1>
           <Link to="/pedidos">
             <button type="button">Volver</button>
           </Link>
-        )}
-      </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <label>Cliente</label>
@@ -215,6 +215,7 @@ export default function PedidoForm({
             Ver/gestionar productos habituales de este cliente
           </Link>
         )}
+
         <label>Fecha</label>
         <input
           type="date"
@@ -224,102 +225,89 @@ export default function PedidoForm({
           <span className="form-error">{errors.fecha.message}</span>
         )}
 
-        <label>Observaciones</label>
-        <textarea rows={3} {...register("observaciones")} />
-
         <label>Banco / Medio de cobro</label>
         <input
           placeholder="Ej: Efectivo, Transferencia, Galicia..."
           {...register("banco")}
         />
 
+        <label>Observaciones</label>
+        <textarea rows={3} {...register("observaciones")} />
+
         <h3 className="pedido-detalles-titulo">Detalle del pedido</h3>
 
-        <table className="pedido-detalles-tabla">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Unidad</th>
-              <th>Tope</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {fields.map((field, index) => {
-              const productoIdActual = detallesActuales[index]?.productoId;
-              const tope = topeDe(productoIdActual);
+        <div className="pedido-detalles-wrapper">
+          <table className="pedido-detalles-tabla">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Unidad</th>
+                <th>Tope</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {fields.map((field, index) => {
+                const productoIdActual = detallesActuales[index]?.productoId;
+                const tope = topeDe(productoIdActual);
 
-              return (
-                <tr key={field.id}>
-                  <td>
-                    <select
-                      {...register(`detalles.${index}.productoId`, {
-                        required: "Elegí un producto",
-                      })}
-                    >
-                      <option value="">Seleccioná un producto</option>
-                      {productos.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {nombreProducto(p)}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.detalles?.[index]?.productoId && (
-                      <span className="form-error">
-                        {errors.detalles[index].productoId.message}
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="1"
-                      {...register(`detalles.${index}.cantidad`, {
-                        required: "Obligatorio",
-                        min: { value: 1, message: "Mínimo 1" },
-                      })}
-                    />
-                    {errors.detalles?.[index]?.cantidad && (
-                      <span className="form-error">
-                        {errors.detalles[index].cantidad.message}
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    <select
-                      {...register(`detalles.${index}.unidad`, {
-                        required: "Elegí una unidad",
-                      })}
-                    >
-                      <option value="">-</option>
-                      {UNIDAD_PRECIO_OPCIONES.map((op) => (
-                        <option key={op.value} value={op.value}>
-                          {op.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.detalles?.[index]?.unidad && (
-                      <span className="form-error">
-                        {errors.detalles[index].unidad.message}
-                      </span>
-                    )}
-                  </td>
-                  <td className="pedido-tope-celda">
-                    {tope !== null ? `Tope: ${tope}` : "-"}
-                  </td>
-                  <td>
-                    {fields.length > 1 && (
-                      <button type="button" onClick={() => remove(index)}>
-                        Quitar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                return (
+                  <tr key={field.id}>
+                    <td>
+                      <select
+                        {...register(`detalles.${index}.productoId`, {
+                          required: "Elegí un producto",
+                        })}
+                      >
+                        <option value="">Seleccioná un producto</option>
+                        {productos.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {nombreProducto(p)}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="1"
+                        {...register(`detalles.${index}.cantidad`, {
+                          required: "Obligatorio",
+                          min: { value: 1, message: "Mínimo 1" },
+                        })}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        {...register(`detalles.${index}.unidad`, {
+                          required: "Elegí una unidad",
+                        })}
+                      >
+                        <option value="">-</option>
+                        {UNIDAD_PRECIO_OPCIONES.map((op) => (
+                          <option key={op.value} value={op.value}>
+                            {op.label}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="pedido-tope-celda">
+                      {tope !== null ? `Tope: ${tope}` : "-"}
+                    </td>
+                    <td>
+                      {fields.length > 1 && (
+                        <button type="button" onClick={() => remove(index)}>
+                          Quitar
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         <button
           type="button"
@@ -331,7 +319,7 @@ export default function PedidoForm({
         {errorApi && <p className="form-error-api">{errorApi}</p>}
 
         <div className="form-actions">
-          <button type="submit" disabled={isSubmitting}>
+          <button type="submit" className="btn-primario" disabled={isSubmitting}>
             {isSubmitting ? "Guardando..." : "Guardar pedido"}
           </button>
         </div>

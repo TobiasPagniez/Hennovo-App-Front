@@ -88,12 +88,14 @@ export default function Productos() {
 
   return (
     <div className="productos-page">
-      <div className="productos-header">
+      <div className="page-header">
         <h1>Productos</h1>
-        <button onClick={abrirNuevo}>Nuevo producto</button>
+        <button className="btn-primario" onClick={abrirNuevo}>
+          Nuevo producto
+        </button>
       </div>
 
-      <label className="productos-toggle-inactivos">
+      <label className="toggle-checkbox">
         <input
           type="checkbox"
           checked={mostrarInactivos}
@@ -102,60 +104,70 @@ export default function Productos() {
         Mostrar inactivos
       </label>
 
-      {error && <p className="productos-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando productos...</p>
+        <p className="estado-cargando">Cargando productos...</p>
       ) : (
-        <table className="productos-tabla">
-          <thead>
-            <tr>
-              <th>Tipo</th>
-              <th>Tamaño</th>
-              <th>Presentación</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productosVisibles.map((producto) => (
-              <tr
-                key={producto.id}
-                className={!producto.activo ? "fila-inactiva" : ""}
-              >
-                <td>{labelTipoHuevo(producto.tipoHuevo)}</td>
-                <td>{labelTamaño(producto.tamaño)}</td>
-                <td>{labelPresentacion(producto.presentacion)}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      producto.activo ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {producto.activo ? "Activo" : "Inactivo"}
-                  </span>
-                </td>
-                <td className="productos-acciones">
-                  <button onClick={() => abrirEdicion(producto)}>Editar</button>
-                  {producto.activo ? (
-                    <button onClick={() => handleDesactivar(producto)}>
-                      Desactivar
-                    </button>
-                  ) : (
-                    <button onClick={() => handleReactivar(producto)}>
-                      Reactivar
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {productosVisibles.length === 0 && (
+        <div className="tabla-wrapper tabla-responsive-cards">
+          <table className="tabla-base">
+            <thead>
               <tr>
-                <td colSpan={5}>No hay productos para mostrar.</td>
+                <th>Tipo</th>
+                <th>Tamaño</th>
+                <th>Presentación</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {productosVisibles.map((producto) => (
+                <tr
+                  key={producto.id}
+                  className={!producto.activo ? "fila-inactiva" : ""}
+                >
+                  <td data-label="Tipo">
+                    <span className="celda-destacada">
+                      {labelTipoHuevo(producto.tipoHuevo)}
+                    </span>
+                  </td>
+                  <td data-label="Tamaño">{labelTamaño(producto.tamaño)}</td>
+                  <td data-label="Presentación">
+                    {labelPresentacion(producto.presentacion)}
+                  </td>
+                  <td data-label="Estado">
+                    <span
+                      className={`badge ${
+                        producto.activo ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {producto.activo ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className="acciones-fila">
+                    <button onClick={() => abrirEdicion(producto)}>
+                      Editar
+                    </button>
+                    {producto.activo ? (
+                      <button onClick={() => handleDesactivar(producto)}>
+                        Desactivar
+                      </button>
+                    ) : (
+                      <button onClick={() => handleReactivar(producto)}>
+                        Reactivar
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {productosVisibles.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={5}>No hay productos para mostrar.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <Modal

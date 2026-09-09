@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.9rem 0;
-  transition: width 0.18s ease, min-width 0.18s ease;
+  transition: width 0.18s ease, min-width 0.18s ease, transform 0.2s ease;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -28,6 +28,7 @@
 .sidebar-colapsado .sidebar-top {
   justify-content: center;
   padding: 0 0.4rem 0.9rem;
+  position: relative;
 }
 
 .sidebar-logo {
@@ -36,10 +37,6 @@
   color: var(--color-text, #333333);
   white-space: nowrap;
   overflow: hidden;
-}
-
-.sidebar-colapsado .sidebar-logo {
-  font-size: 1.1rem;
 }
 
 .sidebar-toggle {
@@ -58,10 +55,6 @@
   display: none;
 }
 
-.sidebar-colapsado .sidebar-top {
-  position: relative;
-}
-
 .sidebar-colapsado:hover .sidebar-toggle {
   display: flex;
   position: absolute;
@@ -69,6 +62,14 @@
   top: 0.7rem;
   background-color: #fff;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-cerrar-mobile {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .sidebar-nav {
@@ -88,7 +89,6 @@
   text-decoration: none;
   font-size: 0.88rem;
   white-space: nowrap;
-  border-radius: 0;
 }
 
 .sidebar-colapsado .sidebar-link {
@@ -117,12 +117,48 @@
   border-right: 3px solid var(--color-primary, #f39c12);
 }
 
-/* Mobile: el sidebar se convierte en overlay controlado desde MainLayout */
+/* ===== Mobile: drawer que se abre/cierra ===== */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
     left: 0;
+    top: 0;
+    width: 250px;
+    min-width: 250px;
     z-index: 50;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.12);
+    transform: translateX(-100%);
+  }
+
+  /* En mobile ignoramos el estado "colapsado" de escritorio */
+  .sidebar.sidebar-colapsado {
+    width: 250px;
+    min-width: 250px;
+  }
+
+  .sidebar.sidebar-abierto-mobile {
+    transform: translateX(0);
+  }
+
+  .sidebar-colapsado .sidebar-top {
+    justify-content: space-between;
+    padding: 0 1rem 0.9rem;
+  }
+
+  .sidebar-colapsado .sidebar-logo {
+    font-size: 1.15rem;
+  }
+
+  .sidebar-toggle {
+    display: none !important;
+  }
+
+  .sidebar-cerrar-mobile {
+    display: flex;
+  }
+
+  .sidebar-colapsado .sidebar-link {
+    justify-content: flex-start;
+    padding: 0.6rem 1rem;
   }
 }

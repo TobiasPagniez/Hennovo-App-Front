@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Search, X } from "lucide-react";
 import {
   obtenerClientes,
   buscarClientesPorNombre,
@@ -9,7 +11,6 @@ import { obtenerCategorias } from "../../services/categoriaClienteService";
 import Modal from "../../components/Modal/Modal";
 import ClienteFormModal from "./ClienteFormModal";
 import "./Clientes.css";
-import { Link } from "react-router-dom";
 
 export default function Clientes() {
   const [clientes, setClientes] = useState([]);
@@ -69,7 +70,7 @@ export default function Clientes() {
 
   async function handleDesactivar(cliente) {
     const confirmar = window.confirm(
-      `¿Seguro que querés desactivar a "${cliente.nombre}"?`,
+      `¿Seguro que querés desactivar a "${cliente.nombre}"?`
     );
     if (!confirmar) return;
 
@@ -116,102 +117,114 @@ export default function Clientes() {
 
   return (
     <div className="clientes-page">
-      <div className="clientes-header">
+      <div className="page-header">
         <h1>Clientes</h1>
-        <button onClick={abrirNuevo}>Nuevo cliente</button>
+        <button className="btn-primario" onClick={abrirNuevo}>
+          Nuevo cliente
+        </button>
       </div>
 
-      <form className="clientes-busqueda" onSubmit={handleBuscar}>
-        <input
-          type="text"
-          placeholder="Buscar por nombre..."
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-        />
-        <button type="submit">Buscar</button>
-        {busqueda && (
-          <button
-            type="button"
-            onClick={() => {
-              setBusqueda("");
-              cargarClientes();
-            }}
-          >
-            Limpiar
-          </button>
-        )}
-      </form>
+      <div className="page-toolbar">
+        <form className="clientes-busqueda" onSubmit={handleBuscar}>
+          <Search size={16} className="clientes-busqueda-icon" />
+          <input
+            type="text"
+            placeholder="Buscar por nombre..."
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+          />
+          {busqueda && (
+            <button
+              type="button"
+              className="clientes-busqueda-limpiar"
+              onClick={() => {
+                setBusqueda("");
+                cargarClientes();
+              }}
+              title="Limpiar búsqueda"
+            >
+              <X size={16} />
+            </button>
+          )}
+        </form>
 
-      <label className="clientes-toggle-inactivos">
-        <input
-          type="checkbox"
-          checked={mostrarInactivos}
-          onChange={(e) => setMostrarInactivos(e.target.checked)}
-        />
-        Mostrar inactivos
-      </label>
+        <label className="toggle-checkbox">
+          <input
+            type="checkbox"
+            checked={mostrarInactivos}
+            onChange={(e) => setMostrarInactivos(e.target.checked)}
+          />
+          Mostrar inactivos
+        </label>
+      </div>
 
-      {error && <p className="clientes-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando clientes...</p>
+        <p className="estado-cargando">Cargando clientes...</p>
       ) : (
-        <table className="clientes-tabla">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Dirección</th>
-              <th>Localidad</th>
-              <th>Teléfono</th>
-              <th>Categoría</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {clientesVisibles.map((cliente) => (
-              <tr
-                key={cliente.id}
-                className={!cliente.activo ? "fila-inactiva" : ""}
-              >
-                <td>{cliente.nombre}</td>
-                <td>{cliente.direccion}</td>
-                <td>{cliente.localidad}</td>
-                <td>{cliente.telefono}</td>
-                <td>{cliente.nombreCategoria}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      cliente.activo ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {cliente.activo ? "Activo" : "Inactivo"}
-                  </span>
-                </td>
-                <td className="clientes-acciones">
-                  <Link to={`/pagos?clienteId=${cliente.id}`}>
-                    Cuenta corriente
-                  </Link>
-                  <button onClick={() => abrirEdicion(cliente)}>Editar</button>
-                  {cliente.activo ? (
-                    <button onClick={() => handleDesactivar(cliente)}>
-                      Desactivar
-                    </button>
-                  ) : (
-                    <button onClick={() => handleReactivar(cliente)}>
-                      Reactivar
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {clientesVisibles.length === 0 && (
+        <div className="tabla-wrapper tabla-responsive-cards">
+          <table className="tabla-base">
+            <thead>
               <tr>
-                <td colSpan={7}>No hay clientes para mostrar.</td>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Localidad</th>
+                <th>Teléfono</th>
+                <th>Categoría</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {clientesVisibles.map((cliente) => (
+                <tr
+                  key={cliente.id}
+                  className={!cliente.activo ? "fila-inactiva" : ""}
+                >
+                  <td data-label="Nombre">
+                    <span className="celda-destacada">{cliente.nombre}</span>
+                  </td>
+                  <td data-label="Dirección">{cliente.direccion}</td>
+                  <td data-label="Localidad">{cliente.localidad}</td>
+                  <td data-label="Teléfono">{cliente.telefono}</td>
+                  <td data-label="Categoría">{cliente.nombreCategoria}</td>
+                  <td data-label="Estado">
+                    <span
+                      className={`badge ${
+                        cliente.activo ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {cliente.activo ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className="acciones-fila">
+                    <Link to={`/pagos?clienteId=${cliente.id}`}>
+                      Cuenta corriente
+                    </Link>
+                    <button onClick={() => abrirEdicion(cliente)}>
+                      Editar
+                    </button>
+                    {cliente.activo ? (
+                      <button onClick={() => handleDesactivar(cliente)}>
+                        Desactivar
+                      </button>
+                    ) : (
+                      <button onClick={() => handleReactivar(cliente)}>
+                        Reactivar
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {clientesVisibles.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={7}>No hay clientes para mostrar.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <Modal

@@ -146,12 +146,12 @@ export default function NuevaListaPrecio() {
     }
   }
 
-  if (cargando) return <p>Cargando datos...</p>;
-  if (error) return <p className="precios-error">{error}</p>;
+  if (cargando) return <p className="estado-cargando">Cargando datos...</p>;
+  if (error) return <p className="estado-error">{error}</p>;
 
   return (
     <div className="nueva-lista-page">
-      <div className="precios-header">
+      <div className="page-header">
         <h1>Nueva lista de precios</h1>
         <Link to="/precios">
           <button type="button">Volver</button>
@@ -184,8 +184,8 @@ export default function NuevaListaPrecio() {
           </div>
         </div>
 
-        <div className="nueva-lista-grilla-wrapper">
-          <table className="nueva-lista-grilla">
+        <div className="precios-grilla-wrapper">
+          <table className="precios-grilla nueva-lista-grilla">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -237,7 +237,7 @@ export default function NuevaListaPrecio() {
         {errorEnvio && <p className="form-error-api">{errorEnvio}</p>}
 
         <div className="form-actions">
-          <button type="submit" disabled={enviando}>
+          <button type="submit" className="btn-primario" disabled={enviando}>
             {enviando ? "Guardando..." : "Guardar lista de precios"}
           </button>
         </div>

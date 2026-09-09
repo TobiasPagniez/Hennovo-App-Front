@@ -21,6 +21,7 @@ import {
   Grid3x3,
   ChevronsLeft,
   ChevronsRight,
+  X,
 } from "lucide-react";
 import "./Sidebar.css";
 
@@ -45,13 +46,17 @@ const modulos = [
   { path: "/control-horario", label: "Control horario", icon: Clock, roles: ["ADMIN", "EMPLEADO"] },
 ];
 
-export default function Sidebar({ colapsado, onToggle }) {
+export default function Sidebar({ colapsado, onToggle, abiertoMobile, onCerrarMobile }) {
   const { usuario } = useAuth();
 
   const modulosVisibles = modulos.filter((m) => m.roles.includes(usuario?.rol));
 
   return (
-    <aside className={`sidebar ${colapsado ? "sidebar-colapsado" : ""}`}>
+    <aside
+      className={`sidebar ${colapsado ? "sidebar-colapsado" : ""} ${
+        abiertoMobile ? "sidebar-abierto-mobile" : ""
+      }`}
+    >
       <div className="sidebar-top">
         <div className="sidebar-logo">{colapsado ? "H" : "Hennovo"}</div>
         <button
@@ -60,6 +65,13 @@ export default function Sidebar({ colapsado, onToggle }) {
           title={colapsado ? "Expandir menú" : "Contraer menú"}
         >
           {colapsado ? <ChevronsRight size={18} /> : <ChevronsLeft size={18} />}
+        </button>
+        <button
+          className="sidebar-cerrar-mobile"
+          onClick={onCerrarMobile}
+          title="Cerrar menú"
+        >
+          <X size={20} />
         </button>
       </div>
 
@@ -77,7 +89,9 @@ export default function Sidebar({ colapsado, onToggle }) {
               title={colapsado ? m.label : undefined}
             >
               <Icon size={18} className="sidebar-link-icon" />
-              {!colapsado && <span className="sidebar-link-label">{m.label}</span>}
+              {(!colapsado || abiertoMobile) && (
+                <span className="sidebar-link-label">{m.label}</span>
+              )}
             </NavLink>
           );
         })}
