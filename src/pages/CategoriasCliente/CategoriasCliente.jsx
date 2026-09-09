@@ -72,39 +72,57 @@ export default function CategoriasCliente() {
   return (
     <div className="categorias-page">
       <div className="categorias-header">
-        <h1>Categorías de cliente</h1>
-        <button onClick={abrirNueva}>Nueva categoría</button>
+        <div>
+          <h1>Categorías de cliente</h1>
+          <p className="categorias-subtitulo">
+            Definen los distintos niveles de precio para cada cliente.
+          </p>
+        </div>
+        <button className="btn-primario" onClick={abrirNueva}>
+          Nueva categoría
+        </button>
       </div>
 
       {error && <p className="categorias-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando categorías...</p>
+        <p className="categorias-cargando">Cargando categorías...</p>
       ) : (
-        <table className="categorias-tabla">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categorias.map((cat) => (
-              <tr key={cat.id}>
-                <td>{cat.nombre}</td>
-                <td className="categorias-acciones">
-                  <button onClick={() => abrirEdicion(cat)}>Editar</button>
-                  <button onClick={() => handleEliminar(cat)}>Eliminar</button>
-                </td>
-              </tr>
-            ))}
-            {categorias.length === 0 && (
+        <div className="categorias-tabla-wrapper">
+          <table className="categorias-tabla">
+            <thead>
               <tr>
-                <td colSpan={2}>No hay categorías cargadas.</td>
+                <th>Nombre</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {categorias.map((cat) => (
+                <tr key={cat.id}>
+                  <td data-label="Nombre">
+                    <span className="categorias-badge-nombre">
+                      {cat.nombre}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className="categorias-acciones">
+                    <button onClick={() => abrirEdicion(cat)}>Editar</button>
+                    <button
+                      className="btn-peligro-link"
+                      onClick={() => handleEliminar(cat)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {categorias.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={2}>No hay categorías cargadas.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <Modal

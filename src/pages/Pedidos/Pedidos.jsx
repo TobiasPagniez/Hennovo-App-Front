@@ -5,11 +5,9 @@ import {
   marcarEntregado,
   marcarPagado,
 } from "../../services/pedidoService";
+import { formatMoney } from "../../utils/formatMoney";
+import { hoyISO } from "../../utils/dateUtils";
 import "./Pedidos.css";
-
-function hoyISO() {
-  return new Date().toISOString().split("T")[0];
-}
 
 export default function Pedidos() {
   const [pedidos, setPedidos] = useState([]);
@@ -59,91 +57,99 @@ export default function Pedidos() {
 
   return (
     <div className="pedidos-page">
-      <div className="pedidos-header">
+      <div className="page-header">
         <h1>Pedidos</h1>
         <Link to="/pedidos/nuevo">
-          <button>Nuevo pedido</button>
+          <button className="btn-primario">Nuevo pedido</button>
         </Link>
       </div>
 
-      <div className="pedidos-filtro">
-        <label>Fecha</label>
-        <input
-          type="date"
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
-        />
-        {fecha && (
-          <button type="button" onClick={() => setFecha("")}>
-            Ver todos
-          </button>
-        )}
+      <div className="page-toolbar">
+        <div className="pedidos-filtro">
+          <label>Fecha</label>
+          <input
+            type="date"
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
+          />
+          {fecha && (
+            <button type="button" onClick={() => setFecha("")}>
+              Ver todos
+            </button>
+          )}
+        </div>
       </div>
 
-      {error && <p className="pedidos-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando pedidos...</p>
+        <p className="estado-cargando">Cargando pedidos...</p>
       ) : (
-        <table className="pedidos-tabla">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Cliente</th>
-              <th>Total</th>
-              <th>Entregado</th>
-              <th>Pagado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pedidos.map((pedido) => (
-              <tr key={pedido.id}>
-                <td>{pedido.fecha}</td>
-                <td>{pedido.clienteNombre}</td>
-                <td>$ {pedido.total}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      pedido.entregado ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {pedido.entregado ? "Sí" : "No"}
-                  </span>
-                </td>
-                <td>
-                  <span
-                    className={`badge ${
-                      pedido.pagado ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {pedido.pagado ? "Sí" : "No"}
-                  </span>
-                </td>
-                <td className="pedidos-acciones">
-                  {!pedido.entregado && (
-                    <Link to={`/pedidos/${pedido.id}/editar`}>Editar</Link>
-                  )}
-                  {!pedido.entregado && (
-                    <button onClick={() => handleMarcarEntregado(pedido)}>
-                      Marcar entregado
-                    </button>
-                  )}
-                  {!pedido.pagado && (
-                    <button onClick={() => handleMarcarPagado(pedido)}>
-                      Marcar pagado
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {pedidos.length === 0 && (
+        <div className="tabla-wrapper tabla-responsive-cards">
+          <table className="tabla-base">
+            <thead>
               <tr>
-                <td colSpan={6}>No hay pedidos para mostrar.</td>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Entregado</th>
+                <th>Pagado</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pedidos.map((pedido) => (
+                <tr key={pedido.id}>
+                  <td data-label="Fecha">{pedido.fecha}</td>
+                  <td data-label="Cliente">
+                    <span className="celda-destacada">
+                      {pedido.clienteNombre}
+                    </span>
+                  </td>
+                  <td data-label="Total">$ {formatMoney(pedido.total)}</td>
+                  <td data-label="Entregado">
+                    <span
+                      className={`badge ${
+                        pedido.entregado ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {pedido.entregado ? "Sí" : "No"}
+                    </span>
+                  </td>
+                  <td data-label="Pagado">
+                    <span
+                      className={`badge ${
+                        pedido.pagado ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {pedido.pagado ? "Sí" : "No"}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className="acciones-fila">
+                    {!pedido.entregado && (
+                      <Link to={`/pedidos/${pedido.id}/editar`}>Editar</Link>
+                    )}
+                    {!pedido.entregado && (
+                      <button onClick={() => handleMarcarEntregado(pedido)}>
+                        Marcar entregado
+                      </button>
+                    )}
+                    {!pedido.pagado && (
+                      <button onClick={() => handleMarcarPagado(pedido)}>
+                        Marcar pagado
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {pedidos.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={6}>No hay pedidos para mostrar.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

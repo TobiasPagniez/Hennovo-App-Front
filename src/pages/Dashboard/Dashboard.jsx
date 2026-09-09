@@ -14,6 +14,7 @@ import {
   lunesDeLaSemana,
 } from "../../utils/dateUtils";
 import "./Dashboard.css";
+import { Link } from "react-router-dom";
 
 function finDeSemanaISO() {
   const lunes = lunesDeLaSemana(hoyISO());
@@ -182,25 +183,24 @@ export default function Dashboard() {
       <section>
         <h2 className="dashboard-seccion-titulo">Accesos rápidos</h2>
         <div className="dashboard-accesos">
-          <a href="/pedidos/nuevo" className="dashboard-acceso">
+          <Link to="/pedidos/nuevo" className="dashboard-acceso">
             + Nuevo pedido
-          </a>
-          <a href="/planilla-ventas" className="dashboard-acceso">
+          </Link>
+          <Link to="/planilla-ventas" className="dashboard-acceso">
             Planilla de ventas
-          </a>
-          <a href="/croquis" className="dashboard-acceso">
+          </Link>
+          <Link to="/croquis" className="dashboard-acceso">
             Croquis de carga
-          </a>
-          <a href="/clientes" className="dashboard-acceso">
+          </Link>
+          <Link to="/clientes" className="dashboard-acceso">
             Clientes
-          </a>
+          </Link>
           {esAdmin && (
-            <a href="/precios/nueva" className="dashboard-acceso">
+            <Link to="/precios/nueva" className="dashboard-acceso">
               Nueva lista de precios
-            </a>
+            </Link>
           )}
         </div>
-      </section>
-    </div>
+      </section>    </div>
   );
 }

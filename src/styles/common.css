@@ -1,0 +1,274 @@
+/* ===========================================================
+   Botones
+=========================================================== */
+
+.btn-primario {
+  background-color: var(--color-primary, #f39c12);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm, 8px);
+  padding: 0.6rem 1.1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.btn-primario:hover {
+  background-color: var(--color-primary-hover, #d9840a);
+}
+
+.btn-primario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-peligro-link {
+  color: var(--color-error, #c0392b) !important;
+}
+
+/* ===========================================================
+   Encabezado de página estándar
+=========================================================== */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.page-header h1 {
+  font-size: 1.4rem;
+  color: var(--color-text, #333333);
+  margin: 0;
+}
+
+.page-subtitulo {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #6b7280);
+  margin: 0.2rem 0 0;
+}
+
+/* ===========================================================
+   Toolbar (búsqueda + filtros + toggles)
+=========================================================== */
+
+.page-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.toggle-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #6b7280);
+  white-space: nowrap;
+}
+
+/* ===========================================================
+   Estados de carga / error / vacío
+=========================================================== */
+
+.estado-cargando {
+  font-size: 0.88rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+.estado-error {
+  background-color: var(--color-error-bg, #fdf0ee);
+  color: var(--color-error, #c0392b);
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm, 8px);
+  font-size: 0.88rem;
+}
+
+/* ===========================================================
+   Tabla base (usada en todos los listados)
+=========================================================== */
+
+.tabla-wrapper {
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+  overflow: hidden;
+}
+
+.tabla-base {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-base th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted, #6b7280);
+  background-color: #fafafa;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.tabla-base td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.87rem;
+  color: var(--color-text, #333333);
+}
+
+.tabla-base tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-base tbody tr:hover {
+  background-color: #fafbfc;
+}
+
+.celda-destacada {
+  font-weight: 600;
+}
+
+.fila-inactiva {
+  opacity: 0.55;
+}
+
+.fila-vacia td {
+  text-align: center;
+  color: var(--color-text-muted, #6b7280);
+  padding: 1.5rem;
+}
+
+/* ===========================================================
+   Badges de estado
+=========================================================== */
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.badge-activo {
+  background-color: #e5f6ea;
+  color: #1e8a3e;
+}
+
+.badge-inactivo {
+  background-color: #fdeceb;
+  color: var(--color-error, #c0392b);
+}
+
+.badge-parcial {
+  background-color: #fdf1cf;
+  color: #8a6d1f;
+}
+
+/* ===========================================================
+   Acciones dentro de una fila
+=========================================================== */
+
+.acciones-fila {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.acciones-fila a,
+.acciones-fila button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-primary, #f39c12);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.acciones-fila a:hover,
+.acciones-fila button:hover {
+  text-decoration: underline;
+}
+
+/* ===========================================================
+   Responsive: tabla -> tarjetas apiladas (mobile)
+   Requiere que cada <td> tenga data-label="..."
+=========================================================== */
+
+@media (max-width: 768px) {
+  .tabla-wrapper.tabla-responsive-cards {
+    background: none;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .tabla-responsive-cards thead {
+    display: none;
+  }
+
+  .tabla-responsive-cards,
+  .tabla-responsive-cards tbody,
+  .tabla-responsive-cards tr,
+  .tabla-responsive-cards td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabla-responsive-cards tbody tr {
+    background-color: var(--color-card-bg, #ffffff);
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-md, 12px);
+    box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+    margin-bottom: 0.9rem;
+    padding: 0.4rem 0;
+  }
+
+  .tabla-responsive-cards td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-bottom: none;
+    text-align: right;
+  }
+
+  .tabla-responsive-cards td::before {
+    content: attr(data-label);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted, #6b7280);
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .tabla-responsive-cards td.acciones-fila {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-top: 0.7rem;
+    margin-top: 0.3rem;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .tabla-responsive-cards td.acciones-fila::before {
+    display: none;
+  }
+
+  .fila-vacia {
+    background-color: var(--color-card-bg, #ffffff);
+    border-radius: var(--radius-md, 12px);
+    padding: 1.5rem !important;
+  }
+}

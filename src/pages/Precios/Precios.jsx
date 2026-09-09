@@ -19,7 +19,7 @@ export default function Precios() {
       try {
         const [todasLasListas, listaVigente] = await Promise.all([
           obtenerListasPrecio(),
-          obtenerListaVigente().catch(() => null), // puede no existir todavía
+          obtenerListaVigente().catch(() => null),
         ]);
         setListas(todasLasListas);
         setVigente(listaVigente);
@@ -36,74 +36,90 @@ export default function Precios() {
 
   return (
     <div className="precios-page">
-      <div className="precios-header">
+      <div className="page-header">
         <h1>Listas de precio</h1>
         <Link to="/precios/nueva">
-          <button>Nueva lista de precios</button>
+          <button className="btn-primario">Nueva lista de precios</button>
         </Link>
       </div>
 
-      {error && <p className="precios-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando listas de precio...</p>
+        <p className="estado-cargando">Cargando listas de precio...</p>
       ) : (
         <>
-          <section className="precios-vigente">
-            <h2>Lista vigente</h2>
+          <section>
+            <h2 className="precios-seccion-titulo">Lista vigente</h2>
             {vigente ? (
-              <table className="precios-tabla">
-                <thead>
-                  <tr>
-                    <th>Vigente desde</th>
-                    <th>Cantidad de precios</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{vigente.fechaDesde}</td>
-                    <td>{vigente.precios.length}</td>
-                    <td>
-                      <Link to={`/precios/${vigente.id}`}>Ver detalle</Link>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className="tabla-wrapper tabla-responsive-cards">
+                <table className="tabla-base">
+                  <thead>
+                    <tr>
+                      <th>Vigente desde</th>
+                      <th>Cantidad de precios</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td data-label="Vigente desde">
+                        <span className="celda-destacada">
+                          {vigente.fechaDesde}
+                        </span>
+                      </td>
+                      <td data-label="Cantidad de precios">
+                        {vigente.precios.length}
+                      </td>
+                      <td data-label="Acciones" className="acciones-fila">
+                        <Link to={`/precios/${vigente.id}`}>Ver detalle</Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             ) : (
-              <p>No hay una lista de precios vigente todavía.</p>
+              <p className="precios-vacio">
+                No hay una lista de precios vigente todavía.
+              </p>
             )}
           </section>
 
-          <section className="precios-historial">
-            <h2>Historial</h2>
+          <section>
+            <h2 className="precios-seccion-titulo">Historial</h2>
             {historicas.length === 0 ? (
-              <p>No hay listas anteriores.</p>
+              <p className="precios-vacio">No hay listas anteriores.</p>
             ) : (
-              <table className="precios-tabla">
-                <thead>
-                  <tr>
-                    <th>Desde</th>
-                    <th>Hasta</th>
-                    <th>Cantidad de precios</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {historicas
-                    .sort((a, b) => (a.fechaDesde < b.fechaDesde ? 1 : -1))
-                    .map((lista) => (
-                      <tr key={lista.id}>
-                        <td>{lista.fechaDesde}</td>
-                        <td>{lista.fechaHasta ?? "-"}</td>
-                        <td>{lista.precios.length}</td>
-                        <td>
-                          <Link to={`/precios/${lista.id}`}>Ver detalle</Link>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className="tabla-wrapper tabla-responsive-cards">
+                <table className="tabla-base">
+                  <thead>
+                    <tr>
+                      <th>Desde</th>
+                      <th>Hasta</th>
+                      <th>Cantidad de precios</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {historicas
+                      .sort((a, b) => (a.fechaDesde < b.fechaDesde ? 1 : -1))
+                      .map((lista) => (
+                        <tr key={lista.id}>
+                          <td data-label="Desde">{lista.fechaDesde}</td>
+                          <td data-label="Hasta">{lista.fechaHasta ?? "-"}</td>
+                          <td data-label="Cantidad de precios">
+                            {lista.precios.length}
+                          </td>
+                          <td data-label="Acciones" className="acciones-fila">
+                            <Link to={`/precios/${lista.id}`}>
+                              Ver detalle
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
         </>

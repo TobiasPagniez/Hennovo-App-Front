@@ -1,38 +1,83 @@
 .precios-page {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.6rem;
 }
 
-.precios-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.precios-seccion-titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-muted, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.6rem;
 }
 
-.precios-tabla,
+.precios-vacio {
+  font-size: 0.87rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+/* ===== Grilla matriz (producto x categoría) — usada en el detalle ===== */
+
+.precios-grilla-wrapper {
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+  overflow-x: auto;
+}
+
 .precios-grilla {
-  width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
-}
-
-.precios-tabla th,
-.precios-tabla td,
-.precios-grilla th,
-.precios-grilla td {
-  padding: 0.6rem;
-  border: 1px solid #e0e0e0;
-  text-align: left;
+  width: 100%;
   font-size: 0.85rem;
 }
 
-.precios-vigente h2,
-.precios-historial h2 {
-  font-size: 1.05rem;
-  margin-bottom: 0.5rem;
+.precios-grilla th,
+.precios-grilla td {
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+  white-space: nowrap;
 }
 
-.precios-error {
-  color: #b23b3b;
+.precios-grilla th {
+  background-color: #fafafa;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted, #6b7280);
+}
+
+/* Primer columna (nombre de producto) fija al hacer scroll horizontal */
+.precios-grilla th:first-child,
+.precios-grilla td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #ffffff;
+  font-weight: 600;
+  z-index: 1;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.03);
+}
+
+.precios-grilla th:first-child {
+  background-color: #fafafa;
+  z-index: 2;
+}
+
+.precios-detalle-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.5rem;
+  font-size: 0.87rem;
+  color: var(--color-text-muted, #6b7280);
+}
+
+@media (max-width: 768px) {
+  .precios-grilla th,
+  .precios-grilla td {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
 }
