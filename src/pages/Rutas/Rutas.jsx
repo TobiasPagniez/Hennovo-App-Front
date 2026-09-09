@@ -47,77 +47,83 @@ export default function Rutas() {
 
   return (
     <div className="rutas-page">
-      <div className="rutas-header">
+      <div className="page-header">
         <h1>Rutas</h1>
         {esAdmin && (
           <Link to="/rutas/nueva">
-            <button>Nueva ruta</button>
+            <button className="btn-primario">Nueva ruta</button>
           </Link>
         )}
       </div>
 
-      <div className="rutas-filtro">
-        <label>Fecha</label>
-        <input
-          type="date"
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
-        />
-        {fecha && (
-          <button type="button" onClick={() => setFecha("")}>
-            Ver todas
-          </button>
-        )}
+      <div className="page-toolbar">
+        <div className="rutas-filtro">
+          <label>Fecha</label>
+          <input
+            type="date"
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
+          />
+          {fecha && (
+            <button type="button" onClick={() => setFecha("")}>
+              Ver todas
+            </button>
+          )}
+        </div>
       </div>
 
-      {error && <p className="rutas-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando rutas...</p>
+        <p className="estado-cargando">Cargando rutas...</p>
       ) : (
-        <table className="rutas-tabla">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Nombre</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rutasVisibles.map((ruta) => (
-              <tr key={ruta.id} className={!ruta.activa ? "fila-inactiva" : ""}>
-                <td>{ruta.fecha}</td>
-                <td>{ruta.nombre}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      ruta.activa ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {ruta.activa ? "Activa" : "Inactiva"}
-                  </span>
-                </td>
-                <td className="rutas-acciones">
-                  <Link to={`/rutas/${ruta.id}`}>Ver detalle</Link>
-                  {esAdmin && ruta.activa && (
-                    <>
-                      <Link to={`/rutas/${ruta.id}/editar`}>Editar</Link>
-                      <button onClick={() => handleDesactivar(ruta)}>
-                        Desactivar
-                      </button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {rutasVisibles.length === 0 && (
+        <div className="tabla-wrapper tabla-responsive-cards">
+          <table className="tabla-base">
+            <thead>
               <tr>
-                <td colSpan={4}>No hay rutas para mostrar.</td>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rutasVisibles.map((ruta) => (
+                <tr key={ruta.id} className={!ruta.activa ? "fila-inactiva" : ""}>
+                  <td data-label="Fecha">{ruta.fecha}</td>
+                  <td data-label="Nombre">
+                    <span className="celda-destacada">{ruta.nombre}</span>
+                  </td>
+                  <td data-label="Estado">
+                    <span
+                      className={`badge ${
+                        ruta.activa ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {ruta.activa ? "Activa" : "Inactiva"}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className="acciones-fila">
+                    <Link to={`/rutas/${ruta.id}`}>Ver detalle</Link>
+                    {esAdmin && ruta.activa && (
+                      <>
+                        <Link to={`/rutas/${ruta.id}/editar`}>Editar</Link>
+                        <button onClick={() => handleDesactivar(ruta)}>
+                          Desactivar
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {rutasVisibles.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={4}>No hay rutas para mostrar.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

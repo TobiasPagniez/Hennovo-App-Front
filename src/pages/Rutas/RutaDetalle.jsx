@@ -111,15 +111,15 @@ export default function RutaDetalle() {
     }
   }
 
-  if (cargando) return <p>Cargando...</p>;
-  if (error) return <p className="form-error-api">{error}</p>;
+  if (cargando) return <p className="estado-cargando">Cargando...</p>;
+  if (error) return <p className="estado-error">{error}</p>;
   if (!ruta) return null;
 
   const puedeEditar = esAdmin && ruta.activa;
 
   return (
     <div className="ruta-detalle-page">
-      <div className="rutas-header">
+      <div className="page-header">
         <h1>
           {ruta.nombre} — {ruta.fecha}
         </h1>
@@ -140,96 +140,106 @@ export default function RutaDetalle() {
       )}
 
       <div className="ruta-detalle-columnas">
-        <section>
-          <h2>Pedidos en la ruta</h2>
+        <section className="ruta-detalle-seccion">
+          <h2 className="ruta-detalle-titulo">Pedidos en la ruta</h2>
           {asignados.length === 0 ? (
-            <p>Todavía no hay pedidos asignados a esta ruta.</p>
+            <p className="ruta-detalle-vacio">
+              Todavía no hay pedidos asignados a esta ruta.
+            </p>
           ) : (
-            <table className="ruta-detalle-tabla">
-              <thead>
-                <tr>
-                  <th>Orden</th>
-                  <th>Cliente</th>
-                  <th>Dirección</th>
-                  <th>Entregado</th>
-                  {puedeEditar && <th>Acciones</th>}
-                </tr>
-              </thead>
-              <tbody>
-                {asignados.map((p, index) => (
-                  <tr key={p.pedidoId}>
-                    <td>{p.orden}</td>
-                    <td>{p.clienteNombre}</td>
-                    <td>{p.direccion}</td>
-                    <td>
-                      <span
-                        className={`badge ${
-                          p.entregado ? "badge-activo" : "badge-inactivo"
-                        }`}
-                      >
-                        {p.entregado ? "Sí" : "No"}
-                      </span>
-                    </td>
-                    {puedeEditar && (
-                      <td className="ruta-detalle-acciones">
-                        <button
-                          disabled={index === 0 || procesando}
-                          onClick={() => moverArriba(index)}
-                        >
-                          ↑
-                        </button>
-                        <button
-                          disabled={index === asignados.length - 1 || procesando}
-                          onClick={() => moverAbajo(index)}
-                        >
-                          ↓
-                        </button>
-                        <button
-                          disabled={procesando}
-                          onClick={() => handleQuitar(p)}
-                        >
-                          Quitar
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </section>
-
-        {puedeEditar && (
-          <section>
-            <h2>Pedidos disponibles para el {ruta.fecha}</h2>
-            {disponibles.length === 0 ? (
-              <p>No hay pedidos sin ruta asignada para esta fecha.</p>
-            ) : (
-              <table className="ruta-detalle-tabla">
+            <div className="tabla-wrapper">
+              <table className="tabla-base ruta-detalle-tabla">
                 <thead>
                   <tr>
+                    <th>Orden</th>
                     <th>Cliente</th>
                     <th>Dirección</th>
-                    <th></th>
+                    <th>Entregado</th>
+                    {puedeEditar && <th>Acciones</th>}
                   </tr>
                 </thead>
                 <tbody>
-                  {disponibles.map((p) => (
+                  {asignados.map((p, index) => (
                     <tr key={p.pedidoId}>
+                      <td>{p.orden}</td>
                       <td>{p.clienteNombre}</td>
                       <td>{p.direccion}</td>
                       <td>
-                        <button
-                          disabled={procesando}
-                          onClick={() => agregarPedido(p)}
+                        <span
+                          className={`badge ${
+                            p.entregado ? "badge-activo" : "badge-inactivo"
+                          }`}
                         >
-                          Agregar a la ruta
-                        </button>
+                          {p.entregado ? "Sí" : "No"}
+                        </span>
                       </td>
+                      {puedeEditar && (
+                        <td className="ruta-detalle-acciones">
+                          <button
+                            disabled={index === 0 || procesando}
+                            onClick={() => moverArriba(index)}
+                          >
+                            ↑
+                          </button>
+                          <button
+                            disabled={index === asignados.length - 1 || procesando}
+                            onClick={() => moverAbajo(index)}
+                          >
+                            ↓
+                          </button>
+                          <button
+                            disabled={procesando}
+                            onClick={() => handleQuitar(p)}
+                          >
+                            Quitar
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+        </section>
+
+        {puedeEditar && (
+          <section className="ruta-detalle-seccion">
+            <h2 className="ruta-detalle-titulo">
+              Pedidos disponibles para el {ruta.fecha}
+            </h2>
+            {disponibles.length === 0 ? (
+              <p className="ruta-detalle-vacio">
+                No hay pedidos sin ruta asignada para esta fecha.
+              </p>
+            ) : (
+              <div className="tabla-wrapper">
+                <table className="tabla-base ruta-detalle-tabla">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Dirección</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {disponibles.map((p) => (
+                      <tr key={p.pedidoId}>
+                        <td>{p.clienteNombre}</td>
+                        <td>{p.direccion}</td>
+                        <td>
+                          <button
+                            disabled={procesando}
+                            onClick={() => agregarPedido(p)}
+                          >
+                            Agregar a la ruta
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
         )}

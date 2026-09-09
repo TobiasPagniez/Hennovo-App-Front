@@ -1,34 +1,5 @@
 .perdidas-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.perdidas-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.perdidas-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.perdidas-tabla th,
-.perdidas-tabla td {
-  padding: 0.6rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.perdidas-acciones {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.perdidas-error {
-  color: #b23b3b;
+  gap: 1.2rem;
 }

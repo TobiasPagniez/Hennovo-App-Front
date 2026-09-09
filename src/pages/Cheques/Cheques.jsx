@@ -114,9 +114,11 @@ export default function Cheques() {
 
   return (
     <div className="cheques-page">
-      <div className="cheques-header">
+      <div className="page-header">
         <h1>Cheques</h1>
-        <button onClick={abrirNuevo}>Nuevo cheque</button>
+        <button className="btn-primario" onClick={abrirNuevo}>
+          Nuevo cheque
+        </button>
       </div>
 
       <div className="cheques-filtros">
@@ -164,7 +166,7 @@ export default function Cheques() {
             ))}
           </select>
         </div>
-        <label className="cheques-toggle-inactivos">
+        <label className="toggle-checkbox cheques-toggle">
           <input
             type="checkbox"
             checked={mostrarInactivos}
@@ -174,13 +176,13 @@ export default function Cheques() {
         </label>
       </div>
 
-      {error && <p className="cheques-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando cheques...</p>
+        <p className="estado-cargando">Cargando cheques...</p>
       ) : (
-        <div className="cheques-tabla-wrapper">
-          <table className="cheques-tabla">
+        <div className="tabla-wrapper cheques-tabla-wrapper">
+          <table className="tabla-base cheques-tabla">
             <thead>
               <tr>
                 <th>Fecha ingreso</th>
@@ -199,7 +201,7 @@ export default function Cheques() {
               {chequesFiltrados.map((c) => (
                 <tr key={c.id} className={!c.activo ? "fila-inactiva" : ""}>
                   <td>{c.fechaIngreso}</td>
-                  <td>{c.clienteNombre}</td>
+                  <td className="celda-destacada">{c.clienteNombre}</td>
                   <td>{c.titular}</td>
                   <td>{c.codigoBanco}</td>
                   <td>{c.nombreBanco}</td>
@@ -223,7 +225,7 @@ export default function Cheques() {
                       {c.firmaTitular ? "Sí" : "No"}
                     </span>
                   </td>
-                  <td className="cheques-acciones">
+                  <td className="acciones-fila">
                     <button onClick={() => abrirEdicion(c)}>Editar</button>
                     {c.activo ? (
                       <button onClick={() => handleDesactivar(c)}>
@@ -238,7 +240,7 @@ export default function Cheques() {
                 </tr>
               ))}
               {chequesFiltrados.length === 0 && (
-                <tr>
+                <tr className="fila-vacia">
                   <td colSpan={10}>No hay cheques para mostrar.</td>
                 </tr>
               )}

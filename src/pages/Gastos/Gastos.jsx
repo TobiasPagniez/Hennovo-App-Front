@@ -73,10 +73,12 @@ export default function Gastos() {
 
   return (
     <div className="gastos-page">
-      <div className="gastos-header">
+      <div className="page-header">
         <h1>Gastos</h1>
         {vista === "listado" && (
-          <button onClick={abrirNuevo}>Nuevo gasto</button>
+          <button className="btn-primario" onClick={abrirNuevo}>
+            Nuevo gasto
+          </button>
         )}
       </div>
 
@@ -97,42 +99,54 @@ export default function Gastos() {
 
       {vista === "listado" ? (
         <>
-          {error && <p className="gastos-error">{error}</p>}
+          {error && <p className="estado-error">{error}</p>}
           {cargando ? (
-            <p>Cargando gastos...</p>
+            <p className="estado-cargando">Cargando gastos...</p>
           ) : (
-            <table className="gastos-tabla">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Categoría</th>
-                  <th>Descripción</th>
-                  <th>Importe</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gastos.map((g) => (
-                  <tr key={g.id}>
-                    <td>{g.fecha}</td>
-                    <td>{g.categoria}</td>
-                    <td>{g.descripcion}</td>
-                    <td>$ {formatMoney(g.importe)}</td>
-                    <td className="gastos-acciones">
-                      <button onClick={() => abrirEdicion(g)}>Editar</button>
-                      <button onClick={() => handleEliminar(g)}>
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {gastos.length === 0 && (
+            <div className="tabla-wrapper tabla-responsive-cards">
+              <table className="tabla-base">
+                <thead>
                   <tr>
-                    <td colSpan={5}>No hay gastos registrados.</td>
+                    <th>Fecha</th>
+                    <th>Categoría</th>
+                    <th>Descripción</th>
+                    <th>Importe</th>
+                    <th>Acciones</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {gastos.map((g) => (
+                    <tr key={g.id}>
+                      <td data-label="Fecha">{g.fecha}</td>
+                      <td data-label="Categoría">
+                        <span className="gastos-categoria-badge">
+                          {g.categoria}
+                        </span>
+                      </td>
+                      <td data-label="Descripción">{g.descripcion}</td>
+                      <td data-label="Importe">
+                        <span className="celda-destacada">
+                          $ {formatMoney(g.importe)}
+                        </span>
+                      </td>
+                      <td data-label="Acciones" className="acciones-fila">
+                        <button onClick={() => abrirEdicion(g)}>
+                          Editar
+                        </button>
+                        <button onClick={() => handleEliminar(g)}>
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {gastos.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={5}>No hay gastos registrados.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       ) : (

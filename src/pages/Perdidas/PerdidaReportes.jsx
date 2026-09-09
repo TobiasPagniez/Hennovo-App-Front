@@ -82,12 +82,14 @@ export default function PerdidaReportes() {
         </div>
       </div>
 
-      {error && <p className="reportes-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando reporte...</p>
+        <p className="estado-cargando">Cargando reporte...</p>
       ) : perdidas.length === 0 ? (
-        <p>No hay pérdidas registradas en este período.</p>
+        <p className="reportes-vacio">
+          No hay pérdidas registradas en este período.
+        </p>
       ) : (
         <>
           <div className="reportes-resumen">
@@ -97,26 +99,26 @@ export default function PerdidaReportes() {
 
           <div className="reportes-grafico">
             <h3>Pérdidas por producto</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={porProducto}>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={porProducto} margin={{ left: 0, right: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="producto" tick={{ fontSize: 11 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <XAxis dataKey="producto" tick={{ fontSize: 10 }} interval={0} angle={-20} textAnchor="end" height={55} />
+                <YAxis tick={{ fontSize: 11 }} width={35} />
                 <Tooltip />
-                <Bar dataKey="cantidad" fill="#b23b3b" />
+                <Bar dataKey="cantidad" fill="#c0392b" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           <div className="reportes-grafico">
             <h3>Pérdidas por motivo</h3>
-            <ResponsiveContainer width="100%" height={280}>
-              <BarChart data={porMotivo}>
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart data={porMotivo} margin={{ left: 0, right: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="motivo" tick={{ fontSize: 11 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <XAxis dataKey="motivo" tick={{ fontSize: 10 }} interval={0} angle={-20} textAnchor="end" height={55} />
+                <YAxis tick={{ fontSize: 11 }} width={35} />
                 <Tooltip />
-                <Bar dataKey="cantidad" fill="#8a5a1f" />
+                <Bar dataKey="cantidad" fill="#8a5a1f" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

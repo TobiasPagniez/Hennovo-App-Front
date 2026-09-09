@@ -1,13 +1,7 @@
 .cheques-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.cheques-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 1.2rem;
 }
 
 .cheques-filtros {
@@ -15,29 +9,30 @@
   gap: 1rem;
   flex-wrap: wrap;
   align-items: flex-end;
-  background-color: #fff;
-  padding: 0.8rem;
-  border-radius: 6px;
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  padding: 1rem;
 }
 
 .cheques-filtros label {
   display: block;
   font-size: 0.78rem;
-  margin-bottom: 0.2rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text, #333333);
 }
 
 .cheques-filtros input,
 .cheques-filtros select {
-  padding: 0.35rem;
+  padding: 0.45rem 0.6rem;
   font-size: 0.85rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
 }
 
-.cheques-toggle-inactivos {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  margin-bottom: 0.3rem;
+.cheques-toggle {
+  margin-bottom: 0.4rem;
 }
 
 .cheques-tabla-wrapper {
@@ -45,27 +40,22 @@
 }
 
 .cheques-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
+  min-width: 980px;
   white-space: nowrap;
 }
 
-.cheques-tabla th,
-.cheques-tabla td {
-  padding: 0.55rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.85rem;
+.cheques-tabla th:first-child,
+.cheques-tabla td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 1;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.04);
 }
 
-.cheques-acciones {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.cheques-error {
-  color: #b23b3b;
+.cheques-tabla th:first-child {
+  background-color: #fafafa;
+  z-index: 2;
 }
 
 .cheque-checkbox-label {
@@ -78,4 +68,16 @@
 
 .cheque-checkbox-label input {
   width: auto;
+}
+
+@media (max-width: 768px) {
+  .cheques-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cheques-filtros input,
+  .cheques-filtros select {
+    width: 100%;
+  }
 }

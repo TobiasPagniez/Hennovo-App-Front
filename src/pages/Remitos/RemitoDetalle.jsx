@@ -47,16 +47,16 @@ export default function RemitoDetalle() {
     }
   }
 
-  if (cargando) return <p>Cargando...</p>;
-  if (error) return <p className="remitos-error">{error}</p>;
+  if (cargando) return <p className="estado-cargando">Cargando...</p>;
+  if (error) return <p className="estado-error">{error}</p>;
   if (!remito) return null;
 
   return (
     <div className="remitos-page">
-      <div className="remitos-header">
+      <div className="page-header">
         <h1>Remito N° {String(remito.id).padStart(6, "0")}</h1>
         <div className="remitos-header-acciones">
-          <button onClick={handleDescargar} disabled={descargando}>
+          <button className="btn-primario" onClick={handleDescargar} disabled={descargando}>
             {descargando ? "Descargando..." : "Descargar PDF"}
           </button>
           <Link to="/remitos">
@@ -66,56 +66,58 @@ export default function RemitoDetalle() {
       </div>
 
       <div className="remito-detalle-info">
-        <p>
+        <span>
           <strong>Fecha:</strong> {remito.fecha}
-        </p>
-        <p>
+        </span>
+        <span>
           <strong>Cliente:</strong> {remito.clienteNombre}
-        </p>
-        <p>
+        </span>
+        <span>
           <strong>Dirección:</strong> {remito.clienteDireccion}
-        </p>
-        <p>
+        </span>
+        <span>
           <strong>Localidad:</strong> {remito.clienteLocalidad}
-        </p>
-        <p>
-          <strong>Corresponde facturación:</strong>{" "}
+        </span>
+        <span>
+          <strong>Facturación:</strong>{" "}
           {remito.correspondeFacturacion ? "Sí" : "No"}
-        </p>
+        </span>
       </div>
 
-      <table className="remitos-tabla">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Unidad</th>
-            <th>Precio unitario</th>
-            <th>Importe</th>
-          </tr>
-        </thead>
-        <tbody>
-          {remito.detalles.map((d) => (
-            <tr key={d.id}>
-              <td>{nombreDeProducto(d.productoId)}</td>
-              <td>{d.cantidad}</td>
-              <td>{d.unidad}</td>
-              <td>$ {formatMoney(d.precioUnitario)}</td>
-              <td>$ {formatMoney(d.importe)}</td>
+      <div className="tabla-wrapper">
+        <table className="tabla-base remito-detalle-tabla">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Unidad</th>
+              <th>Precio unitario</th>
+              <th>Importe</th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={4} className="remito-total-label">
-              Total
-            </td>
-            <td className="remito-total-valor">
-              $ {formatMoney(remito.total)}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+          </thead>
+          <tbody>
+            {remito.detalles.map((d) => (
+              <tr key={d.id}>
+                <td>{nombreDeProducto(d.productoId)}</td>
+                <td>{d.cantidad}</td>
+                <td>{d.unidad}</td>
+                <td>$ {formatMoney(d.precioUnitario)}</td>
+                <td>$ {formatMoney(d.importe)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={4} className="remito-total-label">
+                Total
+              </td>
+              <td className="remito-total-valor">
+                $ {formatMoney(remito.total)}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   );
 }

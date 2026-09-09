@@ -33,7 +33,6 @@ export default function PedidosHabituales() {
       .catch(() => setProductos([]));
   }, []);
 
-  // Si venimos con ?clienteId= desde el formulario de pedidos, precargamos el cliente
   useEffect(() => {
     if (!clienteIdInicial) return;
 
@@ -97,12 +96,17 @@ export default function PedidosHabituales() {
   }
 
   if (cargandoClienteInicial) {
-    return <p>Cargando cliente...</p>;
+    return <p className="estado-cargando">Cargando cliente...</p>;
   }
 
   return (
     <div className="habituales-page">
-      <h1>Pedidos habituales (tope)</h1>
+      <div className="page-header">
+        <h1>Pedidos habituales</h1>
+      </div>
+      <p className="page-subtitulo">
+        Cantidad de referencia que suele pedir cada cliente por producto.
+      </p>
 
       <div className="habituales-selector">
         <label>Cliente</label>
@@ -113,54 +117,64 @@ export default function PedidosHabituales() {
       </div>
 
       {!clienteSeleccionado && (
-        <p className="habituales-info">
+        <p className="estado-cargando">
           Seleccioná un cliente para ver o gestionar sus productos habituales.
         </p>
       )}
 
       {clienteSeleccionado && (
         <>
-          <div className="habituales-header">
-            <h2>{clienteSeleccionado.nombre}</h2>
-            <button onClick={abrirNuevo}>+ Agregar producto habitual</button>
+          <div className="page-toolbar">
+            <h2 className="habituales-cliente-nombre">
+              {clienteSeleccionado.nombre}
+            </h2>
+            <button className="btn-primario" onClick={abrirNuevo}>
+              + Agregar producto habitual
+            </button>
           </div>
 
-          {error && <p className="habituales-error">{error}</p>}
+          {error && <p className="estado-error">{error}</p>}
 
           {cargando ? (
-            <p>Cargando...</p>
+            <p className="estado-cargando">Cargando...</p>
           ) : (
-            <table className="habituales-tabla">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Cantidad (tope)</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {habituales.map((h) => (
-                  <tr key={h.id}>
-                    <td>{h.producto}</td>
-                    <td>{h.cantidad}</td>
-                    <td className="habituales-acciones">
-                      <button onClick={() => abrirEdicion(h)}>Editar</button>
-                      <button onClick={() => handleEliminar(h)}>
-                        Quitar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {habituales.length === 0 && (
+            <div className="tabla-wrapper tabla-responsive-cards">
+              <table className="tabla-base">
+                <thead>
                   <tr>
-                    <td colSpan={3}>
-                      Este cliente todavía no tiene productos habituales
-                      cargados.
-                    </td>
+                    <th>Producto</th>
+                    <th>Cantidad (tope)</th>
+                    <th>Acciones</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {habituales.map((h) => (
+                    <tr key={h.id}>
+                      <td data-label="Producto">
+                        <span className="celda-destacada">{h.producto}</span>
+                      </td>
+                      <td data-label="Cantidad">{h.cantidad}</td>
+                      <td data-label="Acciones" className="acciones-fila">
+                        <button onClick={() => abrirEdicion(h)}>
+                          Editar
+                        </button>
+                        <button onClick={() => handleEliminar(h)}>
+                          Quitar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {habituales.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={3}>
+                        Este cliente todavía no tiene productos habituales
+                        cargados.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}

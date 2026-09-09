@@ -86,12 +86,14 @@ export default function GastoReportes() {
         </div>
       </div>
 
-      {error && <p className="reportes-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando reporte...</p>
+        <p className="estado-cargando">Cargando reporte...</p>
       ) : gastos.length === 0 ? (
-        <p>No hay gastos registrados en este período.</p>
+        <p className="reportes-vacio">
+          No hay gastos registrados en este período.
+        </p>
       ) : (
         <>
           <div className="reportes-resumen">
@@ -101,30 +103,31 @@ export default function GastoReportes() {
 
           <div className="reportes-grafico">
             <h3>Gastos por categoría</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={porCategoria}>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={porCategoria} margin={{ left: 0, right: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="categoria" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <XAxis dataKey="categoria" tick={{ fontSize: 11 }} interval={0} angle={-15} textAnchor="end" height={50} />
+                <YAxis tick={{ fontSize: 11 }} width={45} />
                 <Tooltip formatter={(value) => `$ ${formatMoney(value)}`} />
-                <Bar dataKey="total" fill="#3d5c48" />
+                <Bar dataKey="total" fill="#f39c12" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           <div className="reportes-grafico">
             <h3>Evolución mensual</h3>
-            <ResponsiveContainer width="100%" height={280}>
-              <LineChart data={porMes}>
+            <ResponsiveContainer width="100%" height={260}>
+              <LineChart data={porMes} margin={{ left: 0, right: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="mes" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <XAxis dataKey="mes" tick={{ fontSize: 11 }} />
+                <YAxis tick={{ fontSize: 11 }} width={45} />
                 <Tooltip formatter={(value) => `$ ${formatMoney(value)}`} />
                 <Line
                   type="monotone"
                   dataKey="total"
-                  stroke="#e08e3e"
+                  stroke="#f39c12"
                   strokeWidth={2}
+                  dot={{ r: 3 }}
                 />
               </LineChart>
             </ResponsiveContainer>

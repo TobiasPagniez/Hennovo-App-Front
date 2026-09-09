@@ -42,67 +42,73 @@ export default function Remitos() {
 
   return (
     <div className="remitos-page">
-      <div className="remitos-header">
+      <div className="page-header">
         <h1>Remitos</h1>
         <Link to="/remitos/nuevo">
-          <button>Nuevo remito</button>
+          <button className="btn-primario">Nuevo remito</button>
         </Link>
       </div>
 
-      {error && <p className="remitos-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando remitos...</p>
+        <p className="estado-cargando">Cargando remitos...</p>
       ) : (
-        <table className="remitos-tabla">
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>Fecha</th>
-              <th>Cliente</th>
-              <th>Facturación</th>
-              <th>Total</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {remitos.map((r) => (
-              <tr key={r.id}>
-                <td>{String(r.id).padStart(6, "0")}</td>
-                <td>{r.fecha}</td>
-                <td>{r.clienteNombre}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      r.correspondeFacturacion
-                        ? "badge-activo"
-                        : "badge-inactivo"
-                    }`}
-                  >
-                    {r.correspondeFacturacion ? "Sí" : "No"}
-                  </span>
-                </td>
-                <td>$ {formatMoney(r.total)}</td>
-                <td className="remitos-acciones">
-                  <Link to={`/remitos/${r.id}`}>Ver detalle</Link>
-                  <button
-                    onClick={() => handleDescargar(r)}
-                    disabled={descargandoId === r.id}
-                  >
-                    {descargandoId === r.id
-                      ? "Descargando..."
-                      : "Descargar PDF"}
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {remitos.length === 0 && (
+        <div className="tabla-wrapper tabla-responsive-cards">
+          <table className="tabla-base">
+            <thead>
               <tr>
-                <td colSpan={6}>No hay remitos generados todavía.</td>
+                <th>N°</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Facturación</th>
+                <th>Total</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {remitos.map((r) => (
+                <tr key={r.id}>
+                  <td data-label="N°">
+                    <span className="celda-destacada">
+                      {String(r.id).padStart(6, "0")}
+                    </span>
+                  </td>
+                  <td data-label="Fecha">{r.fecha}</td>
+                  <td data-label="Cliente">{r.clienteNombre}</td>
+                  <td data-label="Facturación">
+                    <span
+                      className={`badge ${
+                        r.correspondeFacturacion
+                          ? "badge-activo"
+                          : "badge-inactivo"
+                      }`}
+                    >
+                      {r.correspondeFacturacion ? "Sí" : "No"}
+                    </span>
+                  </td>
+                  <td data-label="Total">$ {formatMoney(r.total)}</td>
+                  <td data-label="Acciones" className="acciones-fila">
+                    <Link to={`/remitos/${r.id}`}>Ver detalle</Link>
+                    <button
+                      onClick={() => handleDescargar(r)}
+                      disabled={descargandoId === r.id}
+                    >
+                      {descargandoId === r.id
+                        ? "Descargando..."
+                        : "Descargar PDF"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {remitos.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={6}>No hay remitos generados todavía.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

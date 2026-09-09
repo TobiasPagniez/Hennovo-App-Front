@@ -75,10 +75,12 @@ export default function Perdidas() {
 
   return (
     <div className="perdidas-page">
-      <div className="perdidas-header">
+      <div className="page-header">
         <h1>Pérdidas</h1>
         {vista === "listado" && (
-          <button onClick={abrirNueva}>Nueva pérdida</button>
+          <button className="btn-primario" onClick={abrirNueva}>
+            Nueva pérdida
+          </button>
         )}
       </div>
 
@@ -99,42 +101,48 @@ export default function Perdidas() {
 
       {vista === "listado" ? (
         <>
-          {error && <p className="perdidas-error">{error}</p>}
+          {error && <p className="estado-error">{error}</p>}
           {cargando ? (
-            <p>Cargando pérdidas...</p>
+            <p className="estado-cargando">Cargando pérdidas...</p>
           ) : (
-            <table className="perdidas-tabla">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Motivo</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {perdidas.map((p) => (
-                  <tr key={p.id}>
-                    <td>{p.fecha}</td>
-                    <td>{p.producto}</td>
-                    <td>{p.cantidad}</td>
-                    <td>{p.motivo}</td>
-                    <td className="perdidas-acciones">
-                      <button onClick={() => abrirEdicion(p)}>Editar</button>
-                      <button onClick={() => handleEliminar(p)}>
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {perdidas.length === 0 && (
+            <div className="tabla-wrapper tabla-responsive-cards">
+              <table className="tabla-base">
+                <thead>
                   <tr>
-                    <td colSpan={5}>No hay pérdidas registradas.</td>
+                    <th>Fecha</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Motivo</th>
+                    <th>Acciones</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {perdidas.map((p) => (
+                    <tr key={p.id}>
+                      <td data-label="Fecha">{p.fecha}</td>
+                      <td data-label="Producto">
+                        <span className="celda-destacada">{p.producto}</span>
+                      </td>
+                      <td data-label="Cantidad">{p.cantidad}</td>
+                      <td data-label="Motivo">{p.motivo}</td>
+                      <td data-label="Acciones" className="acciones-fila">
+                        <button onClick={() => abrirEdicion(p)}>
+                          Editar
+                        </button>
+                        <button onClick={() => handleEliminar(p)}>
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {perdidas.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={5}>No hay pérdidas registradas.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       ) : (
