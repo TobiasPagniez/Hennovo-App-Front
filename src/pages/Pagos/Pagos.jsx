@@ -82,11 +82,13 @@ export default function Pagos() {
     }
   }
 
-  if (cargandoClienteInicial) return <p>Cargando cliente...</p>;
+  if (cargandoClienteInicial) return <p className="estado-cargando">Cargando cliente...</p>;
 
   return (
     <div className="pagos-page">
-      <h1>Pagos / Cuenta corriente</h1>
+      <div className="page-header">
+        <h1>Pagos / Cuenta corriente</h1>
+      </div>
 
       <div className="pagos-selector">
         <label>Cliente</label>
@@ -97,20 +99,20 @@ export default function Pagos() {
       </div>
 
       {!clienteSeleccionado && (
-        <p className="pagos-info">
+        <p className="estado-cargando">
           Seleccioná un cliente para ver su cuenta corriente.
         </p>
       )}
 
-      {error && <p className="pagos-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
-      {clienteSeleccionado && cargando && <p>Cargando...</p>}
+      {clienteSeleccionado && cargando && <p className="estado-cargando">Cargando...</p>}
 
       {clienteSeleccionado && !cargando && cuenta && (
         <>
-          <div className="pagos-header">
-            <h2>{cuenta.clienteNombre}</h2>
-            <button onClick={() => setModalAbierto(true)}>
+          <div className="page-toolbar">
+            <h2 className="pagos-cliente-nombre">{cuenta.clienteNombre}</h2>
+            <button className="btn-primario" onClick={() => setModalAbierto(true)}>
               + Registrar pago
             </button>
           </div>
@@ -124,130 +126,140 @@ export default function Pagos() {
               <span>Total pagado</span>
               <strong>$ {formatMoney(cuenta.totalPagos)}</strong>
             </div>
-            <div className="pagos-resumen-item saldo-deuda">
+            <div className="pagos-resumen-item pagos-saldo-deuda">
               <span>Saldo pendiente</span>
               <strong>$ {formatMoney(cuenta.saldo)}</strong>
             </div>
-            <div className="pagos-resumen-item saldo-favor">
+            <div className="pagos-resumen-item pagos-saldo-favor">
               <span>Saldo a favor</span>
               <strong>$ {formatMoney(cuenta.saldoAFavor)}</strong>
             </div>
           </div>
 
-          <section>
-            <h3>Pedidos</h3>
+          <section className="pagos-seccion">
+            <h3 className="pagos-seccion-titulo">Pedidos</h3>
             {cuenta.pedidos.length === 0 ? (
-              <p>Este cliente todavía no tiene pedidos.</p>
+              <p className="pagos-vacio">Este cliente todavía no tiene pedidos.</p>
             ) : (
-              <table className="pagos-tabla">
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>Total</th>
-                    <th>Pagado</th>
-                    <th>Pendiente</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cuenta.pedidos.map((p) => (
-                    <tr key={p.pedidoId}>
-                      <td>{p.fecha}</td>
-                      <td>$ {formatMoney(p.total)}</td>
-                      <td>$ {formatMoney(p.pagado)}</td>
-                      <td>$ {formatMoney(p.pendiente)}</td>
-                      <td>
-                        <span className={`badge ${claseEstadoPedido(p.estado)}`}>
-                          {labelEstadoPedido(p.estado)}
-                        </span>
-                      </td>
+              <div className="tabla-wrapper tabla-responsive-cards">
+                <table className="tabla-base">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Total</th>
+                      <th>Pagado</th>
+                      <th>Pendiente</th>
+                      <th>Estado</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {cuenta.pedidos.map((p) => (
+                      <tr key={p.pedidoId}>
+                        <td data-label="Fecha">{p.fecha}</td>
+                        <td data-label="Total">$ {formatMoney(p.total)}</td>
+                        <td data-label="Pagado">$ {formatMoney(p.pagado)}</td>
+                        <td data-label="Pendiente">$ {formatMoney(p.pendiente)}</td>
+                        <td data-label="Estado">
+                          <span className={`badge ${claseEstadoPedido(p.estado)}`}>
+                            {labelEstadoPedido(p.estado)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
 
-          <section>
-            <h3>Pagos registrados</h3>
+          <section className="pagos-seccion">
+            <h3 className="pagos-seccion-titulo">Pagos registrados</h3>
             {pagos.length === 0 ? (
-              <p>Este cliente todavía no tiene pagos registrados.</p>
+              <p className="pagos-vacio">
+                Este cliente todavía no tiene pagos registrados.
+              </p>
             ) : (
-              <table className="pagos-tabla">
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>Importe</th>
-                    <th>Medio</th>
-                    <th>Comprobante</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pagos.map((pago) => (
-                    <tr
-                      key={pago.id}
-                      className={pago.anulado ? "fila-inactiva" : ""}
-                    >
-                      <td>{pago.fecha}</td>
-                      <td>$ {formatMoney(pago.importe)}</td>
-                      <td>{labelMedioPago(pago.medioPago)}</td>
-                      <td>{pago.numeroComprobante || "-"}</td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            pago.anulado ? "badge-inactivo" : "badge-activo"
-                          }`}
-                        >
-                          {pago.anulado ? "Anulado" : "Vigente"}
-                        </span>
-                      </td>
-                      <td>
-                        {!pago.anulado && (
-                          <button onClick={() => handleAnular(pago)}>
-                            Anular
-                          </button>
-                        )}
-                      </td>
+              <div className="tabla-wrapper tabla-responsive-cards">
+                <table className="tabla-base">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Importe</th>
+                      <th>Medio</th>
+                      <th>Comprobante</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {pagos.map((pago) => (
+                      <tr
+                        key={pago.id}
+                        className={pago.anulado ? "fila-inactiva" : ""}
+                      >
+                        <td data-label="Fecha">{pago.fecha}</td>
+                        <td data-label="Importe">$ {formatMoney(pago.importe)}</td>
+                        <td data-label="Medio">{labelMedioPago(pago.medioPago)}</td>
+                        <td data-label="Comprobante">
+                          {pago.numeroComprobante || "-"}
+                        </td>
+                        <td data-label="Estado">
+                          <span
+                            className={`badge ${
+                              pago.anulado ? "badge-inactivo" : "badge-activo"
+                            }`}
+                          >
+                            {pago.anulado ? "Anulado" : "Vigente"}
+                          </span>
+                        </td>
+                        <td data-label="Acciones" className="acciones-fila">
+                          {!pago.anulado && (
+                            <button onClick={() => handleAnular(pago)}>
+                              Anular
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
           </section>
 
-          <section>
-            <h3>Movimientos</h3>
-            <table className="pagos-tabla">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Tipo</th>
-                  <th>Descripción</th>
-                  <th>Importe</th>
-                  <th>Saldo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cuenta.movimientos.map((m, index) => (
-                  <tr key={index}>
-                    <td>{m.fecha}</td>
-                    <td>{m.tipo === "PEDIDO" ? "Pedido" : "Pago"}</td>
-                    <td>{m.descripcion}</td>
-                    <td className={m.importe < 0 ? "importe-negativo" : ""}>
-                      $ {formatMoney(m.importe)}
-                    </td>
-                    <td>$ {formatMoney(m.saldo)}</td>
-                  </tr>
-                ))}
-                {cuenta.movimientos.length === 0 && (
+          <section className="pagos-seccion">
+            <h3 className="pagos-seccion-titulo">Movimientos</h3>
+            <div className="tabla-wrapper pagos-movimientos-wrapper">
+              <table className="tabla-base pagos-movimientos-tabla">
+                <thead>
                   <tr>
-                    <td colSpan={5}>No hay movimientos todavía.</td>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Importe</th>
+                    <th>Saldo</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {cuenta.movimientos.map((m, index) => (
+                    <tr key={index}>
+                      <td>{m.fecha}</td>
+                      <td>{m.tipo === "PEDIDO" ? "Pedido" : "Pago"}</td>
+                      <td>{m.descripcion}</td>
+                      <td className={m.importe < 0 ? "pagos-importe-negativo" : ""}>
+                        $ {formatMoney(m.importe)}
+                      </td>
+                      <td>$ {formatMoney(m.saldo)}</td>
+                    </tr>
+                  ))}
+                  {cuenta.movimientos.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={5}>No hay movimientos todavía.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </section>
         </>
       )}

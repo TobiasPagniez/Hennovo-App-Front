@@ -76,14 +76,14 @@ export default function Usuarios() {
 
   return (
     <div className="usuarios-page">
-      <div className="usuarios-header">
+      <div className="page-header">
         <h1>Usuarios</h1>
-        <button onClick={() => setModalCrearAbierto(true)}>
+        <button className="btn-primario" onClick={() => setModalCrearAbierto(true)}>
           Nuevo usuario
         </button>
       </div>
 
-      <label className="usuarios-toggle-inactivos">
+      <label className="toggle-checkbox">
         <input
           type="checkbox"
           checked={mostrarInactivos}
@@ -92,55 +92,61 @@ export default function Usuarios() {
         Mostrar inactivos
       </label>
 
-      {error && <p className="usuarios-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando usuarios...</p>
+        <p className="estado-cargando">Cargando usuarios...</p>
       ) : (
-        <table className="usuarios-tabla">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usuariosVisibles.map((u) => (
-              <tr key={u.id} className={!u.activo ? "fila-inactiva" : ""}>
-                <td>
-                  {u.nombre} {u.apellido}
-                </td>
-                <td>{u.email}</td>
-                <td>{u.rol}</td>
-                <td>
-                  <span
-                    className={`badge ${
-                      u.activo ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {u.activo ? "Activo" : "Inactivo"}
-                  </span>
-                </td>
-                <td className="usuarios-acciones">
-                  <button onClick={() => abrirEdicion(u)}>Editar</button>
-                  {u.activo && (
-                    <button onClick={() => handleDesactivar(u)}>
-                      Desactivar
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {usuariosVisibles.length === 0 && (
+        <div className="tabla-wrapper tabla-responsive-cards">
+          <table className="tabla-base">
+            <thead>
               <tr>
-                <td colSpan={5}>No hay usuarios para mostrar.</td>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {usuariosVisibles.map((u) => (
+                <tr key={u.id} className={!u.activo ? "fila-inactiva" : ""}>
+                  <td data-label="Nombre">
+                    <span className="celda-destacada">
+                      {u.nombre} {u.apellido}
+                    </span>
+                  </td>
+                  <td data-label="Email">{u.email}</td>
+                  <td data-label="Rol">
+                    <span className="usuarios-rol-badge">{u.rol}</span>
+                  </td>
+                  <td data-label="Estado">
+                    <span
+                      className={`badge ${
+                        u.activo ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {u.activo ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className="acciones-fila">
+                    <button onClick={() => abrirEdicion(u)}>Editar</button>
+                    {u.activo && (
+                      <button onClick={() => handleDesactivar(u)}>
+                        Desactivar
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {usuariosVisibles.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={5}>No hay usuarios para mostrar.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <Modal

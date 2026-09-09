@@ -83,7 +83,7 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
         <button type="button" onClick={onClose} disabled={isSubmitting}>
           Cancelar
         </button>
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" className="btn-primario" disabled={isSubmitting}>
           {isSubmitting ? "Guardando..." : "Registrar pago"}
         </button>
       </div>

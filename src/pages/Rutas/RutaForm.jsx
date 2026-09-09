@@ -94,12 +94,12 @@ export default function RutaForm() {
     }
   }
 
-  if (cargando) return <p>Cargando...</p>;
-  if (error) return <p className="form-error-api">{error}</p>;
+  if (cargando) return <p className="estado-cargando">Cargando...</p>;
+  if (error) return <p className="estado-error">{error}</p>;
 
   return (
     <div className="ruta-form-page">
-      <div className="rutas-header">
+      <div className="page-header">
         <h1>{esEdicion ? "Editar ruta" : "Nueva ruta"}</h1>
         <Link to="/rutas">
           <button type="button">Volver</button>
@@ -170,7 +170,7 @@ export default function RutaForm() {
         {errorApi && <p className="form-error-api">{errorApi}</p>}
 
         <div className="form-actions">
-          <button type="submit" disabled={isSubmitting}>
+          <button type="submit" className="btn-primario" disabled={isSubmitting}>
             {isSubmitting ? "Guardando..." : "Guardar ruta"}
           </button>
         </div>

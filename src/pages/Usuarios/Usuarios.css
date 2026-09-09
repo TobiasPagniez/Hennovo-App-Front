@@ -1,50 +1,14 @@
 .usuarios-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
-.usuarios-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.usuarios-toggle-inactivos {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-}
-
-.usuarios-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.usuarios-tabla th,
-.usuarios-tabla td {
-  padding: 0.6rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.usuarios-acciones {
-  display: flex;
-  gap: 0.6rem;
-}
-
-.usuarios-error {
-  color: #b23b3b;
-}
-
-.usuarios-aviso {
-  font-size: 0.85rem;
-  color: #555;
-  background-color: #f0f4f1;
-  padding: 0.6rem 0.9rem;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+.usuarios-rol-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted, #6b7280);
+  background-color: #f5f5f7;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
 }

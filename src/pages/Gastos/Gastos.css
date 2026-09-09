@@ -1,59 +1,43 @@
 .gastos-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
-.gastos-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.gastos-categoria-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-primary-hover, #d9840a);
+  background-color: #fdf1de;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  display: inline-block;
 }
 
+/* ===== Tabs de módulo (Listado / Reportes) — reutilizadas en Pérdidas y Control horario ===== */
 .modulo-tabs {
   display: flex;
   gap: 0.5rem;
 }
 
 .modulo-tabs button {
-  padding: 0.4rem 1rem;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background-color: #ffffff;
+  border-radius: var(--radius-sm, 8px);
   cursor: pointer;
   font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .modulo-tabs button.activo {
-  background-color: #3d5c48;
-  color: #fff;
-  border-color: #3d5c48;
+  background-color: var(--color-primary, #f39c12);
+  color: #ffffff;
+  border-color: var(--color-primary, #f39c12);
 }
 
-.gastos-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.gastos-tabla th,
-.gastos-tabla td {
-  padding: 0.6rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.gastos-acciones {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.gastos-error {
-  color: #b23b3b;
-}
-
-/* Estilos compartidos de reportes (también usados por Pérdidas) */
+/* ===== Reportes (gráficos) — reutilizados en Pérdidas y Control horario ===== */
 .reportes-container {
   display: flex;
   flex-direction: column;
@@ -63,45 +47,64 @@
 .reportes-filtro-fechas {
   display: flex;
   gap: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .reportes-filtro-fechas label {
   display: block;
   font-size: 0.8rem;
-  margin-bottom: 0.2rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text, #333333);
 }
 
 .reportes-filtro-fechas input {
   width: auto;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
 }
 
-.reportes-error {
-  color: #b23b3b;
+.reportes-vacio {
+  font-size: 0.87rem;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .reportes-resumen {
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 0.8rem 1.2rem;
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+  padding: 0.9rem 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  max-width: 220px;
+  max-width: 240px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .reportes-resumen strong {
-  font-size: 1.3rem;
-  color: #3d5c48;
+  font-size: 1.4rem;
+  color: var(--color-text, #333333);
 }
 
 .reportes-grafico {
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 1rem;
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+  padding: 1rem 1rem 0.5rem;
 }
 
 .reportes-grafico h3 {
-  font-size: 0.95rem;
-  color: #3d5c48;
-  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text, #333333);
+  margin: 0 0 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .reportes-resumen {
+    max-width: none;
+  }
 }

@@ -126,7 +126,7 @@ export default function RemitoNuevo() {
 
   return (
     <div className="remitos-page">
-      <div className="remitos-header">
+      <div className="page-header">
         <h1>Nuevo remito</h1>
         <Link to="/remitos">
           <button type="button">Volver</button>
@@ -144,40 +144,46 @@ export default function RemitoNuevo() {
             />
           </div>
 
-          {error && <p className="remitos-error">{error}</p>}
+          {error && <p className="estado-error">{error}</p>}
 
           {cargandoPedidos ? (
-            <p>Cargando pedidos...</p>
+            <p className="estado-cargando">Cargando pedidos...</p>
           ) : (
-            <table className="remitos-tabla">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Total</th>
-                  <th>Entregado</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {pedidos.map((p) => (
-                  <tr key={p.id}>
-                    <td>{p.clienteNombre}</td>
-                    <td>$ {formatMoney(p.total)}</td>
-                    <td>{p.entregado ? "Sí" : "No"}</td>
-                    <td>
-                      <button onClick={() => handleElegirPedido(p)}>
-                        Generar remito
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {pedidos.length === 0 && (
+            <div className="tabla-wrapper tabla-responsive-cards">
+              <table className="tabla-base">
+                <thead>
                   <tr>
-                    <td colSpan={4}>No hay pedidos para esta fecha.</td>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Entregado</th>
+                    <th></th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {pedidos.map((p) => (
+                    <tr key={p.id}>
+                      <td data-label="Cliente">
+                        <span className="celda-destacada">
+                          {p.clienteNombre}
+                        </span>
+                      </td>
+                      <td data-label="Total">$ {formatMoney(p.total)}</td>
+                      <td data-label="Entregado">{p.entregado ? "Sí" : "No"}</td>
+                      <td data-label="" className="acciones-fila">
+                        <button onClick={() => handleElegirPedido(p)}>
+                          Generar remito
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {pedidos.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={4}>No hay pedidos para esta fecha.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       )}
@@ -211,67 +217,69 @@ export default function RemitoNuevo() {
 
           <h3 className="remito-detalles-titulo">Detalle</h3>
 
-          <table className="remito-detalles-tabla">
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Unidad</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {fields.map((field, index) => (
-                <tr key={field.id}>
-                  <td>
-                    <select
-                      {...register(`detalles.${index}.productoId`, {
-                        required: "Elegí un producto",
-                      })}
-                    >
-                      <option value="">Seleccioná un producto</option>
-                      {productos.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {nombreProducto(p)}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="1"
-                      {...register(`detalles.${index}.cantidad`, {
-                        required: "Obligatorio",
-                        min: { value: 1, message: "Mínimo 1" },
-                      })}
-                    />
-                  </td>
-                  <td>
-                    <select
-                      {...register(`detalles.${index}.unidad`, {
-                        required: "Elegí una unidad",
-                      })}
-                    >
-                      <option value="">-</option>
-                      {UNIDAD_PRECIO_OPCIONES.map((op) => (
-                        <option key={op.value} value={op.value}>
-                          {op.label}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td>
-                    {fields.length > 1 && (
-                      <button type="button" onClick={() => remove(index)}>
-                        Quitar
-                      </button>
-                    )}
-                  </td>
+          <div className="tabla-wrapper remito-detalles-wrapper">
+            <table className="tabla-base remito-detalles-tabla">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {fields.map((field, index) => (
+                  <tr key={field.id}>
+                    <td>
+                      <select
+                        {...register(`detalles.${index}.productoId`, {
+                          required: "Elegí un producto",
+                        })}
+                      >
+                        <option value="">Seleccioná un producto</option>
+                        {productos.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {nombreProducto(p)}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="1"
+                        {...register(`detalles.${index}.cantidad`, {
+                          required: "Obligatorio",
+                          min: { value: 1, message: "Mínimo 1" },
+                        })}
+                      />
+                    </td>
+                    <td>
+                      <select
+                        {...register(`detalles.${index}.unidad`, {
+                          required: "Elegí una unidad",
+                        })}
+                      >
+                        <option value="">-</option>
+                        {UNIDAD_PRECIO_OPCIONES.map((op) => (
+                          <option key={op.value} value={op.value}>
+                            {op.label}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      {fields.length > 1 && (
+                        <button type="button" onClick={() => remove(index)}>
+                          Quitar
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           <button
             type="button"
@@ -292,7 +300,7 @@ export default function RemitoNuevo() {
           )}
 
           <div className="form-actions">
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit" className="btn-primario" disabled={isSubmitting}>
               {isSubmitting ? "Generando..." : "Generar remito"}
             </button>
           </div>

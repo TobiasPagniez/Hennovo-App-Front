@@ -1,45 +1,33 @@
 .rutas-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.rutas-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 1.2rem;
 }
 
 .rutas-filtro {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-size: 0.9rem;
+  font-size: 0.87rem;
+}
+
+.rutas-filtro label {
+  font-weight: 600;
+  color: var(--color-text, #333333);
 }
 
 .rutas-filtro input {
   width: auto;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
 }
 
-.rutas-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.rutas-tabla th,
-.rutas-tabla td {
-  padding: 0.6rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.rutas-acciones {
-  display: flex;
-  gap: 0.8rem;
-}
-
-.rutas-error {
-  color: #b23b3b;
+.rutas-filtro button {
+  background: none;
+  border: none;
+  color: var(--color-primary, #f39c12);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
 }

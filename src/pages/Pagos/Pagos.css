@@ -1,25 +1,25 @@
 .pagos-page {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.4rem;
 }
 
 .pagos-selector {
-  max-width: 400px;
+  max-width: 420px;
 }
 
-.pagos-info {
-  color: #777;
+.pagos-selector label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--color-text, #333333);
 }
 
-.pagos-error {
-  color: #b23b3b;
-}
-
-.pagos-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.pagos-cliente-nombre {
+  font-size: 1.1rem;
+  color: var(--color-text, #333333);
+  margin: 0;
 }
 
 .pagos-resumen {
@@ -29,54 +29,71 @@
 }
 
 .pagos-resumen-item {
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  padding: 0.7rem 1rem;
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+  padding: 0.9rem 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-  min-width: 150px;
+  gap: 0.25rem;
+  min-width: 160px;
+  flex: 1;
   font-size: 0.85rem;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .pagos-resumen-item strong {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
+  color: var(--color-text, #333333);
 }
 
-.saldo-deuda strong {
-  color: #b23b3b;
+.pagos-saldo-deuda strong {
+  color: var(--color-error, #c0392b);
 }
 
-.saldo-favor strong {
-  color: #1e6b2e;
+.pagos-saldo-favor strong {
+  color: #1e8a3e;
 }
 
-.pagos-page h3 {
-  font-size: 1rem;
-  margin-bottom: 0.4rem;
-  color: #3d5c48;
+.pagos-seccion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
-.pagos-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
+.pagos-seccion-titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-muted, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
 }
 
-.pagos-tabla th,
-.pagos-tabla td {
-  padding: 0.55rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.87rem;
+.pagos-vacio {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #6b7280);
 }
 
-.importe-negativo {
-  color: #b23b3b;
+.pagos-movimientos-wrapper {
+  overflow-x: auto;
 }
 
-.badge-parcial {
-  background-color: #fdf1cf;
-  color: #8a6d1f;
+.pagos-movimientos-tabla {
+  min-width: 560px;
+}
+
+.pagos-importe-negativo {
+  color: var(--color-error, #c0392b);
+}
+
+@media (max-width: 768px) {
+  .pagos-resumen {
+    flex-direction: column;
+  }
+
+  .pagos-resumen-item {
+    min-width: 0;
+  }
 }

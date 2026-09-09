@@ -5,39 +5,19 @@
 }
 
 .habituales-selector {
-  max-width: 400px;
+  max-width: 420px;
 }
 
-.habituales-info {
-  color: #777;
+.habituales-selector label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--color-text, #333333);
 }
 
-.habituales-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-}
-
-.habituales-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.habituales-tabla th,
-.habituales-tabla td {
-  padding: 0.6rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.habituales-acciones {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.habituales-error {
-  color: #b23b3b;
+.habituales-cliente-nombre {
+  font-size: 1.1rem;
+  color: var(--color-text, #333333);
+  margin: 0;
 }

@@ -50,7 +50,6 @@ export default function Vehiculos() {
       `¿Seguro que querés desactivar el vehículo "${vehiculo.patente}"?`
     );
     if (!confirmar) return;
-
     try {
       await desactivarVehiculo(vehiculo.id);
       cargar();
@@ -95,13 +94,15 @@ export default function Vehiculos() {
 
   return (
     <div className="vehiculos-page">
-      <div className="vehiculos-header">
+      <div className="page-header">
         <h1>Vehículos</h1>
-        <button onClick={() => setModalCrear(true)}>Nuevo vehículo</button>
+        <button className="btn-primario" onClick={() => setModalCrear(true)}>
+          Nuevo vehículo
+        </button>
       </div>
 
-      <div className="vehiculos-toggles">
-        <label className="vehiculos-toggle">
+      <div className="vehiculos-toolbar">
+        <label className="toggle-checkbox">
           <input
             type="checkbox"
             checked={mostrarInactivos}
@@ -109,7 +110,7 @@ export default function Vehiculos() {
           />
           Mostrar inactivos
         </label>
-        <label className="vehiculos-toggle">
+        <label className="toggle-checkbox">
           <input
             type="checkbox"
             checked={soloAlertas}
@@ -120,112 +121,114 @@ export default function Vehiculos() {
       </div>
 
       <div className="vehiculos-referencias">
-        <span className="referencia-item">
-          <span className="referencia-color vencido"></span> Vencido
+        <span className="vehiculos-referencia-item">
+          <span className="vehiculos-referencia-color vencido"></span> Vencido
         </span>
-        <span className="referencia-item">
-          <span className="referencia-color proximo"></span> Próximo a vencer
+        <span className="vehiculos-referencia-item">
+          <span className="vehiculos-referencia-color proximo"></span> Próximo a vencer
         </span>
       </div>
 
-      {error && <p className="vehiculos-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando vehículos...</p>
+        <p className="estado-cargando">Cargando vehículos...</p>
       ) : (
-        <table className="vehiculos-tabla">
-          <thead>
-            <tr>
-              <th>Patente</th>
-              <th>Marca / Modelo</th>
-              <th>Kilometraje</th>
-              <th>Service</th>
-              <th>Seguro</th>
-              <th>ITV</th>
-              <th>SENASA</th>
-              <th>Aceite (km)</th>
-              <th>Rotación (km)</th>
-              <th>Correa (km)</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vehiculosVisibles.map((v) => (
-              <tr key={v.id} className={!v.activo ? "fila-inactiva" : ""}>
-                <td>{v.patente}</td>
-                <td>
-                  {v.marca} {v.modelo}
-                </td>
-                <td>{v.kilometrajeActual} km</td>
-                <td className={claseEstado(estadoDeFecha(v.proximoServiceFecha))}>
-                  {v.proximoServiceFecha || "-"}
-                </td>
-                <td className={claseEstado(estadoDeFecha(v.vencimientoSeguro))}>
-                  {v.vencimientoSeguro || "-"}
-                </td>
-                <td className={claseEstado(estadoDeFecha(v.vencimientoItv))}>
-                  {v.vencimientoItv || "-"}
-                </td>
-                <td className={claseEstado(estadoDeFecha(v.vencimientoSenasa))}>
-                  {v.vencimientoSenasa || "-"}
-                </td>
-                <td
-                  className={claseEstado(
-                    estadoDeKm(v.kilometrajeActual, v.proximoCambioAceiteKm)
-                  )}
-                >
-                  {v.proximoCambioAceiteKm || "-"}
-                </td>
-                <td
-                  className={claseEstado(
-                    estadoDeKm(v.kilometrajeActual, v.proximaRotacionAlineadoKm)
-                  )}
-                >
-                  {v.proximaRotacionAlineadoKm || "-"}
-                </td>
-                <td
-                  className={claseEstado(
-                    estadoDeKm(v.kilometrajeActual, v.proximoCambioCorreaKm)
-                  )}
-                >
-                  {v.proximoCambioCorreaKm || "-"}
-                </td>
-                <td>
-                  <span
-                    className={`badge ${
-                      v.activo ? "badge-activo" : "badge-inactivo"
-                    }`}
-                  >
-                    {v.activo ? "Activo" : "Inactivo"}
-                  </span>
-                </td>
-                <td className="vehiculos-acciones">
-                  <button onClick={() => setVehiculoEditando(v)}>
-                    Editar
-                  </button>
-                  <button onClick={() => setVehiculoKilometraje(v)}>
-                    Kilometraje
-                  </button>
-                  {v.activo ? (
-                    <button onClick={() => handleDesactivar(v)}>
-                      Desactivar
-                    </button>
-                  ) : (
-                    <button onClick={() => handleReactivar(v)}>
-                      Reactivar
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-            {vehiculosVisibles.length === 0 && (
+        <div className="tabla-wrapper vehiculos-tabla-wrapper">
+          <table className="tabla-base vehiculos-tabla">
+            <thead>
               <tr>
-                <td colSpan={12}>No hay vehículos para mostrar.</td>
+                <th>Patente</th>
+                <th>Marca / Modelo</th>
+                <th>Kilometraje</th>
+                <th>Service</th>
+                <th>Seguro</th>
+                <th>ITV</th>
+                <th>SENASA</th>
+                <th>Aceite (km)</th>
+                <th>Rotación (km)</th>
+                <th>Correa (km)</th>
+                <th>Estado</th>
+                <th>Acciones</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {vehiculosVisibles.map((v) => (
+                <tr key={v.id} className={!v.activo ? "fila-inactiva" : ""}>
+                  <td className="celda-destacada">{v.patente}</td>
+                  <td>
+                    {v.marca} {v.modelo}
+                  </td>
+                  <td>{v.kilometrajeActual} km</td>
+                  <td className={claseEstado(estadoDeFecha(v.proximoServiceFecha))}>
+                    {v.proximoServiceFecha || "-"}
+                  </td>
+                  <td className={claseEstado(estadoDeFecha(v.vencimientoSeguro))}>
+                    {v.vencimientoSeguro || "-"}
+                  </td>
+                  <td className={claseEstado(estadoDeFecha(v.vencimientoItv))}>
+                    {v.vencimientoItv || "-"}
+                  </td>
+                  <td className={claseEstado(estadoDeFecha(v.vencimientoSenasa))}>
+                    {v.vencimientoSenasa || "-"}
+                  </td>
+                  <td
+                    className={claseEstado(
+                      estadoDeKm(v.kilometrajeActual, v.proximoCambioAceiteKm)
+                    )}
+                  >
+                    {v.proximoCambioAceiteKm || "-"}
+                  </td>
+                  <td
+                    className={claseEstado(
+                      estadoDeKm(v.kilometrajeActual, v.proximaRotacionAlineadoKm)
+                    )}
+                  >
+                    {v.proximaRotacionAlineadoKm || "-"}
+                  </td>
+                  <td
+                    className={claseEstado(
+                      estadoDeKm(v.kilometrajeActual, v.proximoCambioCorreaKm)
+                    )}
+                  >
+                    {v.proximoCambioCorreaKm || "-"}
+                  </td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        v.activo ? "badge-activo" : "badge-inactivo"
+                      }`}
+                    >
+                      {v.activo ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                  <td className="acciones-fila">
+                    <button onClick={() => setVehiculoEditando(v)}>
+                      Editar
+                    </button>
+                    <button onClick={() => setVehiculoKilometraje(v)}>
+                      Kilometraje
+                    </button>
+                    {v.activo ? (
+                      <button onClick={() => handleDesactivar(v)}>
+                        Desactivar
+                      </button>
+                    ) : (
+                      <button onClick={() => handleReactivar(v)}>
+                        Reactivar
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+              {vehiculosVisibles.length === 0 && (
+                <tr className="fila-vacia">
+                  <td colSpan={12}>No hay vehículos para mostrar.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <Modal
