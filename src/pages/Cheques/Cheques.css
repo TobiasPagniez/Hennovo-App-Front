@@ -35,8 +35,10 @@
   margin-bottom: 0.4rem;
 }
 
-.cheques-tabla-wrapper {
+.tabla-wrapper.cheques-tabla-wrapper {
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cheques-tabla {
