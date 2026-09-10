@@ -47,6 +47,8 @@ import Croquis from "./pages/Croquis/Croquis";
 
 import Perfil from "./pages/Perfil/Perfil";
 
+import NotFound from "./pages/NotFound/NotFound";
+
 function App() {
   return (
     <BrowserRouter>
@@ -161,6 +163,9 @@ function App() {
             <Route path="/croquis" element={<Croquis />} />
 
             <Route path="/perfil" element={<Perfil />} />
+            
+            <Route path="*" element={<NotFound />} />
+                
           </Route>
         </Routes>
       </AuthProvider>
