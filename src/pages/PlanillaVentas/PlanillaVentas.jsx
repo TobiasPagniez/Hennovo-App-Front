@@ -40,7 +40,6 @@ export default function PlanillaVentas() {
   const [modalTopesAbierto, setModalTopesAbierto] = useState(false);
   const [clienteParaTopes, setClienteParaTopes] = useState(null);
 
-  // Cargar lista de empleados, y preseleccionar al usuario logueado si es EMPLEADO
   useEffect(() => {
     obtenerEmpleados()
       .then((data) => {
@@ -158,10 +157,10 @@ export default function PlanillaVentas() {
 
   return (
     <div className="planilla-page">
-      <div className="planilla-header">
+      <div className="page-header">
         <h1>Planilla de ventas</h1>
         <div className="planilla-controles">
-          <div className="planilla-selector-empleado">
+          <div className="planilla-selector">
             <label>Planilla de</label>
             <select
               value={empleadoSeleccionadoId ?? ""}
@@ -174,7 +173,7 @@ export default function PlanillaVentas() {
               ))}
             </select>
           </div>
-          <div className="planilla-selector-semana">
+          <div className="planilla-selector">
             <label>Semana de</label>
             <input
               type="date"
@@ -200,21 +199,22 @@ export default function PlanillaVentas() {
       </div>
 
       <h2 className="planilla-titulo-seccion">
-        Planilla — {empleadoActual ? `${empleadoActual.nombre} — ` : ""}
+        {empleadoActual ? `${empleadoActual.nombre} — ` : ""}
         {labelDia} ({fechaSeleccionada})
       </h2>
 
-      {error && <p className="planilla-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando planilla...</p>
+        <p className="estado-cargando">Cargando planilla...</p>
       ) : (
-        <div className="planilla-tabla-wrapper">
-          <table className="planilla-tabla">
+        <div className="tabla-wrapper planilla-tabla-wrapper">
+          <table className="tabla-base planilla-tabla">
             <thead>
               <tr>
-                <th rowSpan={2}></th>
-                <th rowSpan={2}>Cliente</th>
+                <th rowSpan={2} className="planilla-col-fija">
+                  Cliente
+                </th>
                 <th rowSpan={2}>P</th>
                 <th rowSpan={2} className="col-tope">
                   Tope
@@ -265,7 +265,7 @@ export default function PlanillaVentas() {
                 />
               ))}
               {clientes.length === 0 && (
-                <tr>
+                <tr className="fila-vacia">
                   <td colSpan={14}>No hay clientes activos para mostrar.</td>
                 </tr>
               )}

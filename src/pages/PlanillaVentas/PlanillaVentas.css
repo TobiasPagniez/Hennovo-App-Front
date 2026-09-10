@@ -4,17 +4,31 @@
   gap: 1rem;
 }
 
-.planilla-header {
+.planilla-controles {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
 }
 
-.planilla-selector-semana {
+.planilla-selector {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.87rem;
+}
+
+.planilla-selector label {
+  font-weight: 600;
+  color: var(--color-text, #333333);
+  white-space: nowrap;
+}
+
+.planilla-selector select,
+.planilla-selector input {
+  width: auto;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
 }
 
 .planilla-tabs {
@@ -24,55 +38,88 @@
 }
 
 .planilla-tab {
-  padding: 0.4rem 1rem;
+  padding: 0.45rem 1.1rem;
   border-radius: 999px;
-  border: 1px solid #e0a15f;
-  background-color: #fff;
-  color: #b06a1f;
+  border: 1px solid #f0d4a8;
+  background-color: #ffffff;
+  color: var(--color-primary-hover, #d9840a);
   cursor: pointer;
   font-size: 0.85rem;
-}
-
-.planilla-tab.activo {
-  background-color: #e08e3e;
-  color: #fff;
-  border-color: #e08e3e;
   font-weight: 600;
 }
 
+.planilla-tab.activo {
+  background-color: var(--color-primary, #f39c12);
+  color: #ffffff;
+  border-color: var(--color-primary, #f39c12);
+}
+
 .planilla-titulo-seccion {
-  font-size: 1.1rem;
-  color: #b06a1f;
+  font-size: 1.05rem;
+  color: var(--color-primary-hover, #d9840a);
   font-weight: 700;
+  margin: 0;
 }
 
-.planilla-error {
-  color: #b23b3b;
-}
-
-.planilla-tabla-wrapper {
+.tabla-wrapper.planilla-tabla-wrapper {
   overflow-x: auto;
-  background-color: #fff;
-  border-radius: 6px;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .planilla-tabla {
-  border-collapse: collapse;
-  min-width: 100%;
+  min-width: 1150px;
   white-space: nowrap;
 }
 
 .planilla-tabla th,
 .planilla-tabla td {
-  padding: 0.45rem 0.6rem;
-  border: 1px solid #e0e0e0;
   text-align: center;
-  font-size: 0.82rem;
+  padding: 0.5rem 0.6rem;
 }
 
 .planilla-tabla td:first-child,
 .planilla-tabla th:first-child {
   text-align: left;
+}
+
+.planilla-col-fija {
+  position: sticky;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 1;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.planilla-tabla thead .planilla-col-fija {
+  background-color: #fafafa;
+  z-index: 2;
+}
+
+.planilla-cliente-celda {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.planilla-orden-botones {
+  display: flex;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.planilla-orden-botones button {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.72rem;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 4px;
+  background-color: #fafafa;
+  cursor: pointer;
+}
+
+.planilla-orden-botones button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .col-tope {
@@ -103,27 +150,23 @@
   background-color: #fbe6d3;
 }
 
-.celda-check input {
+.planilla-celda-check input {
   width: auto;
   cursor: pointer;
 }
 
-.celda-cantidad {
+.planilla-celda-cantidad {
   font-weight: 600;
 }
 
-.fila-sin-pedido {
-  opacity: 0.6;
-}
-
-.link-boton {
+.planilla-link-boton {
   background: none;
   border: none;
-  color: #3d5c48;
+  color: var(--color-primary, #f39c12);
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
 }
 
 .planilla-topes-lista {
@@ -135,34 +178,14 @@
   gap: 0.4rem;
 }
 
-.planilla-controles {
-  display: flex;
-  gap: 1.2rem;
-  flex-wrap: wrap;
-}
+@media (max-width: 640px) {
+  .planilla-controles {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-.planilla-selector-empleado,
-.planilla-selector-semana {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.planilla-selector-empleado select {
-  width: auto;
-}
-
-.celda-orden {
-  white-space: nowrap;
-}
-
-.orden-botones {
-  display: flex;
-  gap: 0.2rem;
-}
-
-.orden-botones button {
-  padding: 0.15rem 0.4rem;
-  font-size: 0.75rem;
+  .planilla-selector select,
+  .planilla-selector input {
+    flex: 1;
+  }
 }

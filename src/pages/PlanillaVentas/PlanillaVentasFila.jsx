@@ -15,31 +15,33 @@ export default function PlanillaVentasFila({
   const cant = cliente.cantidades;
 
   return (
-    <tr className={!tienePedido ? "fila-sin-pedido" : ""}>
-      <td className="celda-orden">
-        {puedeEditar && (
-          <div className="orden-botones">
-            <button
-              type="button"
-              disabled={esPrimero}
-              onClick={() => onMoverArriba(cliente)}
-              title="Subir"
-            >
-              ↑
-            </button>
-            <button
-              type="button"
-              disabled={esUltimo}
-              onClick={() => onMoverAbajo(cliente)}
-              title="Bajar"
-            >
-              ↓
-            </button>
-          </div>
-        )}
+    <tr className={!tienePedido ? "fila-inactiva" : ""}>
+      <td className="planilla-col-fija">
+        <div className="planilla-cliente-celda">
+          {puedeEditar && (
+            <div className="planilla-orden-botones">
+              <button
+                type="button"
+                disabled={esPrimero}
+                onClick={() => onMoverArriba(cliente)}
+                title="Subir"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                disabled={esUltimo}
+                onClick={() => onMoverAbajo(cliente)}
+                title="Bajar"
+              >
+                ↓
+              </button>
+            </div>
+          )}
+          <span className="celda-destacada">{cliente.clienteNombre}</span>
+        </div>
       </td>
-      <td>{cliente.clienteNombre}</td>
-      <td className="celda-check">
+      <td className="planilla-celda-check">
         {tienePedido ? (
           <input
             type="checkbox"
@@ -51,11 +53,11 @@ export default function PlanillaVentasFila({
           "-"
         )}
       </td>
-      <td className="celda-tope">
+      <td>
         {cliente.topes.length > 0 ? (
           <button
             type="button"
-            className="link-boton"
+            className="planilla-link-boton"
             onClick={() => onVerTopes(cliente)}
           >
             Ver tope
@@ -67,13 +69,13 @@ export default function PlanillaVentasFila({
       <td>{cliente.banco || "-"}</td>
       <td>{tienePedido ? `$ ${formatMoney(cliente.saldoPendiente)}` : "-"}</td>
       <td>{tienePedido ? `$ ${formatMoney(cliente.totalPedido)}` : "-"}</td>
-      <td className="celda-cantidad">{cant.t1Color || "-"}</td>
-      <td className="celda-cantidad">{cant.t1Blanco || "-"}</td>
-      <td className="celda-cantidad">{cant.t2Color || "-"}</td>
-      <td className="celda-cantidad">{cant.t2Blanco || "-"}</td>
-      <td className="celda-cantidad">{cant.t3Color || "-"}</td>
-      <td className="celda-cantidad">{cant.t3Blanco || "-"}</td>
-      <td className="celda-cantidad">{cant.otros || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.t1Color || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.t1Blanco || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.t2Color || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.t2Blanco || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.t3Color || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.t3Blanco || "-"}</td>
+      <td className="planilla-celda-cantidad">{cant.otros || "-"}</td>
       <td>
         {tienePedido ? (
           <span className="badge badge-activo">Cargado</span>
