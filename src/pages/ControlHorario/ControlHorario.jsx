@@ -76,10 +76,12 @@ export default function ControlHorario() {
 
   return (
     <div className="ch-page">
-      <div className="ch-header">
+      <div className="page-header">
         <h1>Control horario</h1>
         {vista === "mios" && (
-          <button onClick={abrirNuevo}>Cargar registro</button>
+          <button className="btn-primario" onClick={abrirNuevo}>
+            Cargar registro
+          </button>
         )}
       </div>
 
@@ -102,44 +104,56 @@ export default function ControlHorario() {
 
       {vista === "mios" ? (
         <>
-          {error && <p className="ch-error">{error}</p>}
+          {error && <p className="estado-error">{error}</p>}
           {cargando ? (
-            <p>Cargando registros...</p>
+            <p className="estado-cargando">Cargando registros...</p>
           ) : (
-            <table className="ch-tabla">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Turno</th>
-                  <th>Ingreso</th>
-                  <th>Egreso</th>
-                  <th>Horas</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {registros.map((r) => (
-                  <tr key={r.id}>
-                    <td>{r.fecha}</td>
-                    <td>{TURNO_LABEL[r.turno]}</td>
-                    <td>{r.horaIngreso}</td>
-                    <td>{r.horaEgreso}</td>
-                    <td>{r.horasTrabajadas}</td>
-                    <td className="ch-acciones">
-                      <button onClick={() => abrirEdicion(r)}>Editar</button>
-                      <button onClick={() => handleEliminar(r)}>
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-                {registros.length === 0 && (
+            <div className="tabla-wrapper tabla-responsive-cards">
+              <table className="tabla-base">
+                <thead>
                   <tr>
-                    <td colSpan={6}>Todavía no cargaste registros.</td>
+                    <th>Fecha</th>
+                    <th>Turno</th>
+                    <th>Ingreso</th>
+                    <th>Egreso</th>
+                    <th>Horas</th>
+                    <th>Acciones</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {registros.map((r) => (
+                    <tr key={r.id}>
+                      <td data-label="Fecha">{r.fecha}</td>
+                      <td data-label="Turno">
+                        <span className="ch-turno-badge">
+                          {TURNO_LABEL[r.turno]}
+                        </span>
+                      </td>
+                      <td data-label="Ingreso">{r.horaIngreso}</td>
+                      <td data-label="Egreso">{r.horaEgreso}</td>
+                      <td data-label="Horas">
+                        <span className="celda-destacada">
+                          {r.horasTrabajadas}
+                        </span>
+                      </td>
+                      <td data-label="Acciones" className="acciones-fila">
+                        <button onClick={() => abrirEdicion(r)}>
+                          Editar
+                        </button>
+                        <button onClick={() => handleEliminar(r)}>
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {registros.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={6}>Todavía no cargaste registros.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </>
       ) : (

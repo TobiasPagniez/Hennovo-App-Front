@@ -38,8 +38,10 @@
   background-color: #f9dfa8;
 }
 
-.vehiculos-tabla-wrapper {
+.tabla-wrapper.vehiculos-tabla-wrapper {
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .vehiculos-tabla {

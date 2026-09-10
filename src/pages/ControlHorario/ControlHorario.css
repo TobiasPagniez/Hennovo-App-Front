@@ -1,36 +1,16 @@
 .ch-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
-.ch-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ch-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-.ch-tabla th,
-.ch-tabla td {
-  padding: 0.55rem;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 0.87rem;
-}
-
-.ch-acciones {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.ch-error {
-  color: #b23b3b;
+.ch-turno-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted, #6b7280);
+  background-color: #f5f5f7;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
 }
 
 .ch-reportes-modo {
@@ -39,30 +19,20 @@
 }
 
 .ch-reportes-modo button {
-  padding: 0.4rem 1rem;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background-color: #ffffff;
+  border-radius: var(--radius-sm, 8px);
   cursor: pointer;
   font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .ch-reportes-modo button.activo {
-  background-color: #3d5c48;
-  color: #fff;
-  border-color: #3d5c48;
-}
-
-.ch-reportes-detalle {
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 1rem;
-}
-
-.ch-reportes-detalle h3 {
-  font-size: 0.95rem;
-  color: #3d5c48;
-  margin-bottom: 0.5rem;
+  background-color: var(--color-primary, #f39c12);
+  color: #ffffff;
+  border-color: var(--color-primary, #f39c12);
 }
 
 .ch-reportes-filtros {
@@ -72,6 +42,50 @@
   flex-wrap: wrap;
 }
 
-.ch-reportes-filtros select {
+.ch-filtro-empleado label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text, #333333);
+}
+
+.ch-filtro-empleado select {
   width: auto;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
+}
+
+.ch-reportes-detalle {
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
+  padding: 1rem;
+}
+
+.ch-reportes-detalle h3 {
+  font-size: 0.9rem;
+  color: var(--color-text, #333333);
+  margin: 0 0 0.6rem;
+}
+
+.tabla-wrapper.ch-detalle-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: none;
+  border: none;
+}
+
+@media (max-width: 640px) {
+  .ch-reportes-filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ch-filtro-empleado select {
+    width: 100%;
+  }
 }

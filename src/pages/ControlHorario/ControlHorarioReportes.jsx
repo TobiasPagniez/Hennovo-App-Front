@@ -139,7 +139,7 @@ export default function ControlHorarioReportes() {
           </div>
         </div>
 
-        <div>
+        <div className="ch-filtro-empleado">
           <label>Empleado</label>
           <select
             value={empleadoFiltroId}
@@ -155,12 +155,14 @@ export default function ControlHorarioReportes() {
         </div>
       </div>
 
-      {error && <p className="reportes-error">{error}</p>}
+      {error && <p className="estado-error">{error}</p>}
 
       {cargando ? (
-        <p>Cargando reporte...</p>
+        <p className="estado-cargando">Cargando reporte...</p>
       ) : registros.length === 0 && resumen.length === 0 ? (
-        <p>No hay registros de horario en este período.</p>
+        <p className="reportes-vacio">
+          No hay registros de horario en este período.
+        </p>
       ) : (
         <>
           <div className="reportes-resumen">
@@ -175,13 +177,20 @@ export default function ControlHorarioReportes() {
           {!empleadoFiltroId && resumen.length > 0 && (
             <div className="reportes-grafico">
               <h3>Horas trabajadas por empleado</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={resumen}>
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={resumen} margin={{ left: 0, right: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="usuarioNombre" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
+                  <XAxis
+                    dataKey="usuarioNombre"
+                    tick={{ fontSize: 11 }}
+                    interval={0}
+                    angle={-15}
+                    textAnchor="end"
+                    height={50}
+                  />
+                  <YAxis tick={{ fontSize: 11 }} width={35} />
                   <Tooltip formatter={(value) => `${value} hs`} />
-                  <Bar dataKey="totalHoras" fill="#3d5c48" />
+                  <Bar dataKey="totalHoras" fill="#f39c12" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -189,39 +198,41 @@ export default function ControlHorarioReportes() {
 
           <div className="ch-reportes-detalle">
             <h3>Detalle de registros</h3>
-            <table className="ch-tabla">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Empleado</th>
-                  <th>Turno</th>
-                  <th>Ingreso</th>
-                  <th>Egreso</th>
-                  <th>Horas</th>
-                </tr>
-              </thead>
-              <tbody>
-                {registros
-                  .sort((a, b) => (a.fecha < b.fecha ? 1 : -1))
-                  .map((r) => (
-                    <tr key={r.id}>
-                      <td>{r.fecha}</td>
-                      <td>{r.usuarioNombre}</td>
-                      <td>{r.turno === "MANANA" ? "Mañana" : "Tarde"}</td>
-                      <td>{r.horaIngreso}</td>
-                      <td>{r.horaEgreso}</td>
-                      <td>{r.horasTrabajadas}</td>
-                    </tr>
-                  ))}
-                {registros.length === 0 && (
+            <div className="tabla-wrapper ch-detalle-wrapper">
+              <table className="tabla-base">
+                <thead>
                   <tr>
-                    <td colSpan={6}>
-                      No hay registros para este empleado en el período.
-                    </td>
+                    <th>Fecha</th>
+                    <th>Empleado</th>
+                    <th>Turno</th>
+                    <th>Ingreso</th>
+                    <th>Egreso</th>
+                    <th>Horas</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {registros
+                    .sort((a, b) => (a.fecha < b.fecha ? 1 : -1))
+                    .map((r) => (
+                      <tr key={r.id}>
+                        <td>{r.fecha}</td>
+                        <td>{r.usuarioNombre}</td>
+                        <td>{r.turno === "MANANA" ? "Mañana" : "Tarde"}</td>
+                        <td>{r.horaIngreso}</td>
+                        <td>{r.horaEgreso}</td>
+                        <td>{r.horasTrabajadas}</td>
+                      </tr>
+                    ))}
+                  {registros.length === 0 && (
+                    <tr className="fila-vacia">
+                      <td colSpan={6}>
+                        No hay registros para este empleado en el período.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </>
       )}
