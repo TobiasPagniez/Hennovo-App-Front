@@ -8,6 +8,7 @@ import {
 } from "../../services/listaPrecioService";
 import { nombreProducto } from "../../utils/productoNombre";
 import "./NuevaListaPrecio.css";
+import { unidadesPermitidas } from "../../utils/precioLabels";
 
 function claveCelda(productoId, categoriaId) {
   return `${productoId}-${categoriaId}`;
@@ -101,7 +102,7 @@ export default function NuevaListaPrecio() {
         const numero = Number(valor);
         if (isNaN(numero) || numero <= 0) {
           setErrorEnvio(
-            `El precio de "${nombreProducto(producto)}" para la categoría "${categoria.nombre}" no es válido.`
+            `El precio de "${nombreProducto(producto)}" para la categoría "${categoria.nombre}" no es válido.`,
           );
           return;
         }
@@ -109,7 +110,7 @@ export default function NuevaListaPrecio() {
         const unidad = unidades[producto.id];
         if (!unidad) {
           setErrorEnvio(
-            `Falta indicar la unidad de precio (Maple/Cajón) para "${nombreProducto(producto)}".`
+            `Falta indicar la unidad de precio (Maple/Cajón) para "${nombreProducto(producto)}".`,
           );
           return;
         }
@@ -139,7 +140,7 @@ export default function NuevaListaPrecio() {
     } catch (err) {
       setErrorEnvio(
         err.response?.data?.detail ||
-          "Ocurrió un error al guardar la lista de precios."
+          "Ocurrió un error al guardar la lista de precios.",
       );
     } finally {
       setEnviando(false);
@@ -196,40 +197,49 @@ export default function NuevaListaPrecio() {
               </tr>
             </thead>
             <tbody>
-              {productos.map((producto) => (
-                <tr key={producto.id}>
-                  <td>{nombreProducto(producto)}</td>
-                  <td>
-                    <select
-                      value={unidades[producto.id] ?? ""}
-                      onChange={(e) =>
-                        handleUnidadChange(producto.id, e.target.value)
-                      }
-                    >
-                      <option value="">-</option>
-                      <option value="MAPLE">Maple</option>
-                      <option value="CAJON">Cajón</option>
-                    </select>
-                  </td>
-                  {categorias.map((cat) => (
-                    <td key={cat.id}>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={precios[claveCelda(producto.id, cat.id)] ?? ""}
+              {productos.map((producto) => {
+                const opcionesUnidad = unidadesPermitidas(producto);
+                return (
+                  <tr key={producto.id}>
+                    <td>{nombreProducto(producto)}</td>
+                    <td>
+                      <select
+                        value={unidades[producto.id] ?? ""}
                         onChange={(e) =>
-                          handlePrecioChange(
-                            producto.id,
-                            cat.id,
-                            e.target.value
-                          )
+                          handleUnidadChange(producto.id, e.target.value)
                         }
-                      />
+                        disabled={opcionesUnidad.length === 1}
+                      >
+                        {opcionesUnidad.length > 1 && (
+                          <option value="">-</option>
+                        )}
+                        {opcionesUnidad.map((op) => (
+                          <option key={op.value} value={op.value}>
+                            {op.label}
+                          </option>
+                        ))}
+                      </select>
                     </td>
-                  ))}
-                </tr>
-              ))}
+                    {categorias.map((cat) => (
+                      <td key={cat.id}>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={precios[claveCelda(producto.id, cat.id)] ?? ""}
+                          onChange={(e) =>
+                            handlePrecioChange(
+                              producto.id,
+                              cat.id,
+                              e.target.value,
+                            )
+                          }
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
