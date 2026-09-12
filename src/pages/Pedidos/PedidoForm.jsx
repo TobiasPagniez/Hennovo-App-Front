@@ -13,6 +13,7 @@ import { obtenerClientePorId } from "../../services/clienteService";
 import { nombreProducto } from "../../utils/productoNombre";
 import { UNIDAD_PRECIO_OPCIONES } from "../../utils/precioLabels";
 import "./PedidoForm.css";
+import { unidadesPermitidas } from "../../utils/precioLabels";
 
 function hoyISO() {
   return new Date().toISOString().split("T")[0];
@@ -35,7 +36,7 @@ export default function PedidoForm({
   const [errorApi, setErrorApi] = useState(null);
 
   const [clienteSeleccionado, setClienteSeleccionado] = useState(
-    clienteInicial ?? null
+    clienteInicial ?? null,
   );
   const [habituales, setHabituales] = useState([]);
   const [pedidoOriginal, setPedidoOriginal] = useState(null);
@@ -124,6 +125,24 @@ export default function PedidoForm({
     }
     cargarHabituales();
   }, [clienteSeleccionado]);
+
+  useEffect(() => {
+    detallesActuales.forEach((detalle, index) => {
+      const producto = productos.find(
+        (p) => String(p.id) === String(detalle.productoId),
+      );
+      if (!producto) return;
+
+      const permitidas = unidadesPermitidas(producto).map((o) => o.value);
+      if (!permitidas.includes(detalle.unidad)) {
+        setValue(
+          `detalles.${index}.unidad`,
+          permitidas.length === 1 ? permitidas[0] : "",
+        );
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(detallesActuales.map((d) => d.productoId))]);
 
   function topeDe(productoId) {
     if (!productoId) return null;
@@ -251,6 +270,10 @@ export default function PedidoForm({
               {fields.map((field, index) => {
                 const productoIdActual = detallesActuales[index]?.productoId;
                 const tope = topeDe(productoIdActual);
+                const productoActual = productos.find(
+                  (p) => String(p.id) === String(productoIdActual),
+                );
+                const opcionesUnidad = unidadesPermitidas(productoActual);
 
                 return (
                   <tr key={field.id}>
@@ -267,6 +290,11 @@ export default function PedidoForm({
                           </option>
                         ))}
                       </select>
+                      {errors.detalles?.[index]?.productoId && (
+                        <span className="form-error">
+                          {errors.detalles[index].productoId.message}
+                        </span>
+                      )}
                     </td>
                     <td>
                       <input
@@ -277,20 +305,33 @@ export default function PedidoForm({
                           min: { value: 1, message: "Mínimo 1" },
                         })}
                       />
+                      {errors.detalles?.[index]?.cantidad && (
+                        <span className="form-error">
+                          {errors.detalles[index].cantidad.message}
+                        </span>
+                      )}
                     </td>
                     <td>
                       <select
                         {...register(`detalles.${index}.unidad`, {
                           required: "Elegí una unidad",
                         })}
+                        disabled={opcionesUnidad.length === 1}
                       >
-                        <option value="">-</option>
-                        {UNIDAD_PRECIO_OPCIONES.map((op) => (
+                        {opcionesUnidad.length > 1 && (
+                          <option value="">-</option>
+                        )}
+                        {opcionesUnidad.map((op) => (
                           <option key={op.value} value={op.value}>
                             {op.label}
                           </option>
                         ))}
                       </select>
+                      {errors.detalles?.[index]?.unidad && (
+                        <span className="form-error">
+                          {errors.detalles[index].unidad.message}
+                        </span>
+                      )}
                     </td>
                     <td className="pedido-tope-celda">
                       {tope !== null ? `Tope: ${tope}` : "-"}
@@ -304,7 +345,7 @@ export default function PedidoForm({
                     </td>
                   </tr>
                 );
-              })}
+              })}{" "}
             </tbody>
           </table>
         </div>
@@ -319,7 +360,11 @@ export default function PedidoForm({
         {errorApi && <p className="form-error-api">{errorApi}</p>}
 
         <div className="form-actions">
-          <button type="submit" className="btn-primario" disabled={isSubmitting}>
+          <button
+            type="submit"
+            className="btn-primario"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Guardando..." : "Guardar pedido"}
           </button>
         </div>
