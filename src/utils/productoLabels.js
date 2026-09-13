@@ -14,6 +14,7 @@ export const TAMAÑO_OPCIONES = [
 
 export const PRESENTACION_OPCIONES = [
   { value: "MAPLE", label: "Maple" },
+  { value: "CAJON", label: "Cajón" },
   { value: "CAJITA", label: "Cajita" },
 ];
 

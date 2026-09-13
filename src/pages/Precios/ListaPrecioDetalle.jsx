@@ -37,9 +37,9 @@ export default function ListaPrecioDetalle() {
 
   function precioDe(productoId, categoriaId) {
     const precio = lista.precios.find(
-      (p) => p.productoId === productoId && p.categoriaId === categoriaId
+      (p) => p.productoId === productoId && p.categoriaId === categoriaId,
     );
-    return precio ? `$ ${precio.precio} (${precio.unidadPrecio})` : "-";
+    return precio ? `$ ${precio.precio}` : "-";
   }
 
   return (
