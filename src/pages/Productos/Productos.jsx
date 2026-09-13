@@ -4,11 +4,7 @@ import {
   desactivarProducto,
   reactivarProducto,
 } from "../../services/productoService";
-import {
-  labelTipoHuevo,
-  labelTamaño,
-  labelPresentacion,
-} from "../../utils/productoLabels";
+import { nombreProducto } from "../../utils/productoNombre";
 import Modal from "../../components/Modal/Modal";
 import ProductoFormModal from "./ProductoFormModal";
 import "./Productos.css";
@@ -113,9 +109,7 @@ export default function Productos() {
           <table className="tabla-base">
             <thead>
               <tr>
-                <th>Tipo</th>
-                <th>Tamaño</th>
-                <th>Presentación</th>
+                <th>Producto</th>
                 <th>Estado</th>
                 <th>Acciones</th>
               </tr>
@@ -126,14 +120,10 @@ export default function Productos() {
                   key={producto.id}
                   className={!producto.activo ? "fila-inactiva" : ""}
                 >
-                  <td data-label="Tipo">
+                  <td data-label="Producto">
                     <span className="celda-destacada">
-                      {labelTipoHuevo(producto.tipoHuevo)}
+                      {nombreProducto(producto)}
                     </span>
-                  </td>
-                  <td data-label="Tamaño">{labelTamaño(producto.tamaño)}</td>
-                  <td data-label="Presentación">
-                    {labelPresentacion(producto.presentacion)}
                   </td>
                   <td data-label="Estado">
                     <span
@@ -162,7 +152,7 @@ export default function Productos() {
               ))}
               {productosVisibles.length === 0 && (
                 <tr className="fila-vacia">
-                  <td colSpan={5}>No hay productos para mostrar.</td>
+                  <td colSpan={3}>No hay productos para mostrar.</td>
                 </tr>
               )}
             </tbody>

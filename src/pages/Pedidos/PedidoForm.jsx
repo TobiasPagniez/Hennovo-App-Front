@@ -11,9 +11,7 @@ import {
 } from "../../services/pedidoService";
 import { obtenerClientePorId } from "../../services/clienteService";
 import { nombreProducto } from "../../utils/productoNombre";
-import { UNIDAD_PRECIO_OPCIONES } from "../../utils/precioLabels";
 import "./PedidoForm.css";
-import { unidadesPermitidas } from "../../utils/precioLabels";
 
 function hoyISO() {
   return new Date().toISOString().split("T")[0];
@@ -52,7 +50,7 @@ export default function PedidoForm({
       fecha: fechaInicial ?? hoyISO(),
       observaciones: "",
       banco: "",
-      detalles: [{ productoId: "", cantidad: 1, unidad: "" }],
+      detalles: [{ productoId: "", cantidad: 1 }],
     },
   });
 
@@ -97,7 +95,6 @@ export default function PedidoForm({
           pedido.detalles.map((d) => ({
             productoId: String(d.productoId),
             cantidad: d.cantidad,
-            unidad: d.unidad,
           })),
         );
       } catch {
@@ -126,24 +123,6 @@ export default function PedidoForm({
     cargarHabituales();
   }, [clienteSeleccionado]);
 
-  useEffect(() => {
-    detallesActuales.forEach((detalle, index) => {
-      const producto = productos.find(
-        (p) => String(p.id) === String(detalle.productoId),
-      );
-      if (!producto) return;
-
-      const permitidas = unidadesPermitidas(producto).map((o) => o.value);
-      if (!permitidas.includes(detalle.unidad)) {
-        setValue(
-          `detalles.${index}.unidad`,
-          permitidas.length === 1 ? permitidas[0] : "",
-        );
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(detallesActuales.map((d) => d.productoId))]);
-
   function topeDe(productoId) {
     if (!productoId) return null;
     const habitual = habituales.find(
@@ -169,7 +148,6 @@ export default function PedidoForm({
       detalles: data.detalles.map((d) => ({
         productoId: Number(d.productoId),
         cantidad: Number(d.cantidad),
-        unidad: d.unidad,
       })),
     };
 
@@ -260,8 +238,7 @@ export default function PedidoForm({
             <thead>
               <tr>
                 <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Unidad</th>
+                <th>Cantidad del producto</th>
                 <th>Tope</th>
                 <th></th>
               </tr>
@@ -270,11 +247,6 @@ export default function PedidoForm({
               {fields.map((field, index) => {
                 const productoIdActual = detallesActuales[index]?.productoId;
                 const tope = topeDe(productoIdActual);
-                const productoActual = productos.find(
-                  (p) => String(p.id) === String(productoIdActual),
-                );
-                const opcionesUnidad = unidadesPermitidas(productoActual);
-
                 return (
                   <tr key={field.id}>
                     <td>
@@ -311,28 +283,6 @@ export default function PedidoForm({
                         </span>
                       )}
                     </td>
-                    <td>
-                      <select
-                        {...register(`detalles.${index}.unidad`, {
-                          required: "Elegí una unidad",
-                        })}
-                        disabled={opcionesUnidad.length === 1}
-                      >
-                        {opcionesUnidad.length > 1 && (
-                          <option value="">-</option>
-                        )}
-                        {opcionesUnidad.map((op) => (
-                          <option key={op.value} value={op.value}>
-                            {op.label}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.detalles?.[index]?.unidad && (
-                        <span className="form-error">
-                          {errors.detalles[index].unidad.message}
-                        </span>
-                      )}
-                    </td>
                     <td className="pedido-tope-celda">
                       {tope !== null ? `Tope: ${tope}` : "-"}
                     </td>
@@ -352,7 +302,7 @@ export default function PedidoForm({
 
         <button
           type="button"
-          onClick={() => append({ productoId: "", cantidad: 1, unidad: "" })}
+          onClick={() => append({ productoId: "", cantidad: 1 })}
         >
           + Agregar producto
         </button>

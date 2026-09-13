@@ -56,7 +56,11 @@ export default function RemitoDetalle() {
       <div className="page-header">
         <h1>Remito N° {String(remito.id).padStart(6, "0")}</h1>
         <div className="remitos-header-acciones">
-          <button className="btn-primario" onClick={handleDescargar} disabled={descargando}>
+          <button
+            className="btn-primario"
+            onClick={handleDescargar}
+            disabled={descargando}
+          >
             {descargando ? "Descargando..." : "Descargar PDF"}
           </button>
           <Link to="/remitos">
@@ -90,7 +94,6 @@ export default function RemitoDetalle() {
             <tr>
               <th>Producto</th>
               <th>Cantidad</th>
-              <th>Unidad</th>
               <th>Precio unitario</th>
               <th>Importe</th>
             </tr>
@@ -100,7 +103,6 @@ export default function RemitoDetalle() {
               <tr key={d.id}>
                 <td>{nombreDeProducto(d.productoId)}</td>
                 <td>{d.cantidad}</td>
-                <td>{d.unidad}</td>
                 <td>$ {formatMoney(d.precioUnitario)}</td>
                 <td>$ {formatMoney(d.importe)}</td>
               </tr>
@@ -108,7 +110,7 @@ export default function RemitoDetalle() {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan={4} className="remito-total-label">
+              <td colSpan={3} className="remito-total-label">
                 Total
               </td>
               <td className="remito-total-valor">

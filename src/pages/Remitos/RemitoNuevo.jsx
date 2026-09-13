@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useForm, useFieldArray, useWatch } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { obtenerPedidos } from "../../services/pedidoService";
 import { obtenerProductosTodos } from "../../services/productoService";
 import {
@@ -8,11 +8,9 @@ import {
   obtenerRemitoPorPedido,
 } from "../../services/remitoService";
 import { nombreProducto } from "../../utils/productoNombre";
-import { UNIDAD_PRECIO_OPCIONES } from "../../utils/precioLabels";
 import { formatMoney } from "../../utils/formatMoney";
 import { hoyISO } from "../../utils/dateUtils";
 import "./Remitos.css";
-import { unidadesPermitidas } from "../../utils/precioLabels";
 
 export default function RemitoNuevo() {
   const navigate = useNavigate();
@@ -33,7 +31,6 @@ export default function RemitoNuevo() {
     control,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -72,26 +69,6 @@ export default function RemitoNuevo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fechaBusqueda]);
 
-  const detallesActuales = useWatch({ control, name: "detalles" }) ?? [];
-
-  useEffect(() => {
-    detallesActuales.forEach((detalle, index) => {
-      const producto = productos.find(
-        (p) => String(p.id) === String(detalle.productoId),
-      );
-      if (!producto) return;
-
-      const permitidas = unidadesPermitidas(producto).map((o) => o.value);
-      if (!permitidas.includes(detalle.unidad)) {
-        setValue(
-          `detalles.${index}.unidad`,
-          permitidas.length === 1 ? permitidas[0] : "",
-        );
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(detallesActuales.map((d) => d.productoId))]);
-
   function handleElegirPedido(pedido) {
     setPedidoSeleccionado(pedido);
     setErrorApi(null);
@@ -102,7 +79,6 @@ export default function RemitoNuevo() {
       detalles: pedido.detalles.map((d) => ({
         productoId: String(d.productoId),
         cantidad: d.cantidad,
-        unidad: d.unidad,
       })),
     });
   }
@@ -124,7 +100,6 @@ export default function RemitoNuevo() {
       detalles: data.detalles.map((d) => ({
         productoId: Number(d.productoId),
         cantidad: Number(d.cantidad),
-        unidad: d.unidad,
       })),
     };
 
@@ -246,79 +221,53 @@ export default function RemitoNuevo() {
               <thead>
                 <tr>
                   <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Unidad</th>
+                  <th>Cantidad del producto</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {fields.map((field, index) => {
-                  const productoIdActual = detallesActuales[index]?.productoId;
-                  const productoActual = productos.find(
-                    (p) => String(p.id) === String(productoIdActual),
-                  );
-                  const opcionesUnidad = unidadesPermitidas(productoActual);
-
-                  return (
-                    <tr key={field.id}>
-                      <td>
-                        <select
-                          {...register(`detalles.${index}.productoId`, {
-                            required: "Elegí un producto",
-                          })}
-                        >
-                          <option value="">Seleccioná un producto</option>
-                          {productos.map((p) => (
-                            <option key={p.id} value={p.id}>
-                              {nombreProducto(p)}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          min="1"
-                          {...register(`detalles.${index}.cantidad`, {
-                            required: "Obligatorio",
-                            min: { value: 1, message: "Mínimo 1" },
-                          })}
-                        />
-                      </td>
-                      <td>
-                        <select
-                          {...register(`detalles.${index}.unidad`, {
-                            required: "Elegí una unidad",
-                          })}
-                          disabled={opcionesUnidad.length === 1}
-                        >
-                          {opcionesUnidad.length > 1 && (
-                            <option value="">-</option>
-                          )}
-                          {opcionesUnidad.map((op) => (
-                            <option key={op.value} value={op.value}>
-                              {op.label}
-                            </option>
-                          ))}
-                        </select>
-                      </td>
-                      <td>
-                        {fields.length > 1 && (
-                          <button type="button" onClick={() => remove(index)}>
-                            Quitar
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {fields.map((field, index) => (
+                  <tr key={field.id}>
+                    <td>
+                      <select
+                        {...register(`detalles.${index}.productoId`, {
+                          required: "Elegí un producto",
+                        })}
+                      >
+                        <option value="">Seleccioná un producto</option>
+                        {productos.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {nombreProducto(p)}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="1"
+                        {...register(`detalles.${index}.cantidad`, {
+                          required: "Obligatorio",
+                          min: { value: 1, message: "Mínimo 1" },
+                        })}
+                      />
+                    </td>
+                    <td>
+                      {fields.length > 1 && (
+                        <button type="button" onClick={() => remove(index)}>
+                          Quitar
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>{" "}
             </table>
           </div>
 
           <button
             type="button"
-            onClick={() => append({ productoId: "", cantidad: 1, unidad: "" })}
+            onClick={() => append({ productoId: "", cantidad: 1 })}
           >
             + Agregar producto
           </button>
