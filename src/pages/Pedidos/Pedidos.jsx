@@ -4,7 +4,10 @@ import {
   obtenerPedidos,
   marcarEntregado,
   marcarPagado,
+  asignarUsuarioPedido,
 } from "../../services/pedidoService";
+import { useAuth } from "../../context/AuthContext";
+import { obtenerEmpleados } from "../../services/userService";
 import { formatMoney } from "../../utils/formatMoney";
 import { hoyISO } from "../../utils/dateUtils";
 import "./Pedidos.css";
@@ -35,7 +38,7 @@ export default function Pedidos() {
 
   async function handleMarcarEntregado(pedido) {
     const confirmar = window.confirm(
-      "¿Marcar este pedido como entregado? Una vez entregado no podrá modificarse."
+      "¿Marcar este pedido como entregado? Una vez entregado no podrá modificarse.",
     );
     if (!confirmar) return;
     try {
@@ -52,6 +55,27 @@ export default function Pedidos() {
       cargar();
     } catch {
       alert("No se pudo marcar como pagado.");
+    }
+  }
+
+  const { usuario } = useAuth();
+  const esAdmin = usuario?.rol === "ADMIN";
+  const [empleados, setEmpleados] = useState([]);
+
+  useEffect(() => {
+    if (esAdmin) {
+      obtenerEmpleados()
+        .then(setEmpleados)
+        .catch(() => setEmpleados([]));
+    }
+  }, [esAdmin]);
+
+  async function handleAsignar(pedido, usuarioId) {
+    try {
+      await asignarUsuarioPedido(pedido.id, Number(usuarioId));
+      cargar();
+    } catch {
+      alert("No se pudo asignar el pedido.");
     }
   }
 
@@ -95,6 +119,7 @@ export default function Pedidos() {
                 <th>Entregado</th>
                 <th>Pagado</th>
                 <th>Acciones</th>
+                <th>Asignado a</th>
               </tr>
             </thead>
             <tbody>
@@ -140,11 +165,28 @@ export default function Pedidos() {
                       </button>
                     )}
                   </td>
+                  <td data-label="Asignado a">
+                    {esAdmin ? (
+                      <select
+                        value={pedido.usuarioId ?? ""}
+                        onChange={(e) => handleAsignar(pedido, e.target.value)}
+                      >
+                        <option value="">Sin asignar</option>
+                        {empleados.map((emp) => (
+                          <option key={emp.id} value={emp.id}>
+                            {emp.nombre} {emp.apellido}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      pedido.usuarioNombre || "Sin asignar"
+                    )}
+                  </td>
                 </tr>
               ))}
               {pedidos.length === 0 && (
                 <tr className="fila-vacia">
-                  <td colSpan={6}>No hay pedidos para mostrar.</td>
+                  <td colSpan={7}>No hay pedidos para mostrar.</td>
                 </tr>
               )}
             </tbody>
