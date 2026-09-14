@@ -25,3 +25,7 @@ export function marcarEntregado(id) {
 export function marcarPagado(id) {
   return api.patch(`/api/pedidos/${id}/pagado`);
 }
+
+export function asignarUsuarioPedido(id, usuarioId) {
+  return api.patch(`/api/pedidos/${id}/asignar`, { usuarioId }).then((res) => res.data);
+}
