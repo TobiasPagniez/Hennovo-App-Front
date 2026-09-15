@@ -15,3 +15,8 @@ export function obtenerListaVigente() {
 export function crearListaPrecio(data) {
   return api.post("/api/listas-precio", data).then((res) => res.data);
 }
+
+export async function actualizarListaPrecio(id, datos) {
+  const response = await api.put(`/api/listas-precio/${id}`, datos);
+  return response.data;
+}
