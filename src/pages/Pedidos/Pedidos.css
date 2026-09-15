@@ -31,3 +31,52 @@
   font-size: 0.85rem;
   cursor: pointer;
 }
+.pedidos-busqueda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.pedidos-busqueda input {
+  min-width: 240px;
+}
+
+.pedidos-paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.paginacion-info {
+  font-size: 0.9rem;
+}
+
+.paginacion-controles {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.paginacion-controles button {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+.paginacion-controles button:hover:not(:disabled) {
+  background: #f2f2f2;
+}
+
+.paginacion-controles button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.paginacion-controles .pagina-activa {
+  font-weight: bold;
+}
