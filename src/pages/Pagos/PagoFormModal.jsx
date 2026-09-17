@@ -9,6 +9,7 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -16,8 +17,19 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
       medioPago: "",
       numeroComprobante: "",
       observaciones: "",
+
+      // Datos del cheque
+      titular: "",
+      codigoBanco: "",
+      nombreBanco: "",
+      fechaPago: "",
+      endosado: false,
+      firmaTitular: false,
     },
   });
+
+  // Observamos el medio de pago seleccionado
+  const medioPago = watch("medioPago");
 
   async function onSubmit(data) {
     setErrorApi(null);
@@ -28,6 +40,14 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
       medioPago: data.medioPago,
       numeroComprobante: data.numeroComprobante || null,
       observaciones: data.observaciones || null,
+
+      // Datos del cheque
+      titular: data.medioPago === "CHEQUE" ? data.titular : null,
+      codigoBanco: data.medioPago === "CHEQUE" ? data.codigoBanco : null,
+      nombreBanco: data.medioPago === "CHEQUE" ? data.nombreBanco : null,
+      fechaPago: data.medioPago === "CHEQUE" ? data.fechaPago : null,
+      endosado: data.medioPago === "CHEQUE" ? data.endosado : null,
+      firmaTitular: data.medioPago === "CHEQUE" ? data.firmaTitular : null,
     };
 
     try {
@@ -35,7 +55,7 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
       onSaved();
     } catch (err) {
       setErrorApi(
-        err.response?.data?.detail || "Ocurrió un error al registrar el pago."
+        err.response?.data?.detail || "Ocurrió un error al registrar el pago.",
       );
     }
   }
@@ -49,26 +69,101 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
         step="0.01"
         {...register("importe", {
           required: "El importe es obligatorio",
-          min: { value: 0.01, message: "El importe debe ser mayor a 0" },
+          min: {
+            value: 0.01,
+            message: "El importe debe ser mayor a 0",
+          },
         })}
       />
+
       {errors.importe && (
         <span className="form-error">{errors.importe.message}</span>
       )}
 
       <label>Medio de pago</label>
+
       <select
-        {...register("medioPago", { required: "Elegí un medio de pago" })}
+        {...register("medioPago", {
+          required: "Elegí un medio de pago",
+        })}
       >
         <option value="">Seleccioná un medio de pago</option>
+
         {MEDIO_PAGO_OPCIONES.map((op) => (
           <option key={op.value} value={op.value}>
             {op.label}
           </option>
         ))}
       </select>
+
       {errors.medioPago && (
         <span className="form-error">{errors.medioPago.message}</span>
+      )}
+
+      {/* ==========================================
+          DATOS DEL CHEQUE
+          Solo aparecen si se selecciona CHEQUE
+          ========================================== */}
+
+      {medioPago === "CHEQUE" && (
+        <>
+          <label>Titular del cheque</label>
+          <input
+            type="text"
+            {...register("titular", {
+              required: "El titular es obligatorio",
+            })}
+          />
+
+          {errors.titular && (
+            <span className="form-error">{errors.titular.message}</span>
+          )}
+
+          <label>Código de banco</label>
+          <input
+            type="text"
+            {...register("codigoBanco", {
+              required: "El código de banco es obligatorio",
+            })}
+          />
+
+          {errors.codigoBanco && (
+            <span className="form-error">{errors.codigoBanco.message}</span>
+          )}
+
+          <label>Nombre del banco</label>
+          <input
+            type="text"
+            {...register("nombreBanco", {
+              required: "El nombre del banco es obligatorio",
+            })}
+          />
+
+          {errors.nombreBanco && (
+            <span className="form-error">{errors.nombreBanco.message}</span>
+          )}
+
+          <label>Fecha de pago</label>
+          <input
+            type="date"
+            {...register("fechaPago", {
+              required: "La fecha de pago es obligatoria",
+            })}
+          />
+
+          {errors.fechaPago && (
+            <span className="form-error">{errors.fechaPago.message}</span>
+          )}
+
+          <label>
+            <input type="checkbox" {...register("endosado")} /> Cheque endosado
+          </label>
+
+          <label>
+            <input type="checkbox" {...register("firmaTitular")} /> Tiene firma
+            del titular
+          </label>
+        </>
       )}
 
       <label>N° de comprobante (opcional)</label>
@@ -83,6 +178,7 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
         <button type="button" onClick={onClose} disabled={isSubmitting}>
           Cancelar
         </button>
+
         <button type="submit" className="btn-primario" disabled={isSubmitting}>
           {isSubmitting ? "Guardando..." : "Registrar pago"}
         </button>

@@ -285,7 +285,7 @@ export default function Croquis() {
               : null
           }
           onClose={() => setModalConfigurar(false)}
-          onSaved={handleConfigurado}
+          onGuardado={handleConfigurado}
         />
       </Modal>
 

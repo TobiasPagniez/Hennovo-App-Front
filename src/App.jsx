@@ -15,6 +15,7 @@ import Productos from "./pages/Productos/Productos";
 import Precios from "./pages/Precios/Precios";
 import NuevaListaPrecio from "./pages/Precios/NuevaListaPrecio";
 import ListaPrecioDetalle from "./pages/Precios/ListaPrecioDetalle";
+import EditarListaPrecio from "./pages/Precios/EditarListaPrecio";
 
 import Pedidos from "./pages/Pedidos/Pedidos";
 import PedidoForm from "./pages/Pedidos/PedidoForm";
@@ -103,6 +104,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/precios/:id/editar" element={<EditarListaPrecio />} />
 
             <Route path="/pedidos" element={<Pedidos />} />
             <Route path="/pedidos/nuevo" element={<PedidoForm />} />
@@ -165,9 +167,8 @@ function App() {
             <Route path="/croquis" element={<Croquis />} />
 
             <Route path="/perfil" element={<Perfil />} />
-            
+
             <Route path="*" element={<NotFound />} />
-                
           </Route>
           </Routes>
         </DialogoProvider>

@@ -54,12 +54,22 @@ export default function PedidoForm({
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control,
     name: "detalles",
   });
-
   const detallesActuales = useWatch({ control, name: "detalles" }) ?? [];
+
+  function cargarProductosHabituales() {
+    if (!clienteSeleccionado || habituales.length === 0) return;
+
+    replace(
+      habituales.map((habitual) => ({
+        productoId: String(habitual.idProducto),
+        cantidad: habitual.cantidad,
+      })),
+    );
+  }
 
   useEffect(() => {
     async function cargarProductos() {
@@ -212,6 +222,19 @@ export default function PedidoForm({
             Ver/gestionar productos habituales de este cliente
           </Link>
         )}
+        
+      <p></p>
+
+        {clienteSeleccionado && (
+          <button
+            type="button"
+            className="btn-primario"
+            onClick={cargarProductosHabituales}
+            disabled={habituales.length === 0}
+          >
+            Cargar productos habituales
+          </button>
+        )}
 
         <label>Fecha</label>
         <input
@@ -295,7 +318,7 @@ export default function PedidoForm({
                     </td>
                   </tr>
                 );
-              })}{" "}
+              })}
             </tbody>
           </table>
         </div>

@@ -73,6 +73,9 @@ export default function Precios() {
                       </td>
                       <td data-label="Acciones" className="acciones-fila">
                         <Link to={`/precios/${vigente.id}`}>Ver detalle</Link>
+                        <Link to={`/precios/${vigente.id}/editar`}>
+                          Editar
+                        </Link>{" "}
                       </td>
                     </tr>
                   </tbody>
@@ -111,9 +114,10 @@ export default function Precios() {
                             {lista.precios.length}
                           </td>
                           <td data-label="Acciones" className="acciones-fila">
-                            <Link to={`/precios/${lista.id}`}>
-                              Ver detalle
-                            </Link>
+                            <Link to={`/precios/${lista.id}`}>Ver detalle</Link>
+                            <Link to={`/precios/${lista.id}/editar`}>
+                              Editar
+                            </Link>{" "}
                           </td>
                         </tr>
                       ))}
