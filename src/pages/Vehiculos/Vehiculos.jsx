@@ -9,6 +9,7 @@ import Modal from "../../components/Modal/Modal";
 import VehiculoCrearModal from "./VehiculoCrearModal";
 import VehiculoEditModal from "./VehiculoEditModal";
 import KilometrajeModal from "./KilometrajeModal";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Vehiculos.css";
 
 function claseEstado(estado) {
@@ -18,6 +19,7 @@ function claseEstado(estado) {
 }
 
 export default function Vehiculos() {
+  const { confirmar, avisar } = useDialogo();
   const [vehiculos, setVehiculos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -46,15 +48,16 @@ export default function Vehiculos() {
   }, []);
 
   async function handleDesactivar(vehiculo) {
-    const confirmar = window.confirm(
-      `¿Seguro que querés desactivar el vehículo "${vehiculo.patente}"?`
+    const ok = await confirmar(
+      `¿Seguro que querés desactivar el vehículo "${vehiculo.patente}"?`,
+      { titulo: "Desactivar vehículo", peligro: true, textoConfirmar: "Desactivar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
     try {
       await desactivarVehiculo(vehiculo.id);
       cargar();
     } catch {
-      alert("No se pudo desactivar el vehículo.");
+      await avisar("No se pudo desactivar el vehículo.", { peligro: true });
     }
   }
 
@@ -63,7 +66,7 @@ export default function Vehiculos() {
       await reactivarVehiculo(vehiculo.id);
       cargar();
     } catch {
-      alert("No se pudo reactivar el vehículo.");
+      await avisar("No se pudo reactivar el vehículo.", { peligro: true });
     }
   }
 

@@ -5,6 +5,7 @@ import {
   eliminarDetalleCelda,
 } from "../../services/plantillaCargaService";
 import { nombreProducto } from "../../utils/productoNombre";
+import { useDialogo } from "../../context/DialogoContext";
 
 export default function EditarDetalleModal({
   detalle,
@@ -13,6 +14,7 @@ export default function EditarDetalleModal({
   onSaved,
   onIniciarMover,
 }) {
+  const { confirmar } = useDialogo();
   const [errorApi, setErrorApi] = useState(null);
 
   const {
@@ -38,8 +40,12 @@ export default function EditarDetalleModal({
   }
 
   async function handleEliminar() {
-    const confirmar = window.confirm("¿Quitar este producto de la celda?");
-    if (!confirmar) return;
+    const ok = await confirmar("¿Quitar este producto de la celda?", {
+      titulo: "Quitar producto",
+      peligro: true,
+      textoConfirmar: "Quitar",
+    });
+    if (!ok) return;
     try {
       await eliminarDetalleCelda(detalle.id);
       onSaved();

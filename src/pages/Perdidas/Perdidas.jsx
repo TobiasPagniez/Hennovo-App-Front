@@ -6,9 +6,11 @@ import {
 import Modal from "../../components/Modal/Modal";
 import PerdidaFormModal from "./PerdidaFormModal";
 import PerdidaReportes from "./PerdidaReportes";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Perdidas.css";
 
 export default function Perdidas() {
+  const { confirmar, avisar } = useDialogo();
   const [vista, setVista] = useState("listado");
   const [perdidas, setPerdidas] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -60,16 +62,17 @@ export default function Perdidas() {
   }
 
   async function handleEliminar(perdida) {
-    const confirmar = window.confirm(
-      `¿Eliminar el registro de pérdida de "${perdida.producto}"? Esta acción no se puede deshacer.`
+    const ok = await confirmar(
+      `¿Eliminar el registro de pérdida de "${perdida.producto}"? Esta acción no se puede deshacer.`,
+      { titulo: "Eliminar pérdida", peligro: true, textoConfirmar: "Eliminar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await eliminarPerdida(perdida.id);
       cargar();
     } catch {
-      alert("No se pudo eliminar el registro.");
+      await avisar("No se pudo eliminar el registro.", { peligro: true });
     }
   }
 

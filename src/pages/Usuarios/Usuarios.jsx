@@ -6,9 +6,11 @@ import {
 import Modal from "../../components/Modal/Modal";
 import UsuarioFormModal from "./UsuarioFormModal";
 import UsuarioCrearModal from "./UsuarioCrearModal";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Usuarios.css";
 
 export default function Usuarios() {
+  const { confirmar, avisar } = useDialogo();
   const [usuarios, setUsuarios] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -56,17 +58,18 @@ export default function Usuarios() {
   }
 
   async function handleDesactivar(usuario) {
-    const confirmar = window.confirm(
+    const ok = await confirmar(
       `¿Seguro que querés desactivar a "${usuario.nombre} ${usuario.apellido}"? ` +
-        `No va a poder volver a iniciar sesión.`
+        `No va a poder volver a iniciar sesión.`,
+      { titulo: "Desactivar usuario", peligro: true, textoConfirmar: "Desactivar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await desactivarUsuario(usuario.id);
       cargar();
     } catch {
-      alert("No se pudo desactivar el usuario.");
+      await avisar("No se pudo desactivar el usuario.", { peligro: true });
     }
   }
 

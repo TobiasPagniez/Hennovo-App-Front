@@ -5,9 +5,11 @@ import {
 } from "../../services/categoriaClienteService";
 import Modal from "../../components/Modal/Modal";
 import CategoriaFormModal from "./CategoriaFormModal";
+import { useDialogo } from "../../context/DialogoContext";
 import "./CategoriasCliente.css";
 
 export default function CategoriasCliente() {
+  const { confirmar, avisar } = useDialogo();
   const [categorias, setCategorias] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -53,18 +55,20 @@ export default function CategoriasCliente() {
   }
 
   async function handleEliminar(categoria) {
-    const confirmar = window.confirm(
+    const ok = await confirmar(
       `¿Seguro que querés eliminar la categoría "${categoria.nombre}"? ` +
-        `Esta acción es permanente y puede fallar si hay clientes o precios asociados.`
+        `Esta acción es permanente y puede fallar si hay clientes o precios asociados.`,
+      { titulo: "Eliminar categoría", peligro: true, textoConfirmar: "Eliminar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await eliminarCategoria(categoria.id);
       cargar();
     } catch {
-      alert(
-        "No se pudo eliminar la categoría. Es posible que esté siendo usada por algún cliente o lista de precios."
+      await avisar(
+        "No se pudo eliminar la categoría. Es posible que esté siendo usada por algún cliente o lista de precios.",
+        { peligro: true }
       );
     }
   }

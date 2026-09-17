@@ -10,6 +10,7 @@ import { obtenerEmpleados } from "../../services/userService";
 import { marcarPagado } from "../../services/pedidoService";
 import { useAuth } from "../../context/AuthContext";
 import { DIAS_SEMANA, fechasDeLaSemana, hoyISO } from "../../utils/dateUtils";
+import { useDialogo } from "../../context/DialogoContext";
 import "./PlanillaVentas.css";
 
 function calcularIndiceHoy(fechaISO) {
@@ -19,6 +20,7 @@ function calcularIndiceHoy(fechaISO) {
 
 export default function PlanillaVentas() {
   const { usuario } = useAuth();
+  const { avisar } = useDialogo();
 
   const [empleados, setEmpleados] = useState([]);
   const [empleadoSeleccionadoId, setEmpleadoSeleccionadoId] = useState(null);
@@ -89,7 +91,7 @@ export default function PlanillaVentas() {
         cargar();
       }
     } catch {
-      alert("No se pudo actualizar el estado de pago.");
+      await avisar("No se pudo actualizar el estado de pago.", { peligro: true });
     }
   }
 
@@ -123,7 +125,7 @@ export default function PlanillaVentas() {
       await guardarOrdenPlanilla(payload);
       setClientes(nuevaLista);
     } catch {
-      alert("No se pudo guardar el nuevo orden.");
+      await avisar("No se pudo guardar el nuevo orden.", { peligro: true });
       cargar();
     } finally {
       setProcesandoOrden(false);

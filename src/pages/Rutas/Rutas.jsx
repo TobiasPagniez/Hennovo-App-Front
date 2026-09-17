@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { obtenerRutas, desactivarRuta } from "../../services/rutaService";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Rutas.css";
 
 export default function Rutas() {
   const { usuario } = useAuth();
+  const { confirmar, avisar } = useDialogo();
   const esAdmin = usuario?.rol === "ADMIN";
 
   const [rutas, setRutas] = useState([]);
@@ -31,15 +33,16 @@ export default function Rutas() {
   }, []);
 
   async function handleDesactivar(ruta) {
-    const confirmar = window.confirm(
-      `¿Seguro que querés desactivar la ruta "${ruta.nombre}"?`
+    const ok = await confirmar(
+      `¿Seguro que querés desactivar la ruta "${ruta.nombre}"?`,
+      { titulo: "Desactivar ruta", peligro: true, textoConfirmar: "Desactivar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
     try {
       await desactivarRuta(ruta.id);
       cargar();
     } catch {
-      alert("No se pudo desactivar la ruta.");
+      await avisar("No se pudo desactivar la ruta.", { peligro: true });
     }
   }
 

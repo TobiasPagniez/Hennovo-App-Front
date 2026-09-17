@@ -15,9 +15,11 @@ import {
   labelEstadoPedido,
   claseEstadoPedido,
 } from "../../utils/pagoLabels";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Pagos.css";
 
 export default function Pagos() {
+  const { confirmar, avisar } = useDialogo();
   const [searchParams] = useSearchParams();
   const clienteIdInicial = searchParams.get("clienteId");
 
@@ -69,16 +71,17 @@ export default function Pagos() {
   }
 
   async function handleAnular(pago) {
-    const confirmar = window.confirm(
-      `¿Anular el pago de $ ${formatMoney(pago.importe)}? Esta acción no se puede deshacer.`
+    const ok = await confirmar(
+      `¿Anular el pago de $ ${formatMoney(pago.importe)}? Esta acción no se puede deshacer.`,
+      { titulo: "Anular pago", peligro: true, textoConfirmar: "Anular" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await anularPago(pago.id);
       cargarDatos();
     } catch {
-      alert("No se pudo anular el pago.");
+      await avisar("No se pudo anular el pago.", { peligro: true });
     }
   }
 

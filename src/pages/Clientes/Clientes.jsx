@@ -10,9 +10,11 @@ import {
 import { obtenerCategorias } from "../../services/categoriaClienteService";
 import Modal from "../../components/Modal/Modal";
 import ClienteFormModal from "./ClienteFormModal";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Clientes.css";
 
 export default function Clientes() {
+  const { confirmar, avisar } = useDialogo();
   const [clientes, setClientes] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -69,16 +71,17 @@ export default function Clientes() {
   }
 
   async function handleDesactivar(cliente) {
-    const confirmar = window.confirm(
-      `¿Seguro que querés desactivar a "${cliente.nombre}"?`
+    const ok = await confirmar(
+      `¿Seguro que querés desactivar a "${cliente.nombre}"?`,
+      { titulo: "Desactivar cliente", peligro: true, textoConfirmar: "Desactivar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await desactivarCliente(cliente.id);
       cargarClientes();
     } catch {
-      alert("No se pudo desactivar el cliente.");
+      avisar("No se pudo desactivar el cliente.", { peligro: true });
     }
   }
 
@@ -87,7 +90,7 @@ export default function Clientes() {
       await reactivarCliente(cliente.id);
       cargarClientes();
     } catch {
-      alert("No se pudo reactivar el cliente.");
+      avisar("No se pudo reactivar el cliente.", { peligro: true });
     }
   }
 

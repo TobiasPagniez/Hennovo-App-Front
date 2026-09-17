@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { DialogoProvider } from "./context/DialogoContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import MainLayout from "./layouts/MainLayout/MainLayout";
 
@@ -53,7 +54,8 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
+        <DialogoProvider>
+          <Routes>
           <Route path="/login" element={<Login />} />
 
           <Route
@@ -167,7 +169,8 @@ function App() {
             <Route path="*" element={<NotFound />} />
                 
           </Route>
-        </Routes>
+          </Routes>
+        </DialogoProvider>
       </AuthProvider>
     </BrowserRouter>
   );
