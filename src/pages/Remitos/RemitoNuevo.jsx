@@ -55,8 +55,8 @@ export default function RemitoNuevo() {
     setCargandoPedidos(true);
     setError(null);
     try {
-      const data = await obtenerPedidos(fechaBusqueda);
-      setPedidos(data);
+      const data = await obtenerPedidos({ fecha: fechaBusqueda, tamano: 50 });
+      setPedidos(data.contenido);
     } catch {
       setError("No se pudieron cargar los pedidos de esa fecha.");
     } finally {
