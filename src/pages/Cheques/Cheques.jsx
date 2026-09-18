@@ -7,6 +7,7 @@ import {
   reactivarCheque,
 } from "../../services/chequeService";
 import { formatMoney } from "../../utils/formatMoney";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Cheques.css";
 
 const FILTRO_ENDOSADO_OPCIONES = [
@@ -16,6 +17,7 @@ const FILTRO_ENDOSADO_OPCIONES = [
 ];
 
 export default function Cheques() {
+  const { confirmar, avisar } = useDialogo();
   const [cheques, setCheques] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -67,17 +69,18 @@ export default function Cheques() {
   }
 
   async function handleDesactivar(cheque) {
-    const confirmar = window.confirm(
+    const ok = await confirmar(
       `¿Seguro que querés dar de baja el cheque de "${cheque.clienteNombre}" por $ ${formatMoney(
         cheque.importe
-      )}?`
+      )}?`,
+      { titulo: "Dar de baja cheque", peligro: true, textoConfirmar: "Dar de baja" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
     try {
       await desactivarCheque(cheque.id);
       cargar();
     } catch {
-      alert("No se pudo dar de baja el cheque.");
+      await avisar("No se pudo dar de baja el cheque.", { peligro: true });
     }
   }
 
@@ -86,7 +89,7 @@ export default function Cheques() {
       await reactivarCheque(cheque.id);
       cargar();
     } catch {
-      alert("No se pudo reactivar el cheque.");
+      await avisar("No se pudo reactivar el cheque.", { peligro: true });
     }
   }
 

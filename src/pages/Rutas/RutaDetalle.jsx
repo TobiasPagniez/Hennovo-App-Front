@@ -8,11 +8,13 @@ import {
   asignarPedidos,
   quitarPedido,
 } from "../../services/rutaService";
+import { useDialogo } from "../../context/DialogoContext";
 import "./RutaDetalle.css";
 
 export default function RutaDetalle() {
   const { id } = useParams();
   const { usuario } = useAuth();
+  const { confirmar, avisar } = useDialogo();
   const esAdmin = usuario?.rol === "ADMIN";
 
   const [ruta, setRuta] = useState(null);
@@ -60,7 +62,7 @@ export default function RutaDetalle() {
       await asignarPedidos(id, payload);
       cargarTodo();
     } catch {
-      alert("No se pudo actualizar el orden de la ruta.");
+      await avisar("No se pudo actualizar el orden de la ruta.", { peligro: true });
     } finally {
       setProcesando(false);
     }
@@ -95,17 +97,18 @@ export default function RutaDetalle() {
   }
 
   async function handleQuitar(pedido) {
-    const confirmar = window.confirm(
-      `¿Quitar el pedido de "${pedido.clienteNombre}" de esta ruta?`
+    const ok = await confirmar(
+      `¿Quitar el pedido de "${pedido.clienteNombre}" de esta ruta?`,
+      { titulo: "Quitar pedido de la ruta", peligro: true, textoConfirmar: "Quitar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     setProcesando(true);
     try {
       await quitarPedido(id, pedido.pedidoId);
       cargarTodo();
     } catch {
-      alert("No se pudo quitar el pedido de la ruta.");
+      await avisar("No se pudo quitar el pedido de la ruta.", { peligro: true });
     } finally {
       setProcesando(false);
     }

@@ -9,9 +9,11 @@ import {
 } from "../../services/pedidoHabitualService";
 import { obtenerProductosActivos } from "../../services/productoService";
 import { obtenerClientePorId } from "../../services/clienteService";
+import { useDialogo } from "../../context/DialogoContext";
 import "./PedidosHabituales.css";
 
 export default function PedidosHabituales() {
+  const { confirmar, avisar } = useDialogo();
   const [searchParams] = useSearchParams();
   const clienteIdInicial = searchParams.get("clienteId");
 
@@ -82,16 +84,17 @@ export default function PedidosHabituales() {
   }
 
   async function handleEliminar(habitual) {
-    const confirmar = window.confirm(
-      `¿Seguro que querés quitar "${habitual.producto}" de los habituales de este cliente?`
+    const ok = await confirmar(
+      `¿Seguro que querés quitar "${habitual.producto}" de los habituales de este cliente?`,
+      { titulo: "Quitar producto habitual", peligro: true, textoConfirmar: "Quitar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await eliminarHabitual(habitual.id);
       cargarHabituales();
     } catch {
-      alert("No se pudo eliminar el producto habitual.");
+      await avisar("No se pudo eliminar el producto habitual.", { peligro: true });
     }
   }
 

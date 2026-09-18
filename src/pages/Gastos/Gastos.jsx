@@ -4,9 +4,11 @@ import Modal from "../../components/Modal/Modal";
 import GastoFormModal from "./GastoFormModal";
 import GastoReportes from "./GastoReportes";
 import { formatMoney } from "../../utils/formatMoney";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Gastos.css";
 
 export default function Gastos() {
+  const { confirmar, avisar } = useDialogo();
   const [vista, setVista] = useState("listado");
   const [gastos, setGastos] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -58,16 +60,17 @@ export default function Gastos() {
   }
 
   async function handleEliminar(gasto) {
-    const confirmar = window.confirm(
-      `¿Eliminar el gasto "${gasto.descripcion}" de $ ${formatMoney(gasto.importe)}? Esta acción no se puede deshacer.`
+    const ok = await confirmar(
+      `¿Eliminar el gasto "${gasto.descripcion}" de $ ${formatMoney(gasto.importe)}? Esta acción no se puede deshacer.`,
+      { titulo: "Eliminar gasto", peligro: true, textoConfirmar: "Eliminar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await eliminarGasto(gasto.id);
       cargar();
     } catch {
-      alert("No se pudo eliminar el gasto.");
+      await avisar("No se pudo eliminar el gasto.", { peligro: true });
     }
   }
 

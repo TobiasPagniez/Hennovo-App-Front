@@ -13,6 +13,7 @@ import {
   moverDetalleCelda,
 } from "../../services/plantillaCargaService";
 import { DIAS_SEMANA, fechasDeLaSemana, hoyISO } from "../../utils/dateUtils";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Croquis.css";
 
 function calcularIndiceHoy(fechaISO) {
@@ -21,6 +22,7 @@ function calcularIndiceHoy(fechaISO) {
 }
 
 export default function Croquis() {
+  const { avisar } = useDialogo();
   const [vehiculos, setVehiculos] = useState([]);
   const [vehiculoId, setVehiculoId] = useState(null);
   const [productos, setProductos] = useState([]);
@@ -108,7 +110,7 @@ export default function Croquis() {
           setChipParaMover(null);
           cargarPlantillas();
         })
-        .catch(() => alert("No se pudo mover el producto."));
+        .catch(() => avisar("No se pudo mover el producto.", { peligro: true }));
     }
   }
 

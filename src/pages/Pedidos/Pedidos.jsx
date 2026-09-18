@@ -10,11 +10,13 @@ import { useAuth } from "../../context/AuthContext";
 import { obtenerEmpleados } from "../../services/userService";
 import { formatMoney } from "../../utils/formatMoney";
 import { hoyISO } from "../../utils/dateUtils";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Pedidos.css";
 
 const TAMANO_PAGINA = 10;
 
 export default function Pedidos() {
+  const { confirmar, avisar } = useDialogo();
   const [pedidos, setPedidos] = useState([]);
 
   const [fecha, setFecha] = useState(hoyISO());
@@ -100,17 +102,16 @@ export default function Pedidos() {
   }
 
   async function handleMarcarEntregado(pedido) {
-    const confirmar = window.confirm(
+    const ok = await confirmar(
       "¿Marcar este pedido como entregado? Una vez entregado no podrá modificarse.",
+      { titulo: "Marcar como entregado" }
     );
-
-    if (!confirmar) return;
-
+    if (!ok) return;
     try {
       await marcarEntregado(pedido.id);
       cargar();
     } catch {
-      alert("No se pudo marcar como entregado.");
+      avisar("No se pudo marcar como entregado.", { peligro: true });
     }
   }
 
@@ -119,7 +120,7 @@ export default function Pedidos() {
       await marcarPagado(pedido.id);
       cargar();
     } catch {
-      alert("No se pudo marcar como pagado.");
+      avisar("No se pudo marcar como pagado.", { peligro: true });
     }
   }
 
@@ -128,7 +129,7 @@ export default function Pedidos() {
       await asignarUsuarioPedido(pedido.id, Number(usuarioId));
       cargar();
     } catch {
-      alert("No se pudo asignar el pedido.");
+      avisar("No se pudo asignar el pedido.", { peligro: true });
     }
   }
 

@@ -41,11 +41,12 @@ export default function Dashboard() {
     async function cargarOperativo() {
       setCargandoOperativo(true);
       try {
-        const [pedidos, vencimientos] = await Promise.all([
-          obtenerPedidos(hoyISO()),
+        const [pedidosPagina, vencimientos] = await Promise.all([
+          obtenerPedidos({ fecha: hoyISO(), tamano: 50 }),
           obtenerVencimientos(15),
         ]);
 
+        const pedidos = pedidosPagina.contenido;
         const totalHoy = pedidos.reduce((acc, p) => acc + Number(p.total), 0);
         const entregados = pedidos.filter((p) => p.entregado).length;
 

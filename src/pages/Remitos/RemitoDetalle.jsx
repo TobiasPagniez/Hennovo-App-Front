@@ -8,10 +8,12 @@ import { obtenerProductosTodos } from "../../services/productoService";
 import { descargarArchivo } from "../../utils/downloadFile";
 import { formatMoney } from "../../utils/formatMoney";
 import { nombreProducto } from "../../utils/productoNombre";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Remitos.css";
 
 export default function RemitoDetalle() {
   const { id } = useParams();
+  const { avisar } = useDialogo();
   const [remito, setRemito] = useState(null);
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -41,7 +43,7 @@ export default function RemitoDetalle() {
       const blob = await descargarRemitoPdf(id);
       descargarArchivo(blob, `remito-${id}.pdf`);
     } catch {
-      alert("No se pudo descargar el PDF del remito.");
+      await avisar("No se pudo descargar el PDF del remito.", { peligro: true });
     } finally {
       setDescargando(false);
     }

@@ -7,6 +7,7 @@ import {
 import Modal from "../../components/Modal/Modal";
 import ControlHorarioFormModal from "./ControlHorarioFormModal";
 import ControlHorarioReportes from "./ControlHorarioReportes";
+import { useDialogo } from "../../context/DialogoContext";
 import "./ControlHorario.css";
 
 const TURNO_LABEL = { MANANA: "Mañana", TARDE: "Tarde" };
@@ -14,6 +15,7 @@ const TURNO_LABEL = { MANANA: "Mañana", TARDE: "Tarde" };
 export default function ControlHorario() {
   const { usuario } = useAuth();
   const esAdmin = usuario?.rol === "ADMIN";
+  const { confirmar, avisar } = useDialogo();
 
   const [vista, setVista] = useState("mios");
   const [registros, setRegistros] = useState([]);
@@ -61,16 +63,17 @@ export default function ControlHorario() {
   }
 
   async function handleEliminar(registro) {
-    const confirmar = window.confirm(
-      `¿Eliminar el registro del ${registro.fecha} (${TURNO_LABEL[registro.turno]})?`
+    const ok = await confirmar(
+      `¿Eliminar el registro del ${registro.fecha} (${TURNO_LABEL[registro.turno]})?`,
+      { titulo: "Eliminar registro", peligro: true, textoConfirmar: "Eliminar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await eliminarRegistro(registro.id);
       cargar();
     } catch {
-      alert("No se pudo eliminar el registro.");
+      await avisar("No se pudo eliminar el registro.", { peligro: true });
     }
   }
 

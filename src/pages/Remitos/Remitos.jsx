@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { obtenerRemitos, descargarRemitoPdf } from "../../services/remitoService";
 import { descargarArchivo } from "../../utils/downloadFile";
 import { formatMoney } from "../../utils/formatMoney";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Remitos.css";
 
 export default function Remitos() {
+  const { avisar } = useDialogo();
   const [remitos, setRemitos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -34,7 +36,7 @@ export default function Remitos() {
       const blob = await descargarRemitoPdf(remito.id);
       descargarArchivo(blob, `remito-${remito.id}.pdf`);
     } catch {
-      alert("No se pudo descargar el PDF del remito.");
+      await avisar("No se pudo descargar el PDF del remito.", { peligro: true });
     } finally {
       setDescargandoId(null);
     }

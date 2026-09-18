@@ -7,9 +7,11 @@ import {
 import { nombreProducto } from "../../utils/productoNombre";
 import Modal from "../../components/Modal/Modal";
 import ProductoFormModal from "./ProductoFormModal";
+import { useDialogo } from "../../context/DialogoContext";
 import "./Productos.css";
 
 export default function Productos() {
+  const { confirmar, avisar } = useDialogo();
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
@@ -56,16 +58,17 @@ export default function Productos() {
   }
 
   async function handleDesactivar(producto) {
-    const confirmar = window.confirm(
+    const ok = await confirmar(
       "¿Seguro que querés desactivar este producto?",
+      { titulo: "Desactivar producto", peligro: true, textoConfirmar: "Desactivar" }
     );
-    if (!confirmar) return;
+    if (!ok) return;
 
     try {
       await desactivarProducto(producto.id);
       cargar();
     } catch {
-      alert("No se pudo desactivar el producto.");
+      await avisar("No se pudo desactivar el producto.", { peligro: true });
     }
   }
 
@@ -74,7 +77,7 @@ export default function Productos() {
       await reactivarProducto(producto.id);
       cargar();
     } catch {
-      alert("No se pudo reactivar el producto.");
+      await avisar("No se pudo reactivar el producto.", { peligro: true });
     }
   }
 
