@@ -16,6 +16,7 @@ export const PRESENTACION_OPCIONES = [
   { value: "MAPLE", label: "Maple" },
   { value: "CAJON", label: "Cajón" },
   { value: "CAJITA", label: "Cajita" },
+  { value: "CAJON_DE_CAJITAS", label: "Cajón de cajitas" },
 ];
 
 function buscarLabel(opciones, value) {
