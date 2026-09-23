@@ -102,7 +102,7 @@ export default function RutaForm() {
       <div className="page-header">
         <h1>{esEdicion ? "Editar ruta" : "Nueva ruta"}</h1>
         <Link to="/rutas">
-          <button type="button">Volver</button>
+          <button type="button" className="btn-secundario">Volver</button>
         </Link>
       </div>
 

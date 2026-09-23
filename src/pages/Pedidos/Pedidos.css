@@ -39,6 +39,9 @@
 
 .pedidos-busqueda input {
   min-width: 240px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
 }
 
 .pedidos-paginacion {
@@ -62,14 +65,16 @@
 
 .paginacion-controles button {
   padding: 0.4rem 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: white;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
+  background: var(--color-card-bg, #fff);
+  color: var(--color-text, #333333);
+  font-size: 0.85rem;
   cursor: pointer;
 }
 
 .paginacion-controles button:hover:not(:disabled) {
-  background: #f2f2f2;
+  background-color: #f5f5f7;
 }
 
 .paginacion-controles button:disabled {
@@ -78,5 +83,12 @@
 }
 
 .paginacion-controles .pagina-activa {
-  font-weight: bold;
+  background-color: var(--color-primary, #f39c12);
+  border-color: var(--color-primary, #f39c12);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.paginacion-controles .pagina-activa:hover:not(:disabled) {
+  background-color: var(--color-primary-hover, #d9840a);
 }
