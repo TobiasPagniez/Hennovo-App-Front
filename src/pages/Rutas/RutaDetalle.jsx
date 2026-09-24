@@ -127,7 +127,7 @@ export default function RutaDetalle() {
           {ruta.nombre} — {ruta.fecha}
         </h1>
         <Link to="/rutas">
-          <button type="button">Volver</button>
+          <button type="button" className="btn-secundario">Volver</button>
         </Link>
       </div>
 

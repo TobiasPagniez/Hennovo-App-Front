@@ -126,7 +126,7 @@ export default function RemitoNuevo() {
       <div className="page-header">
         <h1>Nuevo remito</h1>
         <Link to="/remitos">
-          <button type="button">Volver</button>
+          <button type="button" className="btn-secundario">Volver</button>
         </Link>
       </div>
 

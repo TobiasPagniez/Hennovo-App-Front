@@ -189,7 +189,7 @@ export default function PedidoForm({
           Este pedido ya fue entregado y no puede modificarse.
         </p>
         <Link to="/pedidos">
-          <button type="button">Volver</button>
+          <button type="button" className="btn-secundario">Volver</button>
         </Link>
       </div>
     );
@@ -201,7 +201,7 @@ export default function PedidoForm({
         <div className="page-header">
           <h1>{esEdicion ? "Editar pedido" : "Nuevo pedido"}</h1>
           <Link to="/pedidos">
-            <button type="button">Volver</button>
+            <button type="button" className="btn-secundario">Volver</button>
           </Link>
         </div>
       )}

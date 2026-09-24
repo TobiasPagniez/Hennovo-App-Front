@@ -279,11 +279,9 @@ export default function Croquis() {
       >
         <ConfigurarCroquisModal
           vehiculoId={vehiculoId}
-          plantillaExistente={
-            plantillaInferior
-              ? { ...plantillaInferior, tieneSuperior: !!plantillaSuperior }
-              : null
-          }
+          filasActuales={plantillaInferior?.filas}
+          columnasActuales={plantillaInferior?.columnas}
+          incluirSuperiorActual={!!plantillaSuperior}
           onClose={() => setModalConfigurar(false)}
           onGuardado={handleConfigurado}
         />

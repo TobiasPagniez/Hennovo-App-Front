@@ -133,7 +133,7 @@ export default function NuevaListaPrecio() {
       <div className="page-header">
         <h1>Nueva lista de precios</h1>
         <Link to="/precios">
-          <button type="button">Volver</button>
+          <button type="button" className="btn-secundario">Volver</button>
         </Link>
       </div>
 
