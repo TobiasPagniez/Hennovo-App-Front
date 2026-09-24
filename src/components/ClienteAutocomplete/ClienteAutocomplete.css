@@ -4,10 +4,11 @@
 
 .cliente-autocomplete input {
   width: 100%;
-  padding: 0.45rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
   font-size: 0.9rem;
+  color: var(--color-text, #333333);
 }
 
 .cliente-autocomplete-lista {
@@ -15,16 +16,16 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: var(--color-card-bg, #fff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-sm, 8px);
   max-height: 220px;
   overflow-y: auto;
   z-index: 20;
   list-style: none;
   margin: 2px 0 0;
   padding: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-card, 0 4px 12px rgba(0, 0, 0, 0.05));
 }
 
 .cliente-autocomplete-lista li {
@@ -36,17 +37,17 @@
 }
 
 .cliente-autocomplete-lista li:hover {
-  background-color: #f0f4f1;
+  background-color: #fafbfc;
 }
 
 .cliente-autocomplete-detalle {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--color-text-muted, #6b7280);
 }
 
 .cliente-autocomplete-info {
   padding: 0.5rem 0.7rem;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--color-text-muted, #6b7280);
   cursor: default;
 }

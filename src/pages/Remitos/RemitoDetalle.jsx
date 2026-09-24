@@ -66,7 +66,7 @@ export default function RemitoDetalle() {
             {descargando ? "Descargando..." : "Descargar PDF"}
           </button>
           <Link to="/remitos">
-            <button type="button">Volver</button>
+            <button type="button" className="btn-secundario">Volver</button>
           </Link>
         </div>
       </div>

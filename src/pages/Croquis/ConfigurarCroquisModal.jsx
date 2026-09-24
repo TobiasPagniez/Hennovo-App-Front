@@ -127,8 +127,8 @@ export default function ConfigurarCroquisModal({
             />
           </div>
 
-          <div className="form-group checkbox-group">
-            <label>
+          <div className="form-group">
+            <label className="croquis-checkbox-label">
               <input
                 type="checkbox"
                 checked={incluirSuperior}

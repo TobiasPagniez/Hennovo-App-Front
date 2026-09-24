@@ -147,7 +147,7 @@ export default function EditarListaPrecio() {
         <h1>Editar lista de precios</h1>
 
         <Link to={`/precios/${id}`}>
-          <button type="button">Volver</button>
+          <button type="button" className="btn-secundario">Volver</button>
         </Link>
       </div>
 
