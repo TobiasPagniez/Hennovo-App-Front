@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Copy, Grid3x3 } from "lucide-react";
 import Modal from "../../components/Modal/Modal";
 import ConfigurarCroquisModal from "./ConfigurarCroquisModal";
 import ProductoPaleta from "./ProductoPaleta";
@@ -26,13 +27,19 @@ export default function Croquis() {
   const [vehiculos, setVehiculos] = useState([]);
   const [vehiculoId, setVehiculoId] = useState(null);
   const [productos, setProductos] = useState([]);
-  const [plantillas, setPlantillas] = useState([]);
   const [nivelActivo, setNivelActivo] = useState("INFERIOR");
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState(null);
+  const [inicialListo, setInicialListo] = useState(false);
+  const [errorInicial, setErrorInicial] = useState(null);
+  // Resultado de la última carga del croquis; "clave" indica a qué
+  // vehículo/fecha/recarga corresponde, para saber si sigue cargando.
+  const [resultado, setResultado] = useState({
+    clave: null,
+    plantillas: [],
+    error: null,
+  });
+  const [recarga, setRecarga] = useState(0);
 
   const [fechaBase, setFechaBase] = useState(hoyISO());
-  const [fechas, setFechas] = useState(fechasDeLaSemana(hoyISO()));
   const [diaActivoIndex, setDiaActivoIndex] = useState(
     calcularIndiceHoy(hoyISO())
   );
@@ -46,7 +53,15 @@ export default function Croquis() {
   const [celdaParaAgregar, setCeldaParaAgregar] = useState(null);
   const [detalleEditando, setDetalleEditando] = useState(null);
 
+  const fechas = fechasDeLaSemana(fechaBase);
   const fechaSeleccionada = fechas[diaActivoIndex];
+  const clave = `${vehiculoId}|${fechaSeleccionada}|${recarga}`;
+
+  const plantillas = resultado.plantillas;
+  const cargando =
+    !inicialListo || (vehiculoId != null && resultado.clave !== clave);
+  const error =
+    errorInicial ?? (resultado.clave === clave ? resultado.error : null);
 
   useEffect(() => {
     Promise.all([obtenerVehiculosActivos(), obtenerProductosActivos()])
@@ -55,43 +70,47 @@ export default function Croquis() {
         setProductos(productosData);
         if (vehiculosData.length > 0) {
           setVehiculoId(vehiculosData[0].id);
-        } else {
-          setCargando(false);
         }
+        setInicialListo(true);
       })
-      .catch(() => setError("No se pudieron cargar los datos iniciales."));
+      .catch(() =>
+        setErrorInicial("No se pudieron cargar los datos iniciales.")
+      );
   }, []);
-
-  useEffect(() => {
-    setFechas(fechasDeLaSemana(fechaBase));
-  }, [fechaBase]);
 
   const productosPorId = Object.fromEntries(productos.map((p) => [p.id, p]));
 
-  async function cargarPlantillas() {
-    if (!vehiculoId || !fechaSeleccionada) return;
-    setCargando(true);
-    setError(null);
-    try {
-      const data = await obtenerPlantillasPorVehiculo(
-        vehiculoId,
-        fechaSeleccionada
-      );
-      setPlantillas(data);
-      if (data.length > 0 && !data.some((p) => p.nivel === nivelActivo)) {
-        setNivelActivo(data[0].nivel);
-      }
-    } catch {
-      setError("No se pudo cargar el croquis de este vehículo.");
-    } finally {
-      setCargando(false);
-    }
-  }
-
   useEffect(() => {
-    cargarPlantillas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vehiculoId, fechaSeleccionada]);
+    if (!vehiculoId || !fechaSeleccionada) return;
+    let vigente = true; // evita pisar el estado con una respuesta vieja
+
+    obtenerPlantillasPorVehiculo(vehiculoId, fechaSeleccionada)
+      .then((data) => {
+        if (!vigente) return;
+        setResultado({ clave, plantillas: data, error: null });
+        setNivelActivo((actual) =>
+          data.length > 0 && !data.some((p) => p.nivel === actual)
+            ? data[0].nivel
+            : actual
+        );
+      })
+      .catch(() => {
+        if (!vigente) return;
+        setResultado((anterior) => ({
+          clave,
+          plantillas: anterior.plantillas,
+          error: "No se pudo cargar el croquis de este vehículo.",
+        }));
+      });
+
+    return () => {
+      vigente = false;
+    };
+  }, [vehiculoId, fechaSeleccionada, clave]);
+
+  function cargarPlantillas() {
+    setRecarga((n) => n + 1);
+  }
 
   function handleConfigurado() {
     setModalConfigurar(false);
@@ -150,10 +169,10 @@ export default function Croquis() {
 
   return (
     <div className="croquis-page">
-      <div className="croquis-header">
+      <div className="page-header">
         <h1>Croquis de carga</h1>
         <div className="croquis-selectores">
-          <div className="croquis-selector-vehiculo">
+          <div className="croquis-selector">
             <label>Vehículo</label>
             <select
               value={vehiculoId ?? ""}
@@ -166,12 +185,15 @@ export default function Croquis() {
               ))}
             </select>
           </div>
-          <div className="croquis-selector-vehiculo">
+          <div className="croquis-selector">
             <label>Semana de</label>
             <input
               type="date"
               value={fechaBase}
-              onChange={(e) => setFechaBase(e.target.value)}
+              onChange={(e) => {
+                // Al borrar la fecha el input queda vacío: se mantiene la semana actual
+                if (e.target.value) setFechaBase(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -239,10 +261,18 @@ export default function Croquis() {
               </div>
             )}
             <div className="croquis-toolbar-botones">
-              <button onClick={() => setModalCopiar(true)}>
+              <button
+                className="croquis-boton-accion"
+                onClick={() => setModalCopiar(true)}
+              >
+                <Copy size={16} />
                 Copiar desde otro día
               </button>
-              <button onClick={() => setModalConfigurar(true)}>
+              <button
+                className="croquis-boton-accion"
+                onClick={() => setModalConfigurar(true)}
+              >
+                <Grid3x3 size={16} />
                 Reconfigurar tamaño
               </button>
             </div>

@@ -17,7 +17,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // El 401 del login son credenciales incorrectas: lo maneja el formulario
+    const esLogin = error.config?.url?.includes("/api/auth/login");
+    if (error.response?.status === 401 && !esLogin) {
       localStorage.removeItem("token");
       localStorage.removeItem("usuario");
       window.location.href = "/login";

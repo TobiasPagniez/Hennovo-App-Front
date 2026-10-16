@@ -3,7 +3,16 @@ import { useForm } from "react-hook-form";
 import { crearPago } from "../../services/pagoService";
 import { MEDIO_PAGO_OPCIONES } from "../../utils/pagoLabels";
 
+// Fecha de hoy en hora local (toISOString usa UTC y de noche da el día siguiente)
+function hoyLocalISO() {
+  const d = new Date();
+  const mes = String(d.getMonth() + 1).padStart(2, "0");
+  const dia = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${mes}-${dia}`;
+}
+
 export default function PagoFormModal({ clienteId, onClose, onSaved }) {
+  const hoy = hoyLocalISO();
   const [errorApi, setErrorApi] = useState(null);
 
   const {
@@ -13,6 +22,7 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
+      fecha: hoy,
       importe: "",
       medioPago: "",
       numeroComprobante: "",
@@ -36,6 +46,7 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
 
     const payload = {
       clienteId,
+      fecha: data.fecha,
       importe: Number(data.importe),
       medioPago: data.medioPago,
       numeroComprobante: data.numeroComprobante || null,
@@ -62,6 +73,21 @@ export default function PagoFormModal({ clienteId, onClose, onSaved }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <label>Fecha del pago</label>
+      <input
+        type="date"
+        max={hoy}
+        {...register("fecha", {
+          required: "La fecha es obligatoria",
+          validate: (valor) =>
+            valor <= hoy || "La fecha del pago no puede ser futura",
+        })}
+      />
+
+      {errors.fecha && (
+        <span className="form-error">{errors.fecha.message}</span>
+      )}
+
       <label>Importe</label>
       <input
         type="number"

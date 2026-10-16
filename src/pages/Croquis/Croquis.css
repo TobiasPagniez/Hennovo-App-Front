@@ -4,30 +4,56 @@
   gap: 1rem;
 }
 
-.croquis-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-}
-
 .croquis-selectores {
   display: flex;
-  gap: 1.2rem;
+  gap: 0.8rem;
   flex-wrap: wrap;
 }
 
-.croquis-selector-vehiculo {
+.croquis-selector {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  padding: 0.3rem 0.35rem 0.3rem 0.85rem;
+  background-color: var(--color-card-bg, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card);
+  font-size: 0.87rem;
 }
 
-.croquis-selector-vehiculo select,
-.croquis-selector-vehiculo input {
+.croquis-selector label {
+  font-weight: 600;
+  color: var(--color-text-muted, #6b7280);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.croquis-selector select,
+.croquis-selector input {
   width: auto;
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--color-border-input, #e0e0e0);
+  border-radius: var(--radius-sm, 8px);
+  background-color: #ffffff;
+  color: var(--color-text, #333333);
+  font-family: inherit;
+  font-size: 0.87rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.croquis-selector select:hover,
+.croquis-selector input:hover {
+  border-color: var(--color-primary, #f39c12);
+}
+
+.croquis-selector select:focus,
+.croquis-selector input:focus {
+  outline: none;
+  border-color: var(--color-primary, #f39c12);
+  box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.15);
 }
 
 .croquis-error {
@@ -92,7 +118,45 @@
 
 .croquis-toolbar-botones {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
+}
+
+.croquis-boton-accion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  background-color: var(--color-card-bg, #ffffff);
+  color: var(--color-text, #333333);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-card);
+  font-size: 0.87rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.croquis-boton-accion svg {
+  color: var(--color-text-muted, #6b7280);
+  transition: color 0.15s ease;
+}
+
+.croquis-boton-accion:hover {
+  border-color: var(--color-primary, #f39c12);
+}
+
+.croquis-boton-accion:hover svg {
+  color: var(--color-primary, #f39c12);
+}
+
+.croquis-boton-accion:focus-visible {
+  outline: none;
+  border-color: var(--color-primary, #f39c12);
+  box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.15);
 }
 
 .croquis-tabs {
@@ -255,6 +319,18 @@
 
 /* Responsive: en pantallas chicas, paleta arriba, grilla abajo, celdas más chicas */
 @media (max-width: 640px) {
+  .croquis-selectores {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .croquis-selector select,
+  .croquis-selector input {
+    flex: 1;
+    min-width: 0;
+  }
+
   .croquis-layout {
     flex-direction: column;
   }

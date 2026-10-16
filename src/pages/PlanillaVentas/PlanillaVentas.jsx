@@ -87,7 +87,9 @@ export default function PlanillaVentas() {
   async function handleTogglePagado(cliente) {
     try {
       if (!cliente.pagado) {
-        await marcarPagado(cliente.pedidoId);
+        // Si el cliente tiene más de un pedido en el día, se marcan todos
+        const ids = cliente.pedidoIds?.length ? cliente.pedidoIds : [cliente.pedidoId];
+        await Promise.all(ids.map((id) => marcarPagado(id)));
         cargar();
       }
     } catch {

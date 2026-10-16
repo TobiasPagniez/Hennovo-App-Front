@@ -79,6 +79,32 @@
   box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.15);
 }
 
+.login-password {
+  position: relative;
+}
+
+.login-password input {
+  padding-right: 2.6rem;
+}
+
+.login-password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.login-password-toggle:hover {
+  color: var(--color-text);
+}
+
 .login-field-error {
   font-size: 0.78rem;
   color: var(--color-error);
