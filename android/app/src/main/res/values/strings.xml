@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">HENNOVO</string>
+    <string name="title_activity_main">HENNOVO</string>
+    <string name="package_name">com.hennovo.app</string>
+    <string name="custom_url_scheme">com.hennovo.app</string>
+</resources>
