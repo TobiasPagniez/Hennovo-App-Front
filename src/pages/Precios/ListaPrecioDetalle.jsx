@@ -46,9 +46,14 @@ export default function ListaPrecioDetalle() {
     <div className="precios-page">
       <div className="page-header">
         <h1>Lista de precios</h1>
-        <Link to="/precios">
-          <button type="button" className="btn-secundario">Volver</button>
-        </Link>
+        <div className="page-header-acciones">
+          <Link to="/precios">
+            <button type="button" className="btn-secundario">Volver</button>
+          </Link>
+          <Link to={`/precios/${id}/editar`}>
+            <button type="button" className="btn-primario">Editar precios</button>
+          </Link>
+        </div>
       </div>
 
       <div className="precios-detalle-info">

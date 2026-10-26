@@ -104,7 +104,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/precios/:id/editar" element={<EditarListaPrecio />} />
+            <Route
+              path="/precios/:id/editar"
+              element={
+                <ProtectedRoute rolesPermitidos={["ADMIN"]}>
+                  <EditarListaPrecio />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="/pedidos" element={<Pedidos />} />
             <Route path="/pedidos/nuevo" element={<PedidoForm />} />
